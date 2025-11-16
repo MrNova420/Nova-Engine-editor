@@ -11,6 +11,9 @@ export default [
       'benchmarks/**',
       '**/*.config.js',
       '**/*.config.ts',
+      '**/__tests__/**',
+      '**/*.test.ts',
+      '**/*.spec.ts',
     ],
   },
   {

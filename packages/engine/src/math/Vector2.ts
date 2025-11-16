@@ -142,6 +142,29 @@ export class Vector2 {
   }
 
   /**
+   * Sets the components of this vector
+   * @param x - The x component
+   * @param y - The y component
+   * @returns This vector for chaining
+   */
+  set(x: number, y: number): Vector2 {
+    this.x = x;
+    this.y = y;
+    return this;
+  }
+
+  /**
+   * Copies the components from another vector to this vector
+   * @param v - The vector to copy from
+   * @returns This vector for chaining
+   */
+  copy(v: Vector2): Vector2 {
+    this.x = v.x;
+    this.y = v.y;
+    return this;
+  }
+
+  /**
    * Checks if this vector equals another vector
    * @param v - The other vector
    * @param epsilon - Optional tolerance for floating point comparison

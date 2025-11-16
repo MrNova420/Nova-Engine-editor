@@ -29,3 +29,18 @@ export * from './scene';
 
 // Export asset management
 export * from './assets';
+
+// Export input system
+export * from './input';
+
+// Export audio system
+export * from './audio';
+
+// Export physics system
+export * from './physics';
+
+// Export particle system
+export * from './particles';
+
+// Export animation system
+export * from './animation';
