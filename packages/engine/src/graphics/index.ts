@@ -43,4 +43,5 @@ export { DirectionalLight } from './DirectionalLight';
 export { PointLight } from './PointLight';
 export { SpotLight } from './SpotLight';
 export { LightingSystem } from './LightingSystem';
+export * from './materials';
 export * from './shaders';
