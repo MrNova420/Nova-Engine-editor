@@ -14,3 +14,18 @@ export {
   ImageLoader,
 } from './AssetLoader';
 export type { AssetLoader } from './AssetLoader';
+
+// Specialized asset loaders
+export {
+  TextureAssetLoader,
+  AudioLoader,
+  OBJLoader,
+  GLTFLoader,
+} from './loaders';
+export type {
+  AudioData,
+  OBJData,
+  GLTFData,
+  GLTFScene,
+  GLTFNode,
+} from './loaders';
