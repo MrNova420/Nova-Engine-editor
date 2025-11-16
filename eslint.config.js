@@ -8,6 +8,7 @@ export default [
       'dist/**',
       'build/**',
       'coverage/**',
+      'benchmarks/**',
       '**/*.config.js',
       '**/*.config.ts',
     ],

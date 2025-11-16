@@ -20,3 +20,12 @@ export * from './core';
 
 // Export ECS architecture
 export * from './ecs';
+
+// Export graphics systems
+export * from './graphics';
+
+// Export scene management
+export * from './scene';
+
+// Export asset management
+export * from './assets';

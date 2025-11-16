@@ -30,6 +30,10 @@
     "typecheck": "npm run typecheck --workspaces --if-present",
     "docs:build": "typedoc",
     "docs:watch": "typedoc --watch",
+    "bench": "npm run bench:math && npm run bench:ecs",
+    "bench:math": "tsx benchmarks/math-operations.bench.ts",
+    "bench:ecs": "tsx benchmarks/ecs-performance.bench.ts",
+    "bench:rendering": "tsx benchmarks/rendering.bench.ts",
     "prepare": "husky"
   },
   "engines": {
@@ -42,10 +46,12 @@
   },
   "devDependencies": {
     "@jest/globals": "^30.2.0",
+    "@types/benchmark": "^2.1.5",
     "@types/jest": "^30.0.0",
     "@types/node": "^24.10.1",
     "@typescript-eslint/eslint-plugin": "^8.46.4",
     "@typescript-eslint/parser": "^8.46.4",
+    "benchmark": "^2.1.4",
     "eslint": "^9.39.1",
     "eslint-config-prettier": "^10.1.8",
     "husky": "^9.1.7",
