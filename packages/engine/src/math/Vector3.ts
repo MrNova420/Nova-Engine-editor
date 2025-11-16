@@ -200,6 +200,32 @@ export class Vector3 {
   }
 
   /**
+   * Sets the components of this vector
+   * @param x - The x component
+   * @param y - The y component
+   * @param z - The z component
+   * @returns This vector for chaining
+   */
+  set(x: number, y: number, z: number): Vector3 {
+    this.x = x;
+    this.y = y;
+    this.z = z;
+    return this;
+  }
+
+  /**
+   * Copies the components from another vector to this vector
+   * @param v - The vector to copy from
+   * @returns This vector for chaining
+   */
+  copy(v: Vector3): Vector3 {
+    this.x = v.x;
+    this.y = v.y;
+    this.z = v.z;
+    return this;
+  }
+
+  /**
    * Checks if this vector equals another vector
    * @param v - The other vector
    * @param epsilon - Optional tolerance for floating point comparison

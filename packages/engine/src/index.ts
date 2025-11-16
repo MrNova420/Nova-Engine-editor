@@ -32,3 +32,6 @@ export * from './assets';
 
 // Export input system
 export * from './input';
+
+// Export audio system
+export * from './audio';
