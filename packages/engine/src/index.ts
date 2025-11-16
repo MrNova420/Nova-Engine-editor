@@ -44,3 +44,6 @@ export * from './particles';
 
 // Export animation system
 export * from './animation';
+
+// Export profiling system
+export * from './profiling';
