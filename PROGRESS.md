@@ -149,13 +149,13 @@ Phase 1 foundation complete! Moved to Phase 2.
 
 ---
 
-### Phase 2: Core Engine Development (10%)
+### Phase 2: Core Engine Development (14%)
 
 **Timeline:** Months 4-8  
 **Status:** 🟢 In Progress  
 **Current Focus:** Section 2.1 - Graphics Engine Foundation
 
-#### Completed (5/50+)
+#### Completed (7/50+)
 
 - [x] **Task 2.1.1: Initialize Graphics Renderer**
   - [x] Created Renderer.ts interface (IRenderer)
@@ -210,10 +210,34 @@ Phase 1 foundation complete! Moved to Phase 2.
   - [x] Implemented createCylinder() and createCone()
   - [x] Validated: Meshes render, primitives draw, normals work, UVs work
   - [x] Build: Successful (123.88 kB)
+- [x] **Task 2.1.6: Implement Camera System**
+  - [x] Camera.ts already implemented with full projection support
+  - [x] Created CameraController.ts with three controller types
+  - [x] Implemented OrbitCameraController (rotate around target)
+  - [x] Implemented FirstPersonCameraController (WASD + mouse look)
+  - [x] Implemented FlyCameraController (free flight with boost)
+  - [x] All controllers support update() and handleInput()
+  - [x] Configurable parameters (speed, sensitivity, constraints)
+  - [x] Validated: Controllers work, projection matrices correct
+  - [x] Build: Successful (139.25 kB)
+- [x] **Task 2.1.7: Implement Lighting System**
+  - [x] Created Light.ts base class for all light types
+  - [x] Implemented DirectionalLight (sun-like, infinite distance)
+  - [x] Implemented PointLight (omni-directional with attenuation)
+  - [x] Implemented SpotLight (cone light with inner/outer angles)
+  - [x] Created LightingSystem for managing scene lights
+  - [x] Support for multiple lights of each type
+  - [x] Configurable max lights per type (4 directional, 8 point, 8 spot)
+  - [x] Ambient lighting support
+  - [x] Light enabled/disabled state
+  - [x] Shadow casting flags
+  - [x] ECS integration with World queries
+  - [x] Validated: All light types work, multiple lights supported
+  - [x] Build: Successful (139.25 kB)
 
 #### In Progress (0/50+)
 
-Ready for Task 2.1.6 - Implement Camera System Enhancement
+Section 2.1 Graphics Engine Foundation Complete! Moving to Section 2.2 Scene Management.
 
 #### Blocked (0/50+)
 

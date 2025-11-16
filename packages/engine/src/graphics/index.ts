@@ -32,4 +32,15 @@ export {
   createCylinder,
   createCone,
 } from './Primitives';
+export {
+  OrbitCameraController,
+  FirstPersonCameraController,
+  FlyCameraController,
+} from './CameraController';
+export type { ICameraController } from './CameraController';
+export { Light, LightType } from './Light';
+export { DirectionalLight } from './DirectionalLight';
+export { PointLight } from './PointLight';
+export { SpotLight } from './SpotLight';
+export { LightingSystem } from './LightingSystem';
 export * from './shaders';
