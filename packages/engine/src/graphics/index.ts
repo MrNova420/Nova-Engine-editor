@@ -45,3 +45,4 @@ export { SpotLight } from './SpotLight';
 export { LightingSystem } from './LightingSystem';
 export * from './materials';
 export * from './shaders';
+export * from './postprocessing';
