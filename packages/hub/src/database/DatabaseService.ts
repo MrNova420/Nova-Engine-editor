@@ -156,6 +156,76 @@ export class DatabaseService {
         is_active BOOLEAN DEFAULT true
       );
 
+      -- Published games table (marketplace)
+      CREATE TABLE IF NOT EXISTS published_games (
+        id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+        project_id UUID UNIQUE NOT NULL REFERENCES projects(id) ON DELETE CASCADE,
+        build_id UUID NOT NULL REFERENCES builds(id),
+        name VARCHAR(200) NOT NULL,
+        description TEXT,
+        version VARCHAR(50) NOT NULL,
+        author VARCHAR(100) NOT NULL,
+        author_id UUID NOT NULL REFERENCES users(id),
+        tags JSONB DEFAULT '[]',
+        category VARCHAR(50) NOT NULL,
+        thumbnail TEXT,
+        screenshots JSONB DEFAULT '[]',
+        play_url TEXT NOT NULL,
+        download_urls JSONB NOT NULL,
+        visibility VARCHAR(20) DEFAULT 'public' CHECK (visibility IN ('public', 'unlisted')),
+        downloads INTEGER DEFAULT 0,
+        plays INTEGER DEFAULT 0,
+        rating DECIMAL(3,2) DEFAULT 0,
+        rating_count INTEGER DEFAULT 0,
+        published_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
+        updated_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
+      );
+
+      -- Game ratings table
+      CREATE TABLE IF NOT EXISTS game_ratings (
+        id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+        game_id UUID NOT NULL REFERENCES published_games(id) ON DELETE CASCADE,
+        user_id UUID NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+        rating INTEGER NOT NULL CHECK (rating >= 1 AND rating <= 5),
+        created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
+        updated_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
+        UNIQUE(game_id, user_id)
+      );
+
+      -- Game servers table (multiplayer)
+      CREATE TABLE IF NOT EXISTS game_servers (
+        id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+        game_id UUID NOT NULL REFERENCES published_games(id) ON DELETE CASCADE,
+        region VARCHAR(50) NOT NULL,
+        host VARCHAR(255) NOT NULL,
+        port INTEGER NOT NULL,
+        status VARCHAR(20) DEFAULT 'starting' CHECK (status IN ('starting', 'running', 'stopping', 'stopped')),
+        max_players INTEGER DEFAULT 100,
+        current_players INTEGER DEFAULT 0,
+        rooms INTEGER DEFAULT 0,
+        cpu_usage DECIMAL(5,2) DEFAULT 0,
+        memory_usage DECIMAL(5,2) DEFAULT 0,
+        started_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
+        last_heartbeat TIMESTAMP WITH TIME ZONE DEFAULT NOW()
+      );
+
+      -- Game rooms table (multiplayer sessions)
+      CREATE TABLE IF NOT EXISTS game_rooms (
+        id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+        server_id UUID NOT NULL REFERENCES game_servers(id) ON DELETE CASCADE,
+        game_id UUID NOT NULL REFERENCES published_games(id),
+        name VARCHAR(200) NOT NULL,
+        host_user_id UUID NOT NULL REFERENCES users(id),
+        current_players INTEGER DEFAULT 0,
+        max_players INTEGER DEFAULT 8,
+        is_public BOOLEAN DEFAULT true,
+        status VARCHAR(20) DEFAULT 'waiting' CHECK (status IN ('waiting', 'starting', 'playing', 'finished')),
+        game_mode VARCHAR(50),
+        settings JSONB DEFAULT '{}',
+        players JSONB DEFAULT '[]',
+        created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
+      );
+
       -- Indexes for better query performance
       CREATE INDEX IF NOT EXISTS idx_projects_owner ON projects(owner_id);
       CREATE INDEX IF NOT EXISTS idx_projects_updated ON projects(updated_at DESC);
@@ -163,6 +233,18 @@ export class DatabaseService {
       CREATE INDEX IF NOT EXISTS idx_builds_project ON builds(project_id);
       CREATE INDEX IF NOT EXISTS idx_builds_status ON builds(status);
       CREATE INDEX IF NOT EXISTS idx_versions_project ON project_versions(project_id);
+      CREATE INDEX IF NOT EXISTS idx_published_games_category ON published_games(category);
+      CREATE INDEX IF NOT EXISTS idx_published_games_published ON published_games(published_at DESC);
+      CREATE INDEX IF NOT EXISTS idx_published_games_plays ON published_games(plays DESC);
+      CREATE INDEX IF NOT EXISTS idx_published_games_rating ON published_games(rating DESC);
+      CREATE INDEX IF NOT EXISTS idx_game_ratings_game ON game_ratings(game_id);
+      CREATE INDEX IF NOT EXISTS idx_game_servers_game ON game_servers(game_id);
+      CREATE INDEX IF NOT EXISTS idx_game_servers_region ON game_servers(region);
+      CREATE INDEX IF NOT EXISTS idx_game_servers_status ON game_servers(status);
+      CREATE INDEX IF NOT EXISTS idx_game_rooms_server ON game_rooms(server_id);
+      CREATE INDEX IF NOT EXISTS idx_game_rooms_game ON game_rooms(game_id);
+      CREATE INDEX IF NOT EXISTS idx_game_rooms_status ON game_rooms(status);
+      CREATE INDEX IF NOT EXISTS idx_game_rooms_public ON game_rooms(is_public) WHERE is_public = true;
     `;
 
     try {

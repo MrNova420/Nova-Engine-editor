@@ -79,6 +79,15 @@ export async function createServer() {
   await server.register(assetRoutes, { prefix: '/api/assets' });
   await server.register(buildRoutes, { prefix: '/api/builds' });
 
+  // Import gamesRoutes and importRoutes
+  const { gamesRoutes } = await import('./api/games.routes');
+  const { importRoutes } = await import('./api/import.routes');
+  const { multiplayerRoutes } = await import('./api/multiplayer.routes');
+
+  await server.register(gamesRoutes, { prefix: '/api/games' });
+  await server.register(importRoutes, { prefix: '/api/import' });
+  await server.register(multiplayerRoutes, { prefix: '/api/multiplayer' });
+
   // Error handler
   server.setErrorHandler((error, request, reply) => {
     logger.error('Request error:', {
