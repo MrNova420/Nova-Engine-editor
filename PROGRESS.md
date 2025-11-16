@@ -311,9 +311,51 @@ Phase 1 foundation complete! Moved to Phase 2.
   - [x] Validated: TypeScript compiles without errors
   - [x] Build: Successful (180.01 kB)
 
+- [x] **Task 2.4.1: Implement Input Manager**
+  - [x] Created packages/engine/src/input/ directory
+  - [x] Implemented Keyboard.ts with key input management
+    - KeyCode enum for all standard keys
+    - Key down/pressed/released state tracking
+    - Enable/disable functionality
+    - Window blur handling
+  - [x] Implemented Mouse.ts with mouse input management
+    - MouseButton enum (Left, Middle, Right, Back, Forward)
+    - Position tracking with delta
+    - Button state tracking (down/pressed/released)
+    - Scroll wheel support
+    - Pointer lock support
+    - Context menu prevention
+  - [x] Implemented Touch.ts for mobile/tablet support
+    - Multi-touch tracking with unique IDs
+    - Touch position, delta, and force
+    - Touch start/end detection
+    - Touch age tracking
+  - [x] Implemented Gamepad.ts for controller support
+    - GamepadButton and GamepadAxis enums
+    - Multi-gamepad support (up to 4 controllers)
+    - Button and axis state tracking
+    - Analog stick deadzone configuration
+    - Gamepad connect/disconnect events
+  - [x] Implemented InputMapping.ts for action-based input
+    - Map abstract actions to physical inputs
+    - Support for keyboard, mouse, and gamepad bindings
+    - Action state tracking (value, pressed, released, down)
+    - Preset input schemes (WASD, Arrows, Gamepad)
+  - [x] Implemented InputManager.ts as central controller
+    - Unified interface for all input systems
+    - Automatic action mapping updates
+    - System lifecycle management
+    - Configurable enable/disable per system
+  - [x] Added set() and copy() methods to Vector2
+  - [x] Created comprehensive tests (16 new tests)
+  - [x] Exported from input/index.ts and main engine index
+  - [x] Validated: All tests passing (101 total)
+  - [x] Validated: TypeScript compiles without errors
+  - [x] Build: Successful (213.87 kB)
+
 #### In Progress (0/50+)
 
-Sections 2.1, 2.2, 2.3 Complete! Ready for Section 2.4 Input System.
+Sections 2.1, 2.2, 2.3, 2.4 Complete! Ready for Section 2.5 Audio System.
 
 #### Blocked (0/50+)
 

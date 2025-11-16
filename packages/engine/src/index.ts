@@ -29,3 +29,6 @@ export * from './scene';
 
 // Export asset management
 export * from './assets';
+
+// Export input system
+export * from './input';
