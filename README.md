@@ -163,32 +163,38 @@ See [PROGRESS.md](PROGRESS.md) for detailed status and [RELEASE_NOTES.md](RELEAS
 
 ## 🚀 Getting Started
 
-### Prerequisites
+### Super Easy Setup (3 Commands!)
+
+**Linux/Mac:**
 
 ```bash
-# Node.js 18+ LTS
-node --version
-
-# Git
-git --version
-```
-
-### Installation (Coming Soon)
-
-```bash
-# Clone the repository
 git clone https://github.com/MrNova420/Nova-Engine-editor.git
 cd Nova-Engine-editor
-
-# Install dependencies
-npm install
-
-# Build the project
-npm run build
-
-# Start development server
-npm run dev
+./setup.sh
 ```
+
+**Windows:**
+
+```bash
+git clone https://github.com/MrNova420/Nova-Engine-editor.git
+cd Nova-Engine-editor
+setup.bat
+```
+
+**Manual Setup:**
+
+```bash
+npm install  # Install all dependencies
+npm run build  # Build all packages
+npm test  # Verify everything works
+```
+
+**That's it!** See [SETUP.md](./SETUP.md) for detailed instructions.
+
+### Prerequisites
+
+- **Node.js** 18.0.0 or higher ([Download](https://nodejs.org/))
+- That's all! Everything else installs automatically.
 
 ---
 
