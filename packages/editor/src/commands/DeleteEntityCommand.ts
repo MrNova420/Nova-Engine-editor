@@ -4,34 +4,58 @@
  */
 
 import { BaseCommand } from './Command';
+import type { Store } from '@reduxjs/toolkit';
+import { addEntity, removeEntity } from '../store/slices/sceneSlice';
+import type { Entity } from '../store/slices/sceneSlice';
 
 export class DeleteEntityCommand extends BaseCommand {
   readonly name: string = 'Delete Entity';
-  
+
   private entityId: string;
-  private entityData: any;
-  private parentId: string | null;
-  
-  constructor(entityId: string) {
+  private entityData: Entity | null = null;
+  private store?: Store;
+
+  constructor(entityId: string, store?: Store) {
     super();
     this.entityId = entityId;
-    // TODO: Store entity data and parent for restoration
-    this.entityData = null;
-    this.parentId = null;
+    this.store = store;
   }
-  
+
   execute(): void {
-    // Store entity data before deletion
-    // TODO: Get entity data from scene
-    this.entityData = { /* entity data */ };
-    this.parentId = null; // TODO: Get parent ID
-    
+    if (!this.store) {
+      console.warn(`No store available for DeleteEntityCommand`);
+      return;
+    }
+
+    // Store entity data before deletion for undo
+    const state = this.store.getState() as any;
+    const sceneState = state.scene;
+    this.entityData = sceneState.entities[this.entityId];
+
+    if (!this.entityData) {
+      console.warn(`Entity ${this.entityId} not found in scene`);
+      return;
+    }
+
+    // Deep copy the entity data to preserve it for undo
+    this.entityData = JSON.parse(JSON.stringify(this.entityData));
+
     // Delete the entity
-    console.log(`Deleting entity ${this.entityId}`);
+    this.store.dispatch(removeEntity(this.entityId));
   }
-  
+
   undo(): void {
+    if (!this.store) {
+      console.warn(`No store available for DeleteEntityCommand`);
+      return;
+    }
+
+    if (!this.entityData) {
+      console.warn(`No entity data to restore for ${this.entityId}`);
+      return;
+    }
+
     // Restore the entity
-    console.log(`Restoring entity ${this.entityId}:`, this.entityData);
+    this.store.dispatch(addEntity(this.entityData));
   }
 }

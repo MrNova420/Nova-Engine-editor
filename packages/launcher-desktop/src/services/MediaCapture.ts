@@ -91,9 +91,8 @@ class MediaCaptureService {
       const filename = `${gameName.replace(/[^a-z0-9]/gi, '_')}_${timestamp.getTime()}.${format}`;
       const path = `${this.screenshotsDir}/${filename}`;
 
-      // In real implementation: capture actual game frame
-      // For now, create a placeholder
-      const screenshotData = await this.captureGameFrame();
+      // Capture game frame from canvas or WebGL context
+      const screenshotData = await this.captureGameFrame(format);
 
       // Save screenshot
       const encoder = new TextEncoder();
@@ -125,9 +124,28 @@ class MediaCaptureService {
   /**
    * Capture current game frame
    */
-  private async captureGameFrame(): Promise<string> {
-    // In real implementation: use canvas.toDataURL() or native capture
-    // Return base64 image data
+  private async captureGameFrame(
+    format: 'png' | 'jpg' = 'png'
+  ): Promise<string> {
+    // In a real implementation, this would:
+    // 1. Get the game canvas element
+    // 2. Use canvas.toDataURL() or canvas.toBlob()
+    // 3. For Tauri: use native screen capture APIs
+
+    // Try to find game canvas
+    const canvas = document.querySelector('canvas') as HTMLCanvasElement;
+
+    if (canvas) {
+      try {
+        const mimeType = format === 'png' ? 'image/png' : 'image/jpeg';
+        const dataUrl = canvas.toDataURL(mimeType, 0.95);
+        return dataUrl;
+      } catch (error) {
+        console.warn('Failed to capture canvas:', error);
+      }
+    }
+
+    // Fallback: Return minimal 1x1 transparent PNG
     return 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNk+M9QDwADhgGAWjR9awAAAABJRU5ErkJggg==';
   }
 
@@ -182,8 +200,9 @@ class MediaCaptureService {
   private startFrameCapture(fps: number): void {
     const frameInterval = 1000 / fps;
     let frameCount = 0;
+    const frames: string[] = [];
 
-    this.recordingInterval = window.setInterval(() => {
+    this.recordingInterval = window.setInterval(async () => {
       if (!this.currentRecording) {
         if (this.recordingInterval) {
           clearInterval(this.recordingInterval);
@@ -192,10 +211,20 @@ class MediaCaptureService {
         return;
       }
 
-      // Capture frame
-      // In real implementation: capture actual game frame to video encoder
+      // Capture frame from canvas
+      const frameData = await this.captureGameFrame('jpg');
+      frames.push(frameData);
+
       frameCount++;
       this.currentRecording.duration = frameCount / fps;
+
+      // In a real implementation, frames would be:
+      // 1. Encoded using WebCodecs API or native encoder
+      // 2. Written to video file using FFmpeg or similar
+      // 3. Compressed to reduce size
+
+      // Store frames reference for later encoding
+      (this.currentRecording as any).frames = frames;
     }, frameInterval);
   }
 
@@ -217,17 +246,37 @@ class MediaCaptureService {
         this.recordingInterval = null;
       }
 
-      // Process video
-      // In real implementation: encode captured frames to video file
-      await new Promise((resolve) => setTimeout(resolve, 1000));
+      // Process video frames
+      const frames = (recording as any).frames || [];
 
-      // Save video file
+      // In a real implementation:
+      // 1. Use WebCodecs API or FFmpeg to encode frames to video
+      // 2. Apply video compression (H.264, VP9, etc.)
+      // 3. Add audio track if available
+      // 4. Write to MP4/WebM container
+
+      // For now, create a video metadata file
+      const videoMetadata = {
+        format: recording.format,
+        fps: recording.fps,
+        duration: recording.duration,
+        frameCount: frames.length,
+        timestamp: recording.timestamp.toISOString(),
+        resolution: { width: 1920, height: 1080 },
+      };
+
+      await new Promise((resolve) => setTimeout(resolve, 100));
+
+      // Save video metadata (in real impl, this would be the actual video file)
       const encoder = new TextEncoder();
-      const data = encoder.encode('video-placeholder');
+      const data = encoder.encode(JSON.stringify(videoMetadata, null, 2));
       await writeFile(recording.path, data, { baseDir: BaseDirectory.Video });
 
       recording.size = data.length;
       recording.status = 'completed';
+
+      // Clean up frames from memory
+      delete (recording as any).frames;
 
       this.currentRecording = null;
 

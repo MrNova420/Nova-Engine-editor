@@ -25,7 +25,6 @@ export interface SyncState {
 
 export class ProjectSyncService {
   private redis = RedisService.getInstance();
-  private projectService = new ProjectStorageService();
   private versionService = new VersionControlService();
 
   /**
@@ -49,9 +48,9 @@ export class ProjectSyncService {
    */
   async getPendingSyncEvents(
     projectId: string,
-    since: number
+    _since: number
   ): Promise<SyncEvent[]> {
-    const key = `sync:${projectId}:events`;
+    const _key = `sync:${projectId}:events`;
 
     // In a real implementation, this would query a time-ordered event log
     // For now, we'll return an empty array
@@ -150,7 +149,7 @@ export class ProjectSyncService {
    */
   async syncProject(
     projectId: string,
-    userId: string
+    _userId: string
   ): Promise<{
     success: boolean;
     conflicts: string[];
@@ -188,7 +187,7 @@ export class ProjectSyncService {
   /**
    * Apply sync event
    */
-  private async applyEvent(event: SyncEvent): Promise<void> {
+  private async applyEvent(_event: SyncEvent): Promise<void> {
     // Apply the event based on type
     // This would interact with the appropriate services
   }
@@ -198,9 +197,9 @@ export class ProjectSyncService {
    */
   private async publishEvent(
     projectId: string,
-    event: SyncEvent
+    _event: SyncEvent
   ): Promise<void> {
-    const channel = `sync:${projectId}`;
+    const _channel = `sync:${projectId}`;
     // In a real implementation, this would use Redis pub/sub
   }
 

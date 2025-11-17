@@ -62,6 +62,8 @@ export interface BuildConfig {
   outDir: string;
   /** Asset compression */
   compressAssets: boolean;
+  /** Compression type */
+  compression?: 'gzip' | 'brotli' | 'none';
   /** Generate service worker */
   serviceWorker?: boolean;
   /** Custom defines/environment variables */
@@ -91,7 +93,18 @@ export interface BuildResult {
  */
 export interface BuildArtifact {
   /** Artifact type */
-  type: 'html' | 'js' | 'css' | 'asset' | 'wasm' | 'map';
+  type:
+    | 'html'
+    | 'js'
+    | 'javascript'
+    | 'css'
+    | 'asset'
+    | 'wasm'
+    | 'map'
+    | 'config'
+    | 'metadata'
+    | 'application'
+    | 'script';
   /** File path */
   path: string;
   /** File size in bytes */
@@ -105,11 +118,17 @@ export interface BuildArtifact {
  */
 export interface BuildStats {
   /** Build duration in milliseconds */
-  duration: number;
+  duration?: number;
+  /** Build time in milliseconds (alias for duration) */
+  buildTime?: number;
+  /** Bundle size in bytes */
+  bundleSize?: number;
   /** Total output size in bytes */
-  totalSize: number;
+  totalSize?: number;
   /** Number of artifacts */
-  artifactCount: number;
+  artifactCount?: number;
+  /** Asset count (alias for artifactCount) */
+  assetCount?: number;
   /** Chunk information */
   chunks?: ChunkInfo[];
 }

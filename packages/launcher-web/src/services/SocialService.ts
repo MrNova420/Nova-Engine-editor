@@ -30,98 +30,121 @@ export class SocialService {
   private friendRequests: FriendRequest[] = [];
   private activities: Activity[] = [];
   private userStatus: Map<string, 'online' | 'offline' | 'in-game'> = new Map();
-  
-  async sendFriendRequest(fromUserId: string, toUserId: string): Promise<FriendRequest> {
+
+  async sendFriendRequest(
+    fromUserId: string,
+    toUserId: string
+  ): Promise<FriendRequest> {
     const request: FriendRequest = {
       fromUserId,
       toUserId,
       sentAt: new Date(),
-      status: 'pending'
+      status: 'pending',
     };
-    
+
     this.friendRequests.push(request);
     return request;
   }
-  
-  async acceptFriendRequest(fromUserId: string, toUserId: string): Promise<boolean> {
+
+  async acceptFriendRequest(
+    fromUserId: string,
+    toUserId: string
+  ): Promise<boolean> {
     const request = this.friendRequests.find(
-      r => r.fromUserId === fromUserId && r.toUserId === toUserId && r.status === 'pending'
+      (r) =>
+        r.fromUserId === fromUserId &&
+        r.toUserId === toUserId &&
+        r.status === 'pending'
     );
-    
+
     if (!request) return false;
-    
+
     request.status = 'accepted';
-    
+
     // Add to friends list
     const userFriends = this.friends.get(toUserId) || new Set();
     userFriends.add(fromUserId);
     this.friends.set(toUserId, userFriends);
-    
+
     const otherFriends = this.friends.get(fromUserId) || new Set();
     otherFriends.add(toUserId);
     this.friends.set(fromUserId, otherFriends);
-    
+
     // Add activity
-    this.addActivity(toUserId, 'friend_added', `Became friends with user ${fromUserId}`);
-    
+    this.addActivity(
+      toUserId,
+      'friend_added',
+      `Became friends with user ${fromUserId}`
+    );
+
     return true;
   }
-  
+
   async removeFriend(userId: string, friendId: string): Promise<boolean> {
     const userFriends = this.friends.get(userId);
     const otherFriends = this.friends.get(friendId);
-    
+
     userFriends?.delete(friendId);
     otherFriends?.delete(userId);
-    
+
     return true;
   }
-  
+
   getFriends(userId: string): string[] {
     return Array.from(this.friends.get(userId) || []);
   }
-  
+
   getPendingRequests(userId: string): FriendRequest[] {
     return this.friendRequests.filter(
-      r => r.toUserId === userId && r.status === 'pending'
+      (r) => r.toUserId === userId && r.status === 'pending'
     );
   }
-  
-  setUserStatus(userId: string, status: 'online' | 'offline' | 'in-game'): void {
+
+  setUserStatus(
+    userId: string,
+    status: 'online' | 'offline' | 'in-game'
+  ): void {
     this.userStatus.set(userId, status);
   }
-  
+
   getUserStatus(userId: string): 'online' | 'offline' | 'in-game' {
     return this.userStatus.get(userId) || 'offline';
   }
-  
-  addActivity(userId: string, type: Activity['type'], description: string, metadata?: Record<string, unknown>): void {
+
+  addActivity(
+    userId: string,
+    type: Activity['type'],
+    description: string,
+    metadata?: Record<string, unknown>
+  ): void {
     const activity: Activity = {
       id: `activity_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
       userId,
       type,
       description,
       timestamp: new Date(),
-      metadata
+      metadata,
     };
-    
+
     this.activities.push(activity);
-    
+
     // Keep only last 100 activities per user
-    const userActivities = this.activities.filter(a => a.userId === userId);
+    const userActivities = this.activities.filter((a) => a.userId === userId);
     if (userActivities.length > 100) {
       const oldestActivity = userActivities[0];
-      const index = this.activities.indexOf(oldestActivity);
-      if (index > -1) this.activities.splice(index, 1);
+      if (oldestActivity) {
+        const index = this.activities.indexOf(oldestActivity);
+        if (index > -1) this.activities.splice(index, 1);
+      }
     }
   }
-  
+
   getActivityFeed(userId: string, limit: number = 50): Activity[] {
-    const friends = this.getFriends(userId);
-    const relevantUsers = [userId, ...friends];
-    
+    const friendIds = this.getFriends(userId);
+    const relevantUsers = [userId, ...friendIds];
+
     return this.activities
-      .filter(a => relevantUsers.includes(a.userId))
+      .filter((a) => relevantUsers.includes(a.userId))
       .sort((a, b) => b.timestamp.getTime() - a.timestamp.getTime())
       .slice(0, limit);
   }

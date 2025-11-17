@@ -120,19 +120,139 @@ class GameRuntimeService {
    */
   private async loadGameRuntime(
     game: LocalGame,
-    _config: GameConfig
+    config: GameConfig
   ): Promise<void> {
     console.log(`Loading game runtime for ${game.name}...`);
 
-    // In a real implementation, this would:
-    // 1. Load the Nova Engine runtime (WebGL/Native)
-    // 2. Load game assets from local storage
-    // 3. Initialize graphics context
-    // 4. Set up audio system
-    // 5. Configure input handling
+    // 1. Load the Nova Engine runtime
+    const engineScripts = [
+      `${game.installPath}/engine.js`,
+      `${game.installPath}/game.js`,
+    ];
 
-    // For now, simulate loading time
-    await new Promise((resolve) => setTimeout(resolve, 1000));
+    for (const script of engineScripts) {
+      try {
+        // Dynamically load script
+        await this.loadScript(script);
+      } catch (error) {
+        console.warn(`Failed to load script ${script}:`, error);
+      }
+    }
+
+    // 2. Load game assets manifest
+    try {
+      const manifestPath = `${game.installPath}/assets/manifest.json`;
+      const manifestResponse = await fetch(manifestPath);
+      const manifest = await manifestResponse.json();
+      console.log(`Loaded ${manifest.assets?.length || 0} assets from manifest`);
+    } catch (error) {
+      console.warn('No asset manifest found, will load assets on-demand');
+    }
+
+    // 3. Initialize graphics context
+    const canvas = document.getElementById('game-canvas') as HTMLCanvasElement;
+    if (canvas) {
+      canvas.width = config.width;
+      canvas.height = config.height;
+
+      // Set up WebGL context
+      const gl = canvas.getContext('webgl2') || canvas.getContext('webgl');
+      if (gl) {
+        gl.viewport(0, 0, canvas.width, canvas.height);
+        gl.clearColor(0.0, 0.0, 0.0, 1.0);
+        gl.clear(gl.COLOR_BUFFER_BIT);
+        console.log('Graphics context initialized');
+      }
+    }
+
+    // 4. Set up audio system
+    try {
+      const AudioContext = window.AudioContext || (window as any).webkitAudioContext;
+      if (AudioContext) {
+        const audioContext = new AudioContext();
+        audioContext.resume(); // Resume if suspended
+        console.log('Audio system initialized');
+      }
+    } catch (error) {
+      console.warn('Audio system initialization failed:', error);
+    }
+
+    // 5. Configure input handling
+    this.setupInputHandlers(canvas);
+
+    console.log(`Game runtime loaded for ${game.name}`);
+  }
+
+  /**
+   * Load a script dynamically
+   */
+  private loadScript(src: string): Promise<void> {
+    return new Promise((resolve, reject) => {
+      const script = document.createElement('script');
+      script.src = src;
+      script.onload = () => resolve();
+      script.onerror = () => reject(new Error(`Failed to load script: ${src}`));
+      document.head.appendChild(script);
+    });
+  }
+
+  /**
+   * Setup input handlers for the game
+   */
+  private setupInputHandlers(canvas: HTMLCanvasElement | null): void {
+    if (!canvas) return;
+
+    // Keyboard input
+    window.addEventListener('keydown', (e) => {
+      // Forward to game engine
+      (window as any).NovaEngine?.input?.handleKeyDown(e.code);
+    });
+
+    window.addEventListener('keyup', (e) => {
+      (window as any).NovaEngine?.input?.handleKeyUp(e.code);
+    });
+
+    // Mouse input
+    canvas.addEventListener('mousemove', (e) => {
+      const rect = canvas.getBoundingClientRect();
+      const x = e.clientX - rect.left;
+      const y = e.clientY - rect.top;
+      (window as any).NovaEngine?.input?.handleMouseMove(x, y);
+    });
+
+    canvas.addEventListener('mousedown', (e) => {
+      (window as any).NovaEngine?.input?.handleMouseDown(e.button);
+    });
+
+    canvas.addEventListener('mouseup', (e) => {
+      (window as any).NovaEngine?.input?.handleMouseUp(e.button);
+    });
+
+    // Touch input (for touch-enabled desktops)
+    canvas.addEventListener('touchstart', (e) => {
+      e.preventDefault();
+      const touch = e.touches[0];
+      const rect = canvas.getBoundingClientRect();
+      const x = touch.clientX - rect.left;
+      const y = touch.clientY - rect.top;
+      (window as any).NovaEngine?.input?.handleTouchStart(x, y);
+    });
+
+    canvas.addEventListener('touchmove', (e) => {
+      e.preventDefault();
+      const touch = e.touches[0];
+      const rect = canvas.getBoundingClientRect();
+      const x = touch.clientX - rect.left;
+      const y = touch.clientY - rect.top;
+      (window as any).NovaEngine?.input?.handleTouchMove(x, y);
+    });
+
+    canvas.addEventListener('touchend', (e) => {
+      e.preventDefault();
+      (window as any).NovaEngine?.input?.handleTouchEnd();
+    });
+
+    console.log('Input handlers configured');
   }
 
   /**
@@ -145,20 +265,66 @@ class GameRuntimeService {
   ): Promise<void> {
     console.log(`Starting game runtime for ${game.name}...`);
 
-    // In a real implementation, this would:
-    // 1. Create a new Tauri window for the game
-    // 2. Initialize the Nova Engine runtime
-    // 3. Load the game scene
-    // 4. Start the game loop
-    // 5. Handle input and rendering
+    // 1. Create or get game canvas
+    let canvas = document.getElementById('game-canvas') as HTMLCanvasElement;
+    if (!canvas) {
+      canvas = document.createElement('canvas');
+      canvas.id = 'game-canvas';
+      canvas.width = config.width;
+      canvas.height = config.height;
+      document.body.appendChild(canvas);
+    }
 
-    // Placeholder: Store window reference
+    // 2. Initialize the Nova Engine runtime
+    try {
+      // Call the global NovaEngine initialization if available
+      if ((window as any).NovaEngine) {
+        await (window as any).NovaEngine.init({
+          canvas: canvas,
+          width: config.width,
+          height: config.height,
+          quality: config.quality,
+          vsync: config.vsync,
+        });
+        console.log('Nova Engine runtime initialized');
+      }
+    } catch (error) {
+      console.error('Failed to initialize Nova Engine:', error);
+      throw error;
+    }
+
+    // 3. Load the game scene
+    try {
+      const scenePath = `${game.installPath}/scenes/main.json`;
+      const sceneResponse = await fetch(scenePath);
+      const sceneData = await sceneResponse.json();
+
+      if ((window as any).NovaEngine) {
+        await (window as any).NovaEngine.loadScene(sceneData);
+        console.log('Game scene loaded');
+      }
+    } catch (error) {
+      console.warn('Failed to load game scene:', error);
+      // Continue anyway - game might handle its own scene loading
+    }
+
+    // 4. Start the game loop
+    if ((window as any).NovaEngine) {
+      (window as any).NovaEngine.start();
+      console.log('Game loop started');
+    }
+
+    // 5. Store window reference for management
     this.gameWindows.set(instanceId, {
       title: game.name,
       width: config.width,
       height: config.height,
       fullscreen: config.fullscreen,
+      canvas: canvas,
+      engineInstance: (window as any).NovaEngine,
     });
+
+    console.log(`Game ${game.name} is now running`);
   }
 
   /**
@@ -174,10 +340,14 @@ class GameRuntimeService {
       throw new Error(`Game is not running (status: ${instance.status})`);
     }
 
-    // Pause game loop
-    // In real implementation: pause Nova Engine runtime
-    instance.status = 'paused';
+    // Pause the Nova Engine runtime
+    const window = this.gameWindows.get(instanceId);
+    if (window && window.engineInstance) {
+      window.engineInstance.pause();
+      console.log('Engine paused');
+    }
 
+    instance.status = 'paused';
     console.log(`Game ${instance.gameId} paused`);
   }
 
@@ -194,10 +364,14 @@ class GameRuntimeService {
       throw new Error(`Game is not paused (status: ${instance.status})`);
     }
 
-    // Resume game loop
-    // In real implementation: resume Nova Engine runtime
-    instance.status = 'running';
+    // Resume the Nova Engine runtime
+    const window = this.gameWindows.get(instanceId);
+    if (window && window.engineInstance) {
+      window.engineInstance.resume();
+      console.log('Engine resumed');
+    }
 
+    instance.status = 'running';
     console.log(`Game ${instance.gameId} resumed`);
   }
 
