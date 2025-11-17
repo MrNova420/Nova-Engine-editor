@@ -203,7 +203,7 @@ export class AssetOptimizer {
           this.idleLoadingActive = false;
         }
       },
-      { timeout: 1000 }
+      { timeout: 999999 } // No timeout limits for optimization
     );
   }
 

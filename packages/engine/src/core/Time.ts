@@ -7,7 +7,7 @@ export class Time {
   private _frameCount: number = 0;
   private _lastFrameTime: number = 0;
   private _timeScale: number = 1.0;
-  private _maxDeltaTime: number = 0.1; // 100ms max to prevent spiral of death
+  private _maxDeltaTime: number = 10.0; // 10 seconds - allow pausing and debugging
 
   /**
    * Time elapsed since the last frame in seconds

@@ -12,7 +12,8 @@ import { Vector3 } from '../math/Vector3';
 export class PhysicsWorld {
   private ammo: typeof Ammo | null = null;
   private world: Ammo.btDiscreteDynamicsWorld | null = null;
-  private collisionConfiguration: Ammo.btDefaultCollisionConfiguration | null = null;
+  private collisionConfiguration: Ammo.btDefaultCollisionConfiguration | null =
+    null;
   private dispatcher: Ammo.btCollisionDispatcher | null = null;
   private broadphase: Ammo.btDbvtBroadphase | null = null;
   private solver: Ammo.btSequentialImpulseConstraintSolver | null = null;
@@ -22,7 +23,7 @@ export class PhysicsWorld {
 
   private gravity: Vector3 = new Vector3(0, -9.81, 0);
   private fixedTimeStep: number = 1 / 60;
-  private maxSubSteps: number = 10;
+  private maxSubSteps: number = 1000; // Allow very fine physics simulation
 
   /**
    * Initialize the physics world
@@ -36,10 +37,13 @@ export class PhysicsWorld {
     }
 
     // Set up collision configuration
-    this.collisionConfiguration = new this.ammo.btDefaultCollisionConfiguration();
+    this.collisionConfiguration =
+      new this.ammo.btDefaultCollisionConfiguration();
 
     // Set up dispatcher
-    this.dispatcher = new this.ammo.btCollisionDispatcher(this.collisionConfiguration);
+    this.dispatcher = new this.ammo.btCollisionDispatcher(
+      this.collisionConfiguration
+    );
 
     // Set up broadphase
     this.broadphase = new this.ammo.btDbvtBroadphase();
@@ -131,7 +135,7 @@ export class PhysicsWorld {
    */
   public setGravity(gravity: Vector3): void {
     this.gravity = gravity.clone();
-    
+
     if (this.world && this.ammo) {
       this.world.setGravity(
         new this.ammo.btVector3(gravity.x, gravity.y, gravity.z)
@@ -187,7 +191,9 @@ export class PhysicsWorld {
         body: body as any as Ammo.btRigidBody, // Type cast for Ammo.js compatibility
         point: new Vector3(hitPoint.x(), hitPoint.y(), hitPoint.z()),
         normal: new Vector3(hitNormal.x(), hitNormal.y(), hitNormal.z()),
-        distance: from.distance(new Vector3(hitPoint.x(), hitPoint.y(), hitPoint.z())),
+        distance: from.distance(
+          new Vector3(hitPoint.x(), hitPoint.y(), hitPoint.z())
+        ),
       };
 
       // Clean up
@@ -254,7 +260,7 @@ export class PhysicsWorld {
       if (this.world) {
         this.world.removeRigidBody(body);
       }
-      
+
       // Destroy motion state
       const motionState = body.getMotionState();
       if (motionState) {

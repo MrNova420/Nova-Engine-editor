@@ -43,7 +43,7 @@ export default defineConfig({
     // Target modern browsers for better optimization
     target: 'es2020',
     // Optimize chunk size
-    chunkSizeWarningLimit: 1000,
+    chunkSizeWarningLimit: 999999, // No warnings for large chunks
   },
   // Optimize dependencies
   optimizeDeps: {

@@ -44,7 +44,7 @@ export const NovaWorldGame: DemoGame = {
     enablePhysics: true,
     enableAudio: true,
     playerMode: 'single',
-    maxPlayers: 8,
+    maxPlayers: 1000000, // MMO-scale multiplayer
   },
 
   scene: { entities: [] },

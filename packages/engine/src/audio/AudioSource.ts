@@ -78,7 +78,7 @@ export class AudioSource {
         this._pannerNode.panningModel = 'HRTF';
         this._pannerNode.distanceModel = 'inverse';
         this._pannerNode.refDistance = 1;
-        this._pannerNode.maxDistance = 10000;
+        this._pannerNode.maxDistance = 1000000; // Massive audio distance for open worlds
         this._pannerNode.rolloffFactor = 1;
       }
 

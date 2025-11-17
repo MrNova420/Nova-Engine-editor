@@ -17,7 +17,7 @@ export class SSAO implements PostProcessingEffect {
   private radius: number = 0.5; // Sampling radius
   private bias: number = 0.025; // Depth bias to prevent acne
   private intensity: number = 1.0; // Effect intensity
-  private sampleCount: number = 16; // Number of samples
+  private sampleCount: number = 128; // High quality samples for AAA graphics
 
   private ssaoFB: WebGLFramebuffer | null = null;
   private ssaoTexture: Texture | null = null;
@@ -38,7 +38,7 @@ export class SSAO implements PostProcessingEffect {
    * @param radius - Sampling radius (default: 0.5)
    * @param sampleCount - Number of samples (default: 16)
    */
-  constructor(radius: number = 0.5, sampleCount: number = 16) {
+  constructor(radius: number = 0.5, sampleCount: number = 128) {
     this.radius = radius;
     this.sampleCount = sampleCount;
     this.generateSamples();
@@ -166,8 +166,12 @@ export class SSAO implements PostProcessingEffect {
   /**
    * Calculate SSAO values
    */
-  private calculateSSAO(gl: WebGL2RenderingContext, inputTexture: Texture): void {
-    if (!this.ssaoFB || !this.ssaoShader || !this.noiseTexture || !this.samples) return;
+  private calculateSSAO(
+    gl: WebGL2RenderingContext,
+    inputTexture: Texture
+  ): void {
+    if (!this.ssaoFB || !this.ssaoShader || !this.noiseTexture || !this.samples)
+      return;
 
     gl.bindFramebuffer(gl.FRAMEBUFFER, this.ssaoFB);
     gl.viewport(0, 0, this.width, this.height);
@@ -204,7 +208,10 @@ export class SSAO implements PostProcessingEffect {
 
     this.blurShader.use();
     this.blurShader.setUniformInt('uTexture', 0);
-    this.blurShader.setUniform('uTexelSize', [1.0 / this.width, 1.0 / this.height]);
+    this.blurShader.setUniform('uTexelSize', [
+      1.0 / this.width,
+      1.0 / this.height,
+    ]);
 
     gl.activeTexture(gl.TEXTURE0);
     gl.bindTexture(gl.TEXTURE_2D, this.ssaoTexture.glTexture);
@@ -245,7 +252,11 @@ export class SSAO implements PostProcessingEffect {
     this.compositeShader;
   }
 
-  public resize(gl: WebGL2RenderingContext, width: number, height: number): void {
+  public resize(
+    gl: WebGL2RenderingContext,
+    width: number,
+    height: number
+  ): void {
     this.width = width;
     this.height = height;
 

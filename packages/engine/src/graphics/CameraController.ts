@@ -40,7 +40,7 @@ export class OrbitCameraController implements ICameraController {
     this._azimuth = 0;
     this._elevation = Math.PI / 6; // 30 degrees
     this._minDistance = 1;
-    this._maxDistance = 100;
+    this._maxDistance = 1000000; // Allow massive view distances
     this._minElevation = -Math.PI / 2 + 0.01;
     this._maxElevation = Math.PI / 2 - 0.01;
     this._rotationSpeed = 0.005;

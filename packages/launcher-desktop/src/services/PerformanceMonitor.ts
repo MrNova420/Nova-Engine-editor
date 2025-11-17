@@ -37,7 +37,7 @@ export interface PerformanceProfile {
 class PerformanceMonitorService {
   private monitoring: boolean = false;
   private metrics: PerformanceMetrics[] = [];
-  private maxMetrics: number = 1000; // Keep last 1000 samples
+  private maxMetrics: number = 999999; // Keep unlimited samples
   private updateInterval: number | null = null;
   private currentProfile: PerformanceProfile | null = null;
 

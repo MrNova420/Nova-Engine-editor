@@ -42,7 +42,7 @@ export class Loop {
 
   private _fixedTimestep: boolean = false;
   private _fixedTimestepDuration: number = 1 / 60; // 60 FPS by default
-  private _maxFixedUpdates: number = 5;
+  private _maxFixedUpdates: number = 1000; // Allow catching up on slow frames
 
   /**
    * Creates a new game loop

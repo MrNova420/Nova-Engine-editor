@@ -118,7 +118,7 @@ export const PuzzleMasterGame: DemoGame = {
             scale: new Vector3(1, 1, 1),
           },
           particleSystem: {
-            maxParticles: 100,
+            maxParticles: 1000000, // Massive particle effects
             emissionRate: 0,
             lifetime: 2,
             startColor: [1, 0.8, 0.2, 1],

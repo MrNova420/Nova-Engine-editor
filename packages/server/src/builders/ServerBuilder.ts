@@ -58,7 +58,7 @@ export class ServerBuilder {
       serverName: 'Nova Engine Server',
       serverVersion: '1.0.0',
       port: 8080,
-      maxPlayers: 100,
+      maxPlayers: 1000000, // Unlimited players
       clustering: false,
       includeDatabase: false,
       ...config,
@@ -316,7 +316,7 @@ function handleCreateRoom(playerId, data) {
     id: roomId,
     hostId: playerId,
     players: [playerId],
-    maxPlayers: data.maxPlayers || 4,
+    maxPlayers: data.maxPlayers || 1000000, // Default to unlimited
     gameId: data.gameId,
     createdAt: Date.now(),
   };
