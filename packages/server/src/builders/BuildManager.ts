@@ -5,6 +5,8 @@
 import { BuildConfig, BuildResult, BuildTarget } from './BuildConfig';
 import { WebBuilder } from './WebBuilder';
 import { DesktopBuilder, DesktopBuildConfig } from './DesktopBuilder';
+import { MobileBuilder, MobileBuildConfig } from './MobileBuilder';
+import { ServerBuilder, ServerBuildConfig } from './ServerBuilder';
 
 /**
  * Build request
@@ -13,7 +15,11 @@ export interface BuildRequest {
   /** Project path */
   projectPath: string;
   /** Build configuration */
-  config: BuildConfig | DesktopBuildConfig;
+  config:
+    | BuildConfig
+    | DesktopBuildConfig
+    | MobileBuildConfig
+    | ServerBuildConfig;
 }
 
 /**
@@ -159,12 +165,10 @@ export class BuildManager {
         );
 
       case BuildTarget.Mobile:
-        // TODO: Implement mobile builder
-        throw new Error('Mobile builds not yet implemented');
+        return await this.buildMobile(projectPath, config as MobileBuildConfig);
 
       case BuildTarget.Server:
-        // TODO: Implement server builder
-        throw new Error('Server builds not yet implemented');
+        return await this.buildServer(projectPath, config as ServerBuildConfig);
 
       default:
         throw new Error(`Unknown build target: ${config.target}`);
@@ -190,6 +194,28 @@ export class BuildManager {
     config: DesktopBuildConfig
   ): Promise<BuildResult> {
     const builder = new DesktopBuilder(config);
+    return await builder.build(projectPath);
+  }
+
+  /**
+   * Build for mobile
+   */
+  private async buildMobile(
+    projectPath: string,
+    config: MobileBuildConfig
+  ): Promise<BuildResult> {
+    const builder = new MobileBuilder(config);
+    return await builder.build(projectPath);
+  }
+
+  /**
+   * Build for server
+   */
+  private async buildServer(
+    projectPath: string,
+    config: ServerBuildConfig
+  ): Promise<BuildResult> {
+    const builder = new ServerBuilder(config);
     return await builder.build(projectPath);
   }
 

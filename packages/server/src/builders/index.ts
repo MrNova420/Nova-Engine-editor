@@ -23,6 +23,14 @@ export { DesktopBuilder, DesktopPlatform } from './DesktopBuilder';
 
 export type { DesktopBuildConfig } from './DesktopBuilder';
 
+export { MobileBuilder, MobilePlatform } from './MobileBuilder';
+
+export type { MobileBuildConfig } from './MobileBuilder';
+
+export { ServerBuilder, ServerPlatform } from './ServerBuilder';
+
+export type { ServerBuildConfig } from './ServerBuilder';
+
 export { BuildManager, BuildStatus } from './BuildManager';
 
 export type { BuildRequest, BuildJob } from './BuildManager';
