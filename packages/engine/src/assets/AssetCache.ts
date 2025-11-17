@@ -6,7 +6,8 @@ export class AssetCache {
   private _cache: Map<string, any>;
   private _maxSize: number;
 
-  constructor(maxSize: number = 1000) {
+  constructor(maxSize: number = 100000) {
+    // Increased from 1000 to 100000
     this._cache = new Map();
     this._maxSize = maxSize;
   }

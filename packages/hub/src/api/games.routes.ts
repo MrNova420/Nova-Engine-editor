@@ -37,7 +37,7 @@ export async function gamesRoutes(server: FastifyInstance) {
       tags: tags ? tags.split(',') : undefined,
       search,
       sortBy: sortBy || 'newest',
-      limit: limit ? parseInt(limit, 10) : 50,
+      limit: limit ? parseInt(limit, 10) : 10000, // Allow large result sets
       offset: offset ? parseInt(offset, 10) : 0,
     });
 
@@ -50,7 +50,7 @@ export async function gamesRoutes(server: FastifyInstance) {
     async (request: FastifyRequest, reply: FastifyReply) => {
       const games = await gameService.getPublishedGames({
         sortBy: 'popular',
-        limit: 12,
+        limit: 1000, // Increased from 12
       });
 
       return { success: true, games };
@@ -61,7 +61,7 @@ export async function gamesRoutes(server: FastifyInstance) {
   server.get('/new', async (request: FastifyRequest, reply: FastifyReply) => {
     const games = await gameService.getPublishedGames({
       sortBy: 'newest',
-      limit: 20,
+      limit: 1000, // Increased from 20
     });
 
     return { success: true, games };
@@ -73,7 +73,7 @@ export async function gamesRoutes(server: FastifyInstance) {
     async (request: FastifyRequest, reply: FastifyReply) => {
       const games = await gameService.getPublishedGames({
         sortBy: 'rating',
-        limit: 20,
+        limit: 1000, // Increased from 20
       });
 
       return { success: true, games };
@@ -90,7 +90,7 @@ export async function gamesRoutes(server: FastifyInstance) {
       const games = await gameService.getPublishedGames({
         category,
         sortBy: 'newest',
-        limit: limit ? parseInt(limit, 10) : 50,
+        limit: limit ? parseInt(limit, 10) : 10000, // Increased from 50
         offset: offset ? parseInt(offset, 10) : 0,
       });
 

@@ -22,9 +22,10 @@ export async function authRoutes(server: FastifyInstance) {
   const authService = new AuthService();
 
   // Rate limiting configuration for auth endpoints
+  // Very permissive for actual development use
   const authRateLimit = {
-    max: 5, // Maximum 5 requests
-    timeWindow: '15 minutes', // Per 15 minutes
+    max: 10000, // Essentially unlimited for development
+    timeWindow: '1 minute',
     errorResponseBuilder: () => ({
       error: true,
       message: 'Too many requests, please try again later.',

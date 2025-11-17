@@ -30,9 +30,9 @@ export class DatabaseService {
       database: process.env.DB_NAME || 'nova_hub',
       user: process.env.DB_USER || 'postgres',
       password: process.env.DB_PASSWORD || 'postgres',
-      max: 20,
-      idleTimeoutMillis: 30000,
-      connectionTimeoutMillis: 2000,
+      max: 100, // Increased pool size for better concurrency
+      idleTimeoutMillis: 300000, // 5 minutes instead of 30 seconds
+      connectionTimeoutMillis: 10000, // 10 seconds instead of 2
     });
 
     // Test connection

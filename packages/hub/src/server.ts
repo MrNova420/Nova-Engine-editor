@@ -38,14 +38,17 @@ export async function createServer() {
 
   await server.register(multipart, {
     limits: {
-      fileSize: 100 * 1024 * 1024, // 100MB max file size
-      files: 10, // Max 10 files per upload
+      fileSize: 10 * 1024 * 1024 * 1024, // 10GB max file size (for large game assets)
+      files: 1000, // Max 1000 files per upload (for bulk imports)
+      fields: 1000, // Max 1000 fields
+      parts: 10000, // Max 10000 parts total
     },
   });
 
+  // Rate limiting - very permissive for development
   await server.register(rateLimit, {
-    max: 100, // 100 requests
-    timeWindow: '15 minutes',
+    max: 10000, // 10000 requests per window (essentially unlimited for dev)
+    timeWindow: '1 minute', // Short window
   });
 
   // Add authenticate decorator for JWT authentication
