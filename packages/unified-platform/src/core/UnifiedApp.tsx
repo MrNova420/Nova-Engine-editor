@@ -26,6 +26,8 @@ import { LauncherModule } from '../modules/LauncherModule';
 import { MultiplayerModule } from '../modules/MultiplayerModule';
 import { SocialModule } from '../modules/SocialModule';
 import { SettingsModule } from '../modules/SettingsModule';
+import { LoginPage } from '../pages/LoginPage';
+import { RegisterPage } from '../pages/RegisterPage';
 
 export const UnifiedApp: React.FC = () => {
   const [platform] = useState(() => new UnifiedPlatformCore());
@@ -131,203 +133,13 @@ export const UnifiedApp: React.FC = () => {
         </div>
 
         {/* Notification Center - Always available */}
-        <NotificationCenter
-          notifications={notifications}
-          onDismiss={(id) => {
-            setNotifications(prev => prev.filter(n => n.id !== id));
-          }}
-        />
-
-        {/* Global Modals */}
-        <GlobalModals platform={platform} />
+        {notifications.length > 0 && (
+          <NotificationCenter
+            notifications={notifications}
+            onClear={() => setNotifications([])}
+          />
+        )}
       </div>
     </BrowserRouter>
   );
-};
-
-// Login Page Component
-const LoginPage: React.FC<{ platform: UnifiedPlatformCore }> = ({ platform }) => {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [error, setError] = useState('');
-  const [loading, setLoading] = useState(false);
-
-  const handleLogin = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setError('');
-    setLoading(true);
-
-    try {
-      const success = await platform.login(email, password);
-      if (success) {
-        window.location.href = '/hub';
-      } else {
-        setError('Invalid credentials');
-      }
-    } catch (err) {
-      setError('Login failed. Please try again.');
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  return (
-    <div className="login-page">
-      <div className="login-container">
-        <div className="login-logo">
-          <h1>Nova Engine</h1>
-          <p>Create. Play. Share.</p>
-        </div>
-        
-        <form onSubmit={handleLogin} className="login-form">
-          <h2>Sign In</h2>
-          
-          {error && <div className="error-message">{error}</div>}
-          
-          <div className="form-group">
-            <label>Email</label>
-            <input
-              type="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              required
-              autoFocus
-            />
-          </div>
-          
-          <div className="form-group">
-            <label>Password</label>
-            <input
-              type="password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              required
-            />
-          </div>
-          
-          <button type="submit" disabled={loading} className="btn-primary">
-            {loading ? 'Signing in...' : 'Sign In'}
-          </button>
-          
-          <div className="login-links">
-            <a href="/register">Create Account</a>
-            <a href="/forgot-password">Forgot Password?</a>
-          </div>
-        </form>
-      </div>
-    </div>
-  );
-};
-
-// Register Page Component
-const RegisterPage: React.FC<{ platform: UnifiedPlatformCore }> = ({ platform }) => {
-  const [formData, setFormData] = useState({
-    username: '',
-    email: '',
-    password: '',
-    confirmPassword: '',
-  });
-  const [error, setError] = useState('');
-  const [loading, setLoading] = useState(false);
-
-  const handleRegister = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setError('');
-
-    if (formData.password !== formData.confirmPassword) {
-      setError('Passwords do not match');
-      return;
-    }
-
-    setLoading(true);
-
-    try {
-      const success = await platform.register(
-        formData.username,
-        formData.email,
-        formData.password
-      );
-      
-      if (success) {
-        window.location.href = '/hub';
-      } else {
-        setError('Registration failed');
-      }
-    } catch (err) {
-      setError('Registration failed. Please try again.');
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  return (
-    <div className="register-page">
-      <div className="register-container">
-        <div className="register-logo">
-          <h1>Join Nova Engine</h1>
-          <p>Start creating amazing games today</p>
-        </div>
-        
-        <form onSubmit={handleRegister} className="register-form">
-          <h2>Create Account</h2>
-          
-          {error && <div className="error-message">{error}</div>}
-          
-          <div className="form-group">
-            <label>Username</label>
-            <input
-              type="text"
-              value={formData.username}
-              onChange={(e) => setFormData({ ...formData, username: e.target.value })}
-              required
-            />
-          </div>
-          
-          <div className="form-group">
-            <label>Email</label>
-            <input
-              type="email"
-              value={formData.email}
-              onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-              required
-            />
-          </div>
-          
-          <div className="form-group">
-            <label>Password</label>
-            <input
-              type="password"
-              value={formData.password}
-              onChange={(e) => setFormData({ ...formData, password: e.target.value })}
-              required
-              minLength={8}
-            />
-          </div>
-          
-          <div className="form-group">
-            <label>Confirm Password</label>
-            <input
-              type="password"
-              value={formData.confirmPassword}
-              onChange={(e) => setFormData({ ...formData, confirmPassword: e.target.value })}
-              required
-            />
-          </div>
-          
-          <button type="submit" disabled={loading} className="btn-primary">
-            {loading ? 'Creating Account...' : 'Create Account'}
-          </button>
-          
-          <div className="register-links">
-            <a href="/login">Already have an account? Sign in</a>
-          </div>
-        </form>
-      </div>
-    </div>
-  );
-};
-
-// Global Modals (friend invites, achievements, etc.)
-const GlobalModals: React.FC<{ platform: UnifiedPlatformCore }> = ({ platform }) => {
-  return null; // Implement modal system as needed
 };
