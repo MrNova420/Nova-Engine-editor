@@ -140,8 +140,7 @@ export class SocialService {
   }
 
   getActivityFeed(userId: string, limit: number = 50): Activity[] {
-    const friends = this.getFriends(userId);
-    const friendIds = friends.map((f) => f.id);
+    const friendIds = this.getFriends(userId);
     const relevantUsers = [userId, ...friendIds];
 
     return this.activities

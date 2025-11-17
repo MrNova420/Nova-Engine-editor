@@ -479,7 +479,9 @@ class MultiplayerLobbyService {
     // Handle remote stream
     pc.ontrack = (event) => {
       const [remoteStream] = event.streams;
-      this.playRemoteAudio(peerId, remoteStream);
+      if (remoteStream) {
+        this.playRemoteAudio(peerId, remoteStream);
+      }
     };
 
     // Handle ICE candidates

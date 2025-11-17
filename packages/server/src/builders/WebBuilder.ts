@@ -212,7 +212,7 @@ export class WebBuilder {
   /**
    * Create bundled JavaScript
    */
-  private createBundle(content: string, projectPath: string, entryPath: string): string {
+  private createBundle(content: string, _projectPath: string, _entryPath: string): string {
     // Strip TypeScript types (basic approach)
     let processed = content
       .replace(/: \w+(\[\])?/g, '') // Remove type annotations
