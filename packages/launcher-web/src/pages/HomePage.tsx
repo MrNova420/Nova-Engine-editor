@@ -8,7 +8,6 @@ const HomePage: React.FC = () => {
   const [featuredGames, setFeaturedGames] = useState<Game[]>([]);
   const [newGames, setNewGames] = useState<Game[]>([]);
   const [topRated, setTopRated] = useState<Game[]>([]);
-  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -36,7 +35,8 @@ const HomePage: React.FC = () => {
       {/* Hero Section */}
       <section className="text-center mb-16">
         <h1 className="text-5xl font-bold mb-4">
-          Play Amazing Games Built with <span className="text-accent">Nova Engine</span>
+          Play Amazing Games Built with{' '}
+          <span className="text-accent">Nova Engine</span>
         </h1>
         <p className="text-xl text-text-secondary mb-8">
           Discover, play, and download games created by our community
@@ -50,7 +50,10 @@ const HomePage: React.FC = () => {
       <section className="mb-16">
         <div className="flex items-center justify-between mb-6">
           <h2 className="text-3xl font-bold">Featured Games</h2>
-          <Link to="/games?filter=featured" className="text-accent hover:underline">
+          <Link
+            to="/games?filter=featured"
+            className="text-accent hover:underline"
+          >
             View All →
           </Link>
         </div>
@@ -80,7 +83,10 @@ const HomePage: React.FC = () => {
       <section>
         <div className="flex items-center justify-between mb-6">
           <h2 className="text-3xl font-bold">Top Rated</h2>
-          <Link to="/games?filter=top-rated" className="text-accent hover:underline">
+          <Link
+            to="/games?filter=top-rated"
+            className="text-accent hover:underline"
+          >
             View All →
           </Link>
         </div>
@@ -93,7 +99,9 @@ const HomePage: React.FC = () => {
 
       {/* Call to Action */}
       <section className="mt-16 text-center bg-bg-secondary rounded-xl p-12">
-        <h2 className="text-3xl font-bold mb-4">Ready to Create Your Own Game?</h2>
+        <h2 className="text-3xl font-bold mb-4">
+          Ready to Create Your Own Game?
+        </h2>
         <p className="text-xl text-text-secondary mb-8">
           Start building with Nova Engine Editor today
         </p>

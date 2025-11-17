@@ -14,15 +14,19 @@ interface AuthState {
   isAuthenticated: boolean;
   isLoading: boolean;
   error: string | null;
-  
+
   initialize: () => Promise<void>;
   login: (email: string, password: string) => Promise<void>;
-  register: (email: string, username: string, password: string) => Promise<void>;
+  register: (
+    email: string,
+    username: string,
+    password: string
+  ) => Promise<void>;
   logout: () => void;
   clearError: () => void;
 }
 
-export const useAuthStore = create<AuthState>((set, get) => ({
+export const useAuthStore = create<AuthState>((set) => ({
   user: null,
   token: null,
   isAuthenticated: false,
@@ -52,7 +56,10 @@ export const useAuthStore = create<AuthState>((set, get) => ({
       localStorage.setItem('auth_token', token);
       set({ user, token, isAuthenticated: true, isLoading: false });
     } catch (error: any) {
-      set({ error: error.response?.data?.message || 'Login failed', isLoading: false });
+      set({
+        error: error.response?.data?.message || 'Login failed',
+        isLoading: false,
+      });
       throw error;
     }
   },
@@ -60,12 +67,19 @@ export const useAuthStore = create<AuthState>((set, get) => ({
   register: async (email: string, username: string, password: string) => {
     set({ isLoading: true, error: null });
     try {
-      const response = await axios.post('/api/auth/register', { email, username, password });
+      const response = await axios.post('/api/auth/register', {
+        email,
+        username,
+        password,
+      });
       const { token, user } = response.data;
       localStorage.setItem('auth_token', token);
       set({ user, token, isAuthenticated: true, isLoading: false });
     } catch (error: any) {
-      set({ error: error.response?.data?.message || 'Registration failed', isLoading: false });
+      set({
+        error: error.response?.data?.message || 'Registration failed',
+        isLoading: false,
+      });
       throw error;
     }
   },

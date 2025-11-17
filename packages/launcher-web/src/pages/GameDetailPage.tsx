@@ -85,7 +85,7 @@ const GameDetailPage: React.FC = () => {
 
           {/* Thumbnail Gallery */}
           <div className="grid grid-cols-5 gap-2 mb-8">
-            {game.screenshots.map((screenshot, index) => (
+            {game.screenshots.map((screenshot: string, index: number) => (
               <button
                 key={index}
                 onClick={() => setSelectedScreenshot(index)}
@@ -116,7 +116,7 @@ const GameDetailPage: React.FC = () => {
           <div className="mb-8">
             <h3 className="text-lg font-bold mb-3">Tags</h3>
             <div className="flex gap-2 flex-wrap">
-              {game.tags.map((tag) => (
+              {game.tags.map((tag: string) => (
                 <span
                   key={tag}
                   className="px-3 py-1 bg-bg-secondary rounded-full text-sm"
@@ -148,7 +148,7 @@ const GameDetailPage: React.FC = () => {
                 <p className="text-sm text-text-secondary mb-2">
                   Download for:
                 </p>
-                {game.platforms.map((platform) => (
+                {game.platforms.map((platform: string) => (
                   <button
                     key={platform}
                     onClick={() => handleDownload(platform)}

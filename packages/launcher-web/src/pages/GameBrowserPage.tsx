@@ -1,8 +1,7 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
 import { apiService } from '../services/apiService';
-import { Game } from '../store/gameStore';
 import GameGrid from '../components/GameGrid';
 
 const CATEGORIES = [
