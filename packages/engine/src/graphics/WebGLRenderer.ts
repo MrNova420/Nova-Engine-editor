@@ -98,19 +98,234 @@ export class WebGLRenderer implements IRenderer {
     // Clear the screen
     this._pipeline.clear();
 
-    // TODO: Implement actual rendering once we have shaders and meshes
-    // For now, this just clears the screen
+    // Get all renderable entities from the scene
+    const entities = scene.getEntities();
+    const renderQueue: Array<{
+      entity: any;
+      mesh: any;
+      material: any;
+      transform: any;
+      distance: number;
+    }> = [];
 
-    // Future implementation will:
-    // 1. Get all entities with mesh renderers from the scene
-    // 2. Sort by material/shader to minimize state changes
-    // 3. For each entity:
-    //    - Set up shader uniforms (model, view, projection matrices)
-    //    - Bind material textures
-    //    - Draw mesh
+    // Build render queue
+    for (const entity of entities) {
+      const meshRenderer = entity.getComponent?.('MeshRenderer');
+      const transform = entity.getComponent?.('Transform');
+
+      if (meshRenderer && transform) {
+        // Calculate distance from camera for sorting
+        const pos = transform.position || { x: 0, y: 0, z: 0 };
+        const camPos = camera.position || { x: 0, y: 0, z: 0 };
+        const dx = pos.x - camPos.x;
+        const dy = pos.y - camPos.y;
+        const dz = pos.z - camPos.z;
+        const distance = Math.sqrt(dx * dx + dy * dy + dz * dz);
+
+        renderQueue.push({
+          entity,
+          mesh: meshRenderer.mesh,
+          material: meshRenderer.material,
+          transform,
+          distance,
+        });
+      }
+    }
+
+    // Sort by material to minimize state changes, then by distance
+    renderQueue.sort((a, b) => {
+      // Opaque objects: front to back
+      // Transparent objects: back to front
+      const aTransparent = a.material?.transparent || false;
+      const bTransparent = b.material?.transparent || false;
+
+      if (aTransparent !== bTransparent) {
+        return aTransparent ? 1 : -1;
+      }
+
+      if (aTransparent) {
+        return b.distance - a.distance; // Back to front
+      } else {
+        return a.distance - b.distance; // Front to back
+      }
+    });
+
+    // Get camera matrices
+    const viewMatrix = camera.getViewMatrix();
+    const projectionMatrix = camera.getProjectionMatrix();
+
+    // Render each object
+    const gl = this._gl;
+    let currentMaterial: any = null;
+
+    for (const item of renderQueue) {
+      // Bind material if changed
+      if (item.material !== currentMaterial) {
+        this.bindMaterial(item.material);
+        currentMaterial = item.material;
+      }
+
+      // Set transform matrices
+      const modelMatrix = item.transform.getWorldMatrix?.();
+      if (modelMatrix && this._currentShader) {
+        this.setMatrix4('uModelMatrix', modelMatrix);
+        this.setMatrix4('uViewMatrix', viewMatrix);
+        this.setMatrix4('uProjectionMatrix', projectionMatrix);
+      }
+
+      // Draw mesh
+      if (item.mesh && item.mesh.vao) {
+        gl.bindVertexArray(item.mesh.vao);
+        const indexCount = item.mesh.indexCount || 0;
+        if (indexCount > 0) {
+          gl.drawElements(gl.TRIANGLES, indexCount, gl.UNSIGNED_SHORT, 0);
+        }
+        gl.bindVertexArray(null);
+      }
+    }
 
     // Check for WebGL errors
     this.checkGLError();
+  }
+
+  private _currentShader: any = null;
+
+  private bindMaterial(material: any): void {
+    if (!material) return;
+
+    const gl = this._gl;
+
+    // Get or create shader for material
+    const shader = this.getOrCreateShader(material);
+    if (shader && shader !== this._currentShader) {
+      gl.useProgram(shader.program);
+      this._currentShader = shader;
+    }
+
+    // Set material uniforms
+    if (material.color) {
+      this.setVector4('uColor', [
+        material.color.r || 1,
+        material.color.g || 1,
+        material.color.b || 1,
+        material.color.a || 1,
+      ]);
+    }
+
+    // Bind textures
+    if (material.mainTexture) {
+      gl.activeTexture(gl.TEXTURE0);
+      gl.bindTexture(gl.TEXTURE_2D, material.mainTexture);
+      this.setInt('uMainTexture', 0);
+    }
+  }
+
+  private shaderCache = new Map<string, any>();
+
+  private getOrCreateShader(material: any): any {
+    const shaderKey = material.shaderType || 'default';
+
+    if (!this.shaderCache.has(shaderKey)) {
+      // Create basic shader
+      const vertexShaderSource = `#version 300 es
+        in vec3 aPosition;
+        in vec3 aNormal;
+        in vec2 aTexCoord;
+        
+        uniform mat4 uModelMatrix;
+        uniform mat4 uViewMatrix;
+        uniform mat4 uProjectionMatrix;
+        
+        out vec3 vNormal;
+        out vec2 vTexCoord;
+        
+        void main() {
+          gl_Position = uProjectionMatrix * uViewMatrix * uModelMatrix * vec4(aPosition, 1.0);
+          vNormal = mat3(uModelMatrix) * aNormal;
+          vTexCoord = aTexCoord;
+        }
+      `;
+
+      const fragmentShaderSource = `#version 300 es
+        precision highp float;
+        
+        in vec3 vNormal;
+        in vec2 vTexCoord;
+        
+        uniform vec4 uColor;
+        uniform sampler2D uMainTexture;
+        
+        out vec4 fragColor;
+        
+        void main() {
+          vec3 normal = normalize(vNormal);
+          vec3 lightDir = normalize(vec3(0.5, 1.0, 0.3));
+          float diff = max(dot(normal, lightDir), 0.2);
+          
+          vec4 texColor = texture(uMainTexture, vTexCoord);
+          fragColor = vec4(uColor.rgb * texColor.rgb * diff, uColor.a * texColor.a);
+        }
+      `;
+
+      const shader = this.compileShader(vertexShaderSource, fragmentShaderSource);
+      this.shaderCache.set(shaderKey, shader);
+    }
+
+    return this.shaderCache.get(shaderKey);
+  }
+
+  private compileShader(vertexSource: string, fragmentSource: string): any {
+    const gl = this._gl;
+
+    // Compile vertex shader
+    const vertexShader = gl.createShader(gl.VERTEX_SHADER);
+    if (!vertexShader) return null;
+    gl.shaderSource(vertexShader, vertexSource);
+    gl.compileShader(vertexShader);
+
+    // Compile fragment shader
+    const fragmentShader = gl.createShader(gl.FRAGMENT_SHADER);
+    if (!fragmentShader) return null;
+    gl.shaderSource(fragmentShader, fragmentSource);
+    gl.compileShader(fragmentShader);
+
+    // Link program
+    const program = gl.createProgram();
+    if (!program) return null;
+    gl.attachShader(program, vertexShader);
+    gl.attachShader(program, fragmentShader);
+    gl.linkProgram(program);
+
+    // Cleanup shaders
+    gl.deleteShader(vertexShader);
+    gl.deleteShader(fragmentShader);
+
+    return { program };
+  }
+
+  private setMatrix4(name: string, matrix: any): void {
+    if (!this._currentShader) return;
+    const location = this._gl.getUniformLocation(this._currentShader.program, name);
+    if (location) {
+      this._gl.uniformMatrix4fv(location, false, matrix);
+    }
+  }
+
+  private setVector4(name: string, value: number[]): void {
+    if (!this._currentShader) return;
+    const location = this._gl.getUniformLocation(this._currentShader.program, name);
+    if (location) {
+      this._gl.uniform4fv(location, value);
+    }
+  }
+
+  private setInt(name: string, value: number): void {
+    if (!this._currentShader) return;
+    const location = this._gl.getUniformLocation(this._currentShader.program, name);
+    if (location) {
+      this._gl.uniform1i(location, value);
+    }
+  }
   }
 
   /**

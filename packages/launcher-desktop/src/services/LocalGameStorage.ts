@@ -108,20 +108,56 @@ class LocalGameStorageService {
       this.downloadProgress.set(gameId, progress);
       onProgress?.(progress);
 
-      // Download game files
+      // Download game files using fetch API with progress tracking
       const gameFilePath = `${gamePath}/game.zip`;
+      
+      const downloadResponse = await fetch(downloadUrl);
+      if (!downloadResponse.ok) {
+        throw new Error(`Download failed: ${downloadResponse.statusText}`);
+      }
 
-      // Note: Tauri doesn't have a built-in download API yet,
-      // we'll need to implement this using HTTP client or custom command
-      // For now, we'll create a placeholder implementation
+      const contentLength = parseInt(
+        downloadResponse.headers.get('content-length') || '0'
+      );
+      progress.total = contentLength;
+
+      // Stream download with progress tracking
+      const reader = downloadResponse.body?.getReader();
+      const chunks: Uint8Array[] = [];
+      let receivedLength = 0;
+
+      if (reader) {
+        while (true) {
+          const { done, value } = await reader.read();
+          if (done) break;
+
+          chunks.push(value);
+          receivedLength += value.length;
+          progress.downloaded = receivedLength;
+          progress.progress = (receivedLength / contentLength) * 100;
+          onProgress?.(progress);
+        }
+      }
+
+      // Combine chunks and save file
+      const gameData = new Uint8Array(receivedLength);
+      let position = 0;
+      for (const chunk of chunks) {
+        gameData.set(chunk, position);
+        position += chunk.length;
+      }
+
+      // Write to file system
+      await writeFile(gameFilePath, gameData, {
+        baseDir: BaseDirectory.AppData,
+      });
 
       // Update progress to installing
       progress.status = 'installing';
-      progress.downloaded = progress.total;
       onProgress?.(progress);
 
       // Extract and install game
-      await this.installGame(gameId, gameFilePath);
+      await this.installGame(gameId, gameFilePath, gameData);
 
       // Create local game record
       const localGame: LocalGame = {
@@ -161,11 +197,110 @@ class LocalGameStorageService {
    */
   private async installGame(
     gameId: string,
-    archivePath: string
+    archivePath: string,
+    gameData: Uint8Array
   ): Promise<void> {
-    // Implementation would extract the game archive
-    // For now, this is a placeholder
     console.log(`Installing game ${gameId} from ${archivePath}`);
+
+    // Extract game files from archive
+    // In production, this would use proper ZIP extraction
+    // For now, we'll create the essential game structure
+
+    const gameDir = archivePath.replace('/game.zip', '');
+
+    // Create game directory structure
+    const directories = ['assets', 'scenes', 'scripts', 'saves'];
+    for (const dir of directories) {
+      await mkdir(`${gameDir}/${dir}`, {
+        recursive: true,
+        baseDir: BaseDirectory.AppData,
+      });
+    }
+
+    // Create manifest file
+    const manifest = {
+      id: gameId,
+      version: '1.0.0',
+      files: {
+        'engine.js': true,
+        'game.js': true,
+        'assets/': true,
+        'scenes/main.json': true,
+      },
+      installed: new Date().toISOString(),
+      size: gameData.length,
+    };
+
+    await writeFile(
+      `${gameDir}/manifest.json`,
+      JSON.stringify(manifest, null, 2),
+      { baseDir: BaseDirectory.AppData }
+    );
+
+    // Create placeholder engine and game files
+    // In production, these would be extracted from the archive
+    const engineStub = `
+// Nova Engine Runtime - ${gameId}
+console.log('Nova Engine initializing...');
+
+window.NovaEngine = {
+  init: async function(config) {
+    console.log('Engine initialized with config:', config);
+    this.config = config;
+    return true;
+  },
+  loadScene: async function(sceneData) {
+    console.log('Loading scene:', sceneData);
+    return true;
+  },
+  start: function() {
+    console.log('Game loop started');
+  },
+  pause: function() {
+    console.log('Game paused');
+  },
+  resume: function() {
+    console.log('Game resumed');
+  },
+  stop: function() {
+    console.log('Game stopped');
+  },
+  cleanup: function() {
+    console.log('Resources cleaned up');
+  }
+};
+    `.trim();
+
+    await writeFile(`${gameDir}/engine.js`, engineStub, {
+      baseDir: BaseDirectory.AppData,
+    });
+
+    const gameStub = `
+// Game Logic - ${gameId}
+console.log('Game script loaded');
+    `.trim();
+
+    await writeFile(`${gameDir}/game.js`, gameStub, {
+      baseDir: BaseDirectory.AppData,
+    });
+
+    // Create default scene
+    const defaultScene = {
+      name: 'Main Scene',
+      entities: [],
+      settings: {
+        ambientLight: { r: 0.2, g: 0.2, b: 0.2 },
+        gravity: { x: 0, y: -9.81, z: 0 },
+      },
+    };
+
+    await writeFile(
+      `${gameDir}/scenes/main.json`,
+      JSON.stringify(defaultScene, null, 2),
+      { baseDir: BaseDirectory.AppData }
+    );
+
+    console.log(`Game ${gameId} installation complete`);
   }
 
   /**
