@@ -1,6 +1,6 @@
 /**
  * Space Explorer - 3D Space Adventure Game
- * 
+ *
  * REAL game built with Nova Engine demonstrating:
  * - 3D rendering with WebGL
  * - Physics simulation
@@ -10,8 +10,7 @@
  * - Audio system
  */
 
-import type { DemoGame, GameConfig } from './index';
-import { Vector3, Transform, MathUtils } from '@nova-engine/engine';
+import type { DemoGame } from './index';
 
 interface SpaceShip {
   position: Vector3;
@@ -25,7 +24,8 @@ export const SpaceExplorerGame: DemoGame = {
   // Metadata
   id: 'space-explorer',
   title: 'Space Explorer',
-  description: 'Explore the vast universe in this epic 3D space adventure. Built with Nova Engine showcasing full 3D rendering, physics, and controls.',
+  description:
+    'Explore the vast universe in this epic 3D space adventure. Built with Nova Engine showcasing full 3D rendering, physics, and controls.',
   category: 'Action',
   coverImage: '/demo-games/space-explorer-cover.jpg',
   rating: 4.8,
@@ -50,79 +50,79 @@ export const SpaceExplorerGame: DemoGame = {
         id: 'camera',
         name: 'Main Camera',
         components: {
-          transform: { 
-            position: new Vector3(0, 5, 10), 
+          transform: {
+            position: new Vector3(0, 5, 10),
             rotation: new Vector3(-20, 0, 0),
-            scale: new Vector3(1, 1, 1)
+            scale: new Vector3(1, 1, 1),
           },
-          camera: { fov: 60, near: 0.1, far: 1000 }
-        }
+          camera: { fov: 60, near: 0.1, far: 1000 },
+        },
       },
       {
         id: 'sun',
         name: 'Sun',
         components: {
-          transform: { 
+          transform: {
             position: new Vector3(0, 0, 0),
             rotation: new Vector3(0, 0, 0),
-            scale: new Vector3(5, 5, 5)
+            scale: new Vector3(5, 5, 5),
           },
           light: { type: 'point', color: [1, 0.9, 0.7], intensity: 2 },
-          mesh: { geometry: 'sphere', material: 'emissive' }
-        }
+          mesh: { geometry: 'sphere', material: 'emissive' },
+        },
       },
       {
         id: 'player-ship',
         name: 'Player Ship',
         components: {
-          transform: { 
+          transform: {
             position: new Vector3(0, 0, 5),
             rotation: new Vector3(0, 0, 0),
-            scale: new Vector3(0.5, 0.5, 1)
+            scale: new Vector3(0.5, 0.5, 1),
           },
           mesh: { geometry: 'ship', material: 'metallic' },
           rigidbody: { mass: 1, drag: 0.5 },
-          playerController: { speed: 10, turnSpeed: 2 }
-        }
+          playerController: { speed: 10, turnSpeed: 2 },
+        },
       },
       {
         id: 'asteroid-field',
         name: 'Asteroid Field',
         components: {
-          transform: { 
+          transform: {
             position: new Vector3(0, 0, 0),
             rotation: new Vector3(0, 0, 0),
-            scale: new Vector3(1, 1, 1)
+            scale: new Vector3(1, 1, 1),
           },
           particleSystem: {
             count: 100,
             spread: 50,
             geometry: 'rock',
-            rotationSpeed: 0.5
-          }
-        }
+            rotationSpeed: 0.5,
+          },
+        },
       },
       {
         id: 'starfield',
         name: 'Starfield',
         components: {
-          transform: { 
+          transform: {
             position: new Vector3(0, 0, 0),
             rotation: new Vector3(0, 0, 0),
-            scale: new Vector3(1, 1, 1)
+            scale: new Vector3(1, 1, 1),
           },
-          skybox: { type: 'starfield', density: 'high' }
-        }
-      }
-    ]
+          skybox: { type: 'starfield', density: 'high' },
+        },
+      },
+    ],
   },
 
   // Game initialization
-  init: function(engineContext: any) {
+  init: function (engineContext: any) {
     console.log('🚀 Initializing Space Explorer...');
-    
+
     const { engine, canvas } = engineContext;
-    
+
     // Initialize WebGL context
     const gl = canvas.getContext('webgl2') || canvas.getContext('webgl');
     if (!gl) {
@@ -142,12 +142,12 @@ export const SpaceExplorerGame: DemoGame = {
         velocity: new Vector3(0, 0, 0),
         rotation: new Vector3(0, 0, 0),
         health: 100,
-        fuel: 100
+        fuel: 100,
       } as SpaceShip,
       asteroids: this.generateAsteroids(50),
       stars: this.generateStarfield(200),
       score: 0,
-      time: 0
+      time: 0,
     };
 
     // Store state on context
@@ -164,7 +164,7 @@ export const SpaceExplorerGame: DemoGame = {
   },
 
   // Game update loop
-  update: function(delta: number) {
+  update: function (delta: number) {
     const engineContext = (this as any).engineContext;
     if (!engineContext || !engineContext.gameState) return;
 
@@ -224,7 +224,7 @@ export const SpaceExplorerGame: DemoGame = {
   },
 
   // Game render
-  render: function() {
+  render: function () {
     const engineContext = (this as any).engineContext;
     if (!engineContext || !engineContext.gl || !engineContext.gameState) return;
 
@@ -264,7 +264,7 @@ export const SpaceExplorerGame: DemoGame = {
         ),
         rotation: new Vector3(0, 0, 0),
         scale: 0.5 + Math.random() * 1.5,
-        rotationSpeed: 0.1 + Math.random() * 0.5
+        rotationSpeed: 0.1 + Math.random() * 0.5,
       });
     }
     return asteroids;
@@ -279,7 +279,7 @@ export const SpaceExplorerGame: DemoGame = {
           (Math.random() - 0.5) * 200,
           (Math.random() - 0.5) * 200
         ),
-        brightness: Math.random()
+        brightness: Math.random(),
       });
     }
     return stars;
@@ -287,7 +287,7 @@ export const SpaceExplorerGame: DemoGame = {
 
   setupInputHandlers(engineContext: any) {
     const input = {
-      keys: {} as Record<string, boolean>
+      keys: {} as Record<string, boolean>,
     };
 
     window.addEventListener('keydown', (e) => {
@@ -303,10 +303,10 @@ export const SpaceExplorerGame: DemoGame = {
 
   checkCollisions(gameState: any) {
     const { ship, asteroids } = gameState;
-    
+
     asteroids.forEach((asteroid: any) => {
       const distance = ship.position.distanceTo(asteroid.position);
-      if (distance < (asteroid.scale + 0.5)) {
+      if (distance < asteroid.scale + 0.5) {
         // Collision!
         ship.health -= 10;
         console.log('💥 Collision! Health:', ship.health);
@@ -335,5 +335,5 @@ export const SpaceExplorerGame: DemoGame = {
   renderHUD(gameState: any) {
     // Render UI overlay with stats
     // Health, Fuel, Score, etc.
-  }
+  },
 };
