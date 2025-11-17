@@ -6,12 +6,19 @@ export * from './LocalGameStorage';
 export * from './LocalSaveData';
 export * from './OfflineSync';
 export * from './UpdateManager';
+export * from './GameRuntime';
+export * from './PerformanceMonitor';
+export * from './MediaCapture';
+export * from './ControllerConfig';
 
 // Initialize all services
 import { localGameStorage } from './LocalGameStorage';
 import { localSaveData } from './LocalSaveData';
 import { offlineSync } from './OfflineSync';
 import { updateManager } from './UpdateManager';
+import { mediaCapture } from './MediaCapture';
+import { controllerConfig } from './ControllerConfig';
+import { gameRuntime } from './GameRuntime';
 
 /**
  * Initialize all desktop services
@@ -25,6 +32,8 @@ export async function initializeServices(): Promise<void> {
     await localSaveData.initialize();
     await offlineSync.initialize();
     await updateManager.initialize();
+    await mediaCapture.initialize();
+    await controllerConfig.initialize();
 
     console.log('All services initialized successfully');
   } catch (error) {
@@ -39,5 +48,7 @@ export async function initializeServices(): Promise<void> {
 export function cleanupServices(): void {
   offlineSync.stopBackgroundSync();
   updateManager.stopUpdateChecks();
+  controllerConfig.cleanup();
+  gameRuntime.cleanup();
   console.log('Services cleaned up');
 }
