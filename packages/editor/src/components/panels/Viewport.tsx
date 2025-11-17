@@ -11,7 +11,7 @@ export const Viewport: React.FC = () => {
   const [renderLoop, setRenderLoop] = useState<number | null>(null);
 
   useEffect(() => {
-    if (!canvasRef.current) return;
+    if (!canvasRef.current) return undefined;
 
     const canvas = canvasRef.current;
     let gl: WebGLRenderingContext | null = null;
@@ -26,7 +26,7 @@ export const Viewport: React.FC = () => {
 
       if (!gl) {
         setEngineStatus('WebGL not supported');
-        return;
+        return undefined;
       }
 
       setEngineStatus('Engine Ready');
@@ -72,6 +72,7 @@ export const Viewport: React.FC = () => {
     } catch (error) {
       console.error('Failed to initialize viewport:', error);
       setEngineStatus('Error: ' + (error as Error).message);
+      return undefined;
     }
   }, []);
 

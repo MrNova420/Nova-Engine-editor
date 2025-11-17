@@ -93,9 +93,10 @@ const TreeNode: React.FC<TreeNodeProps> = ({
 export const Hierarchy: React.FC = () => {
   const dispatch = useDispatch();
   const scene = useSelector((state: RootState) => state.scene);
-  const selectedEntityId = useSelector(
-    (state: RootState) => state.selection.selectedEntityId
+  const selectedEntityIds = useSelector(
+    (state: RootState) => state.selection.selectedEntityIds
   );
+  const selectedEntityId = selectedEntityIds[0] || null;
   const [searchTerm, setSearchTerm] = useState('');
 
   // Convert entities to tree structure

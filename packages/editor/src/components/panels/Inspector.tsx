@@ -90,9 +90,10 @@ const PropertyField: React.FC<PropertyFieldProps> = ({
 };
 
 export const Inspector: React.FC = () => {
-  const selectedEntityId = useAppSelector(
-    (state) => state.selection.selectedEntityId
+  const selectedEntityIds = useAppSelector(
+    (state) => state.selection.selectedEntityIds
   );
+  const selectedEntityId = selectedEntityIds[0] || null;
   const entity = useAppSelector((state) =>
     selectedEntityId ? state.scene.entities[selectedEntityId] : null
   );
