@@ -1055,3 +1055,5 @@ export const HubModuleRedesigned: React.FC<HubModuleProps> = ({ platform }) => {
     </div>
   );
 };
+
+export { HubModuleRedesigned as HubModule } from './HubModule';

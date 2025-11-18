@@ -705,3 +705,4 @@ export const LauncherModuleRedesigned: React.FC<LauncherModuleProps> = ({
     </div>
   );
 };
+export { LauncherModuleRedesigned as LauncherModule } from './LauncherModule';

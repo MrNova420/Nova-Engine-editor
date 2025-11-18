@@ -1585,3 +1585,4 @@ export const EditorModuleEnhanced: React.FC<EditorModuleEnhancedProps> = ({
     </div>
   );
 };
+export { EditorModuleEnhanced as EditorModule } from './EditorModule';

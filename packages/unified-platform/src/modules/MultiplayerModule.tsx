@@ -52,7 +52,7 @@ export const MultiplayerModuleRedesigned: React.FC<MultiplayerModuleProps> = ({
   const [isSearching, setIsSearching] = useState(false);
   const [lobbies, setLobbies] = useState<Lobby[]>([]);
   const [friends, setFriends] = useState<Player[]>([]);
-  const [party, setParty] = useState<Player[]>([]);
+  const [party] = useState<Player[]>([]);
   const [messages, setMessages] = useState<Message[]>([
     {
       id: '1',
@@ -63,7 +63,7 @@ export const MultiplayerModuleRedesigned: React.FC<MultiplayerModuleProps> = ({
     },
   ]);
   const [newMessage, setNewMessage] = useState('');
-  const [playerStats, setPlayerStats] = useState({
+  const [playerStats] = useState({
     gamesPlayed: 156,
     wins: 89,
     losses: 67,
@@ -1431,3 +1431,4 @@ export const MultiplayerModuleRedesigned: React.FC<MultiplayerModuleProps> = ({
     </div>
   );
 };
+export { MultiplayerModuleRedesigned as MultiplayerModule } from './MultiplayerModule';
