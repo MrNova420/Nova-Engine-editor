@@ -55,6 +55,11 @@ class SimpleComponent {
     this.data.scale.y = y;
     this.data.scale.z = z;
   }
+
+  // Get the underlying data
+  getData(): any {
+    return this.data;
+  }
 }
 
 /**

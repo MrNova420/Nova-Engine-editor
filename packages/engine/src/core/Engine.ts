@@ -39,6 +39,7 @@ export class Engine {
   private _world: World;
   private _isInitialized: boolean = false;
   private _canvas: HTMLCanvasElement;
+  private _gameEntities: Map<number, GameEntity> = new Map();
 
   /**
    * Creates a new engine instance
@@ -213,7 +214,9 @@ export class Engine {
    */
   createEntity(name?: string): GameEntity {
     const entity = this._world.createEntity(name);
-    return new GameEntity(entity, this._world);
+    const gameEntity = new GameEntity(entity, this._world);
+    this._gameEntities.set(entity.id, gameEntity);
+    return gameEntity;
   }
 
   /**
@@ -237,13 +240,88 @@ export class Engine {
    * Render the current frame
    */
   render(): void {
-    // Rendering logic will be implemented here
-    // For now, just clear the canvas
     const ctx = this._canvas.getContext('2d');
-    if (ctx) {
-      ctx.fillStyle = '#1a1a1a';
-      ctx.fillRect(0, 0, this._canvas.width, this._canvas.height);
+    if (!ctx) return;
+
+    // Clear the canvas with a gradient background
+    const gradient = ctx.createLinearGradient(0, 0, 0, this._canvas.height);
+    gradient.addColorStop(0, '#0a0a1e'); // Deep blue-black at top
+    gradient.addColorStop(1, '#1a1a2e'); // Slightly lighter at bottom
+    ctx.fillStyle = gradient;
+    ctx.fillRect(0, 0, this._canvas.width, this._canvas.height);
+
+    // Render a grid to show the world space
+    ctx.strokeStyle = 'rgba(100, 100, 255, 0.1)';
+    ctx.lineWidth = 1;
+    const gridSize = 50;
+    for (let x = 0; x < this._canvas.width; x += gridSize) {
+      ctx.beginPath();
+      ctx.moveTo(x, 0);
+      ctx.lineTo(x, this._canvas.height);
+      ctx.stroke();
     }
+    for (let y = 0; y < this._canvas.height; y += gridSize) {
+      ctx.beginPath();
+      ctx.moveTo(0, y);
+      ctx.lineTo(this._canvas.width, y);
+      ctx.stroke();
+    }
+
+    // Render all game entities
+    this._gameEntities.forEach((gameEntity) => {
+      // Get transform component if it exists
+      const transform = gameEntity.getComponent('Transform');
+      if (transform) {
+        const data = transform.getData();
+        const pos = data.position || { x: 0, y: 0, z: 0 };
+        const scale = data.scale || { x: 1, y: 1, z: 1 };
+
+        // Convert 3D position to 2D screen position (simple orthographic)
+        const screenX = this._canvas.width / 2 + pos.x * 10;
+        const screenY = this._canvas.height / 2 - pos.y * 10 - pos.z * 5;
+
+        // Draw entity as a circle
+        ctx.fillStyle = '#7b2ff7'; // Nova Engine purple
+        ctx.beginPath();
+        ctx.arc(screenX, screenY, 5 * scale.x, 0, Math.PI * 2);
+        ctx.fill();
+
+        // Draw entity name if available
+        if (gameEntity.name) {
+          ctx.fillStyle = '#ffffff';
+          ctx.font = '12px Arial';
+          ctx.fillText(gameEntity.name, screenX + 10, screenY);
+        }
+      }
+    });
+
+    // Render game title in the center
+    if (this._gameEntities.size === 0) {
+      ctx.fillStyle = 'rgba(255, 255, 255, 0.5)';
+      ctx.font = '24px Arial';
+      ctx.textAlign = 'center';
+      ctx.fillText(
+        'Nova Engine - Universal Game Platform',
+        this._canvas.width / 2,
+        this._canvas.height / 2
+      );
+      ctx.font = '16px Arial';
+      ctx.fillText(
+        'Game Loading...',
+        this._canvas.width / 2,
+        this._canvas.height / 2 + 30
+      );
+    }
+
+    // Render FPS counter
+    ctx.textAlign = 'left';
+    ctx.fillStyle = '#00ff00';
+    ctx.font = 'bold 16px monospace';
+    const fps = this._time.fps.toFixed(1);
+    ctx.fillText(`FPS: ${fps}`, 10, 30);
+
+    // Render entity count
+    ctx.fillText(`Entities: ${this._gameEntities.size}`, 10, 50);
   }
 
   /**
