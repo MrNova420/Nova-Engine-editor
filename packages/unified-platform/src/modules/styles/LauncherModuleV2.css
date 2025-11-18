@@ -10,38 +10,18 @@
   font-family: 'Inter', 'Segoe UI', 'Arial', sans-serif;
 }
 
-/* Animated Background */
+/* Background */
 .launcher-v2-bg {
-  position: absolute;
-  inset: 0;
-  z-index: 0;
-  overflow: hidden;
+  display: none; /* Remove animated background per template */
 }
 
 .launcher-v2-orb {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  width: 800px;
-  height: 800px;
-  background: radial-gradient(circle, rgba(147, 51, 234, 0.3) 0%, transparent 70%);
-  border-radius: 50%;
-  animation: launcher-v2-pulse 4s ease-in-out infinite;
+  display: none; /* Remove orb per template - clean dark background */
+}
 }
 
 .launcher-v2-stars {
-  position: absolute;
-  inset: 0;
-  background-image: radial-gradient(2px 2px at 20% 30%, white, transparent),
-    radial-gradient(2px 2px at 60% 70%, white, transparent),
-    radial-gradient(1px 1px at 50% 50%, white, transparent),
-    radial-gradient(1px 1px at 80% 10%, white, transparent),
-    radial-gradient(2px 2px at 90% 60%, white, transparent),
-    radial-gradient(1px 1px at 33% 80%, white, transparent);
-  background-size: 200% 200%;
-  animation: launcher-v2-stars-twinkle 10s linear infinite;
-  opacity: 0.5;
+  display: none; /* Remove stars per template - clean dark background */
 }
 
 @keyframes launcher-v2-pulse {

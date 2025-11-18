@@ -5,7 +5,7 @@
 
 .settings-module-v2 {
   min-height: 100vh;
-  background: linear-gradient(135deg, #0a0a1e 0%, #1a1a3e 50%, #0f0f2e 100%);
+  background: #0a0a0f;
   color: #ffffff;
   padding: 20px;
   overflow-y: auto;
@@ -18,36 +18,8 @@
 }
 
 .orbital-planet-decoration {
-  width: 100px;
-  height: 100px;
-  margin: 0 auto 20px;
-  background: radial-gradient(circle, rgba(168, 85, 247, 0.4) 0%, transparent 70%);
-  border-radius: 50%;
-  position: relative;
-  animation: pulse 3s ease-in-out infinite;
+  display: none; /* Remove per template - no planets on internal pages */
 }
-
-.orbital-planet-decoration::before {
-  content: '';
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  width: 60px;
-  height: 60px;
-  background: linear-gradient(135deg, #a855f7 0%, #ec4899 100%);
-  border-radius: 50%;
-  box-shadow: 0 0 30px rgba(168, 85, 247, 0.6);
-}
-
-.orbital-planet-decoration::after {
-  content: '';
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%) rotate(45deg);
-  width: 120px;
-  height: 2px;
   background: linear-gradient(90deg, transparent, rgba(168, 85, 247, 0.6), transparent);
   animation: rotate 8s linear infinite;
 }
