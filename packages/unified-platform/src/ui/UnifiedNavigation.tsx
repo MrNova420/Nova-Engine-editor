@@ -2,7 +2,7 @@
  * Unified Navigation - Sidebar with mode switching
  */
 
-import React from 'react';
+import React, { useCallback } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { UnifiedPlatformCore } from '../core/UnifiedPlatformCore';
 
@@ -34,12 +34,21 @@ export const UnifiedNavigation: React.FC<UnifiedNavigationProps> = ({
     { id: 'settings', label: 'Settings', icon: '⚙️', path: '/settings' },
   ];
 
-  const handleNavigation = (item: (typeof navItems)[0]) => {
-    // Navigate using React Router
-    navigate(item.path);
-    // Also update platform state
-    onModeChange(item.id);
-  };
+  const handleNavigation = useCallback(
+    (item: (typeof navItems)[0]) => {
+      console.log(
+        '[Navigation] Button clicked:',
+        item.label,
+        '-> navigating to:',
+        item.path
+      );
+      // Navigate using React Router
+      navigate(item.path);
+      // Also update platform state
+      onModeChange(item.id);
+    },
+    [navigate, onModeChange]
+  );
 
   // Determine active item from current route
   const activeItem =
@@ -47,60 +56,59 @@ export const UnifiedNavigation: React.FC<UnifiedNavigationProps> = ({
     'hub';
 
   return (
-    <nav className="unified-navigation">
+    <nav
+      className="unified-navigation"
+      style={{
+        width: '200px',
+        background: '#2a2a2a',
+        borderRight: '1px solid #3a3a3a',
+        display: 'flex',
+        flexDirection: 'column',
+        padding: '20px 10px',
+        gap: '5px',
+      }}
+    >
       {navItems.map((item) => (
         <button
           key={item.id}
           className={`nav-item ${activeItem === item.id ? 'active' : ''}`}
-          onClick={() => handleNavigation(item)}
+          onClick={(e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            handleNavigation(item);
+          }}
           title={item.label}
+          type="button"
+          style={{
+            display: 'flex',
+            alignItems: 'center',
+            gap: '12px',
+            padding: '12px 16px',
+            background: activeItem === item.id ? '#7b2ff7' : 'transparent',
+            border: 'none',
+            borderRadius: '8px',
+            color: '#ffffff',
+            cursor: 'pointer',
+            transition: 'all 0.3s',
+            textAlign: 'left',
+            fontSize: '1em',
+            width: '100%',
+          }}
+          onMouseEnter={(e) => {
+            if (activeItem !== item.id) {
+              e.currentTarget.style.background = '#3a3a3a';
+            }
+          }}
+          onMouseLeave={(e) => {
+            if (activeItem !== item.id) {
+              e.currentTarget.style.background = 'transparent';
+            }
+          }}
         >
-          <span className="icon">{item.icon}</span>
-          <span className="label">{item.label}</span>
+          <span style={{ fontSize: '1.4em' }}>{item.icon}</span>
+          <span style={{ fontSize: '1em' }}>{item.label}</span>
         </button>
       ))}
-
-      <style>{`
-        .unified-navigation {
-          width: 200px;
-          background: #2a2a2a;
-          border-right: 1px solid #3a3a3a;
-          display: flex;
-          flex-direction: column;
-          padding: 20px 10px;
-          gap: 5px;
-        }
-
-        .nav-item {
-          display: flex;
-          align-items: center;
-          gap: 12px;
-          padding: 12px 16px;
-          background: transparent;
-          border: none;
-          border-radius: 8px;
-          color: #ffffff;
-          cursor: pointer;
-          transition: all 0.3s;
-          text-align: left;
-        }
-
-        .nav-item:hover {
-          background: #3a3a3a;
-        }
-
-        .nav-item.active {
-          background: #7b2ff7;
-        }
-
-        .icon {
-          font-size: 1.4em;
-        }
-
-        .label {
-          font-size: 1em;
-        }
-      `}</style>
     </nav>
   );
 };
