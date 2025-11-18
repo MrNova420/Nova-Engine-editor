@@ -1,6 +1,7 @@
 /**
- * NOVA ENGINE - HUB MODULE (GAME LIBRARY)
- * Complete space-themed redesign with advanced features
+ * NOVA ENGINE - HUB DASHBOARD
+ * Redesigned to match Image 2 mockup - Hub Dashboard panel
+ * Features orbital planet design with card-based game discovery
  */
 
 import React, { useState, useEffect } from 'react';
