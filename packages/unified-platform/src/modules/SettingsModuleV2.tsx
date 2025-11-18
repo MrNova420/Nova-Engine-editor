@@ -1,6 +1,6 @@
 /**
  * Settings Module V2 - Complete Redesign with Image 2 Theme
- * 
+ *
  * Comprehensive settings management with:
  * - General settings (language, theme, notifications)
  * - Graphics settings (quality, resolution, effects)
@@ -10,7 +10,7 @@
  * - Privacy settings (profile visibility, data collection)
  * - Accessibility settings (colorblind mode, font size)
  * - Advanced settings (cache, diagnostics, system info)
- * 
+ *
  * Theme: Purple/pink/blue space aesthetic from Image 2 mockup
  * NOVA branding throughout
  */
@@ -22,7 +22,7 @@ interface SettingsModuleV2Props {
   platform?: any;
 }
 
-export const SettingsModuleV2: React.FC<SettingsModuleV2Props> = ({ platform }) => {
+export const SettingsModuleV2: React.FC<SettingsModuleV2Props> = () => {
   const [activeCategory, setActiveCategory] = useState('general');
   const [settings, setSettings] = useState({
     // General
@@ -30,7 +30,7 @@ export const SettingsModuleV2: React.FC<SettingsModuleV2Props> = ({ platform }) 
     theme: 'dark',
     notifications: true,
     autoUpdate: true,
-    
+
     // Graphics
     quality: 'ultra',
     resolution: '1920x1080',
@@ -40,14 +40,14 @@ export const SettingsModuleV2: React.FC<SettingsModuleV2Props> = ({ platform }) 
     textures: 'ultra',
     effects: 'ultra',
     viewDistance: 100,
-    
+
     // Audio
     masterVolume: 80,
     musicVolume: 70,
     sfxVolume: 85,
     voiceVolume: 75,
     spatialAudio: true,
-    
+
     // Controls
     mouseSensitivity: 50,
     invertY: false,
@@ -60,17 +60,17 @@ export const SettingsModuleV2: React.FC<SettingsModuleV2Props> = ({ platform }) 
       crouch: 'C',
       interact: 'E',
     },
-    
+
     // Network
     region: 'us-east',
     maxPing: 100,
     bandwidthLimit: 'unlimited',
-    
+
     // Privacy
     profileVisibility: 'friends',
     showOnlineStatus: true,
     dataCollection: true,
-    
+
     // Accessibility
     colorblindMode: 'none',
     fontSize: 'medium',
@@ -98,10 +98,10 @@ export const SettingsModuleV2: React.FC<SettingsModuleV2Props> = ({ platform }) 
   const renderGeneralSettings = () => (
     <div className="settings-section">
       <h2>General Settings</h2>
-      
+
       <div className="setting-group">
         <label>Language</label>
-        <select 
+        <select
           value={settings.language}
           onChange={(e) => updateSetting('language', e.target.value)}
         >
@@ -115,7 +115,7 @@ export const SettingsModuleV2: React.FC<SettingsModuleV2Props> = ({ platform }) 
 
       <div className="setting-group">
         <label>Theme</label>
-        <select 
+        <select
           value={settings.theme}
           onChange={(e) => updateSetting('theme', e.target.value)}
         >
@@ -127,8 +127,8 @@ export const SettingsModuleV2: React.FC<SettingsModuleV2Props> = ({ platform }) 
 
       <div className="setting-group checkbox">
         <label>
-          <input 
-            type="checkbox" 
+          <input
+            type="checkbox"
             checked={settings.notifications}
             onChange={(e) => updateSetting('notifications', e.target.checked)}
           />
@@ -138,8 +138,8 @@ export const SettingsModuleV2: React.FC<SettingsModuleV2Props> = ({ platform }) 
 
       <div className="setting-group checkbox">
         <label>
-          <input 
-            type="checkbox" 
+          <input
+            type="checkbox"
             checked={settings.autoUpdate}
             onChange={(e) => updateSetting('autoUpdate', e.target.checked)}
           />
@@ -152,10 +152,10 @@ export const SettingsModuleV2: React.FC<SettingsModuleV2Props> = ({ platform }) 
   const renderGraphicsSettings = () => (
     <div className="settings-section">
       <h2>Graphics Settings</h2>
-      
+
       <div className="setting-group">
         <label>Quality Preset</label>
-        <select 
+        <select
           value={settings.quality}
           onChange={(e) => updateSetting('quality', e.target.value)}
         >
@@ -169,7 +169,7 @@ export const SettingsModuleV2: React.FC<SettingsModuleV2Props> = ({ platform }) 
 
       <div className="setting-group">
         <label>Resolution</label>
-        <select 
+        <select
           value={settings.resolution}
           onChange={(e) => updateSetting('resolution', e.target.value)}
         >
@@ -181,8 +181,8 @@ export const SettingsModuleV2: React.FC<SettingsModuleV2Props> = ({ platform }) 
 
       <div className="setting-group checkbox">
         <label>
-          <input 
-            type="checkbox" 
+          <input
+            type="checkbox"
             checked={settings.vsync}
             onChange={(e) => updateSetting('vsync', e.target.checked)}
           />
@@ -192,7 +192,7 @@ export const SettingsModuleV2: React.FC<SettingsModuleV2Props> = ({ platform }) 
 
       <div className="setting-group">
         <label>Anti-Aliasing</label>
-        <select 
+        <select
           value={settings.antialiasing}
           onChange={(e) => updateSetting('antialiasing', e.target.value)}
         >
@@ -207,7 +207,7 @@ export const SettingsModuleV2: React.FC<SettingsModuleV2Props> = ({ platform }) 
 
       <div className="setting-group">
         <label>Shadows: {settings.shadows}</label>
-        <select 
+        <select
           value={settings.shadows}
           onChange={(e) => updateSetting('shadows', e.target.value)}
         >
@@ -221,12 +221,14 @@ export const SettingsModuleV2: React.FC<SettingsModuleV2Props> = ({ platform }) 
 
       <div className="setting-group">
         <label>View Distance: {settings.viewDistance}%</label>
-        <input 
-          type="range" 
-          min="25" 
-          max="200" 
+        <input
+          type="range"
+          min="25"
+          max="200"
           value={settings.viewDistance}
-          onChange={(e) => updateSetting('viewDistance', parseInt(e.target.value))}
+          onChange={(e) =>
+            updateSetting('viewDistance', parseInt(e.target.value))
+          }
         />
       </div>
     </div>
@@ -235,35 +237,39 @@ export const SettingsModuleV2: React.FC<SettingsModuleV2Props> = ({ platform }) 
   const renderAudioSettings = () => (
     <div className="settings-section">
       <h2>Audio Settings</h2>
-      
+
       <div className="setting-group">
         <label>Master Volume: {settings.masterVolume}%</label>
-        <input 
-          type="range" 
-          min="0" 
-          max="100" 
+        <input
+          type="range"
+          min="0"
+          max="100"
           value={settings.masterVolume}
-          onChange={(e) => updateSetting('masterVolume', parseInt(e.target.value))}
+          onChange={(e) =>
+            updateSetting('masterVolume', parseInt(e.target.value))
+          }
         />
       </div>
 
       <div className="setting-group">
         <label>Music Volume: {settings.musicVolume}%</label>
-        <input 
-          type="range" 
-          min="0" 
-          max="100" 
+        <input
+          type="range"
+          min="0"
+          max="100"
           value={settings.musicVolume}
-          onChange={(e) => updateSetting('musicVolume', parseInt(e.target.value))}
+          onChange={(e) =>
+            updateSetting('musicVolume', parseInt(e.target.value))
+          }
         />
       </div>
 
       <div className="setting-group">
         <label>SFX Volume: {settings.sfxVolume}%</label>
-        <input 
-          type="range" 
-          min="0" 
-          max="100" 
+        <input
+          type="range"
+          min="0"
+          max="100"
           value={settings.sfxVolume}
           onChange={(e) => updateSetting('sfxVolume', parseInt(e.target.value))}
         />
@@ -271,19 +277,21 @@ export const SettingsModuleV2: React.FC<SettingsModuleV2Props> = ({ platform }) 
 
       <div className="setting-group">
         <label>Voice Volume: {settings.voiceVolume}%</label>
-        <input 
-          type="range" 
-          min="0" 
-          max="100" 
+        <input
+          type="range"
+          min="0"
+          max="100"
           value={settings.voiceVolume}
-          onChange={(e) => updateSetting('voiceVolume', parseInt(e.target.value))}
+          onChange={(e) =>
+            updateSetting('voiceVolume', parseInt(e.target.value))
+          }
         />
       </div>
 
       <div className="setting-group checkbox">
         <label>
-          <input 
-            type="checkbox" 
+          <input
+            type="checkbox"
             checked={settings.spatialAudio}
             onChange={(e) => updateSetting('spatialAudio', e.target.checked)}
           />
@@ -296,22 +304,24 @@ export const SettingsModuleV2: React.FC<SettingsModuleV2Props> = ({ platform }) 
   const renderControlsSettings = () => (
     <div className="settings-section">
       <h2>Controls Settings</h2>
-      
+
       <div className="setting-group">
         <label>Mouse Sensitivity: {settings.mouseSensitivity}%</label>
-        <input 
-          type="range" 
-          min="0" 
-          max="100" 
+        <input
+          type="range"
+          min="0"
+          max="100"
           value={settings.mouseSensitivity}
-          onChange={(e) => updateSetting('mouseSensitivity', parseInt(e.target.value))}
+          onChange={(e) =>
+            updateSetting('mouseSensitivity', parseInt(e.target.value))
+          }
         />
       </div>
 
       <div className="setting-group checkbox">
         <label>
-          <input 
-            type="checkbox" 
+          <input
+            type="checkbox"
             checked={settings.invertY}
             onChange={(e) => updateSetting('invertY', e.target.checked)}
           />
@@ -323,11 +333,15 @@ export const SettingsModuleV2: React.FC<SettingsModuleV2Props> = ({ platform }) 
         <h3>Keybindings</h3>
         {Object.entries(settings.keybinds).map(([action, key]) => (
           <div key={action} className="keybind-row">
-            <span className="keybind-action">{action.charAt(0).toUpperCase() + action.slice(1)}</span>
+            <span className="keybind-action">
+              {action.charAt(0).toUpperCase() + action.slice(1)}
+            </span>
             <button className="keybind-button">{key}</button>
           </div>
         ))}
-        <p className="note">Click a button to rebind (TODO: implement rebind functionality)</p>
+        <p className="note">
+          Click a button to rebind (TODO: implement rebind functionality)
+        </p>
       </div>
     </div>
   );
@@ -335,10 +349,10 @@ export const SettingsModuleV2: React.FC<SettingsModuleV2Props> = ({ platform }) 
   const renderNetworkSettings = () => (
     <div className="settings-section">
       <h2>Network Settings</h2>
-      
+
       <div className="setting-group">
         <label>Preferred Region</label>
-        <select 
+        <select
           value={settings.region}
           onChange={(e) => updateSetting('region', e.target.value)}
         >
@@ -353,10 +367,10 @@ export const SettingsModuleV2: React.FC<SettingsModuleV2Props> = ({ platform }) 
 
       <div className="setting-group">
         <label>Max Ping: {settings.maxPing}ms</label>
-        <input 
-          type="range" 
-          min="50" 
-          max="200" 
+        <input
+          type="range"
+          min="50"
+          max="200"
           step="10"
           value={settings.maxPing}
           onChange={(e) => updateSetting('maxPing', parseInt(e.target.value))}
@@ -365,7 +379,7 @@ export const SettingsModuleV2: React.FC<SettingsModuleV2Props> = ({ platform }) 
 
       <div className="setting-group">
         <label>Bandwidth Limit</label>
-        <select 
+        <select
           value={settings.bandwidthLimit}
           onChange={(e) => updateSetting('bandwidthLimit', e.target.value)}
         >
@@ -381,10 +395,10 @@ export const SettingsModuleV2: React.FC<SettingsModuleV2Props> = ({ platform }) 
   const renderPrivacySettings = () => (
     <div className="settings-section">
       <h2>Privacy Settings</h2>
-      
+
       <div className="setting-group">
         <label>Profile Visibility</label>
-        <select 
+        <select
           value={settings.profileVisibility}
           onChange={(e) => updateSetting('profileVisibility', e.target.value)}
         >
@@ -396,10 +410,12 @@ export const SettingsModuleV2: React.FC<SettingsModuleV2Props> = ({ platform }) 
 
       <div className="setting-group checkbox">
         <label>
-          <input 
-            type="checkbox" 
+          <input
+            type="checkbox"
             checked={settings.showOnlineStatus}
-            onChange={(e) => updateSetting('showOnlineStatus', e.target.checked)}
+            onChange={(e) =>
+              updateSetting('showOnlineStatus', e.target.checked)
+            }
           />
           Show Online Status
         </label>
@@ -407,8 +423,8 @@ export const SettingsModuleV2: React.FC<SettingsModuleV2Props> = ({ platform }) 
 
       <div className="setting-group checkbox">
         <label>
-          <input 
-            type="checkbox" 
+          <input
+            type="checkbox"
             checked={settings.dataCollection}
             onChange={(e) => updateSetting('dataCollection', e.target.checked)}
           />
@@ -421,10 +437,10 @@ export const SettingsModuleV2: React.FC<SettingsModuleV2Props> = ({ platform }) 
   const renderAccessibilitySettings = () => (
     <div className="settings-section">
       <h2>Accessibility Settings</h2>
-      
+
       <div className="setting-group">
         <label>Colorblind Mode</label>
-        <select 
+        <select
           value={settings.colorblindMode}
           onChange={(e) => updateSetting('colorblindMode', e.target.value)}
         >
@@ -437,7 +453,7 @@ export const SettingsModuleV2: React.FC<SettingsModuleV2Props> = ({ platform }) 
 
       <div className="setting-group">
         <label>Font Size</label>
-        <select 
+        <select
           value={settings.fontSize}
           onChange={(e) => updateSetting('fontSize', e.target.value)}
         >
@@ -450,8 +466,8 @@ export const SettingsModuleV2: React.FC<SettingsModuleV2Props> = ({ platform }) 
 
       <div className="setting-group checkbox">
         <label>
-          <input 
-            type="checkbox" 
+          <input
+            type="checkbox"
             checked={settings.screenShake}
             onChange={(e) => updateSetting('screenShake', e.target.checked)}
           />
@@ -461,8 +477,8 @@ export const SettingsModuleV2: React.FC<SettingsModuleV2Props> = ({ platform }) 
 
       <div className="setting-group checkbox">
         <label>
-          <input 
-            type="checkbox" 
+          <input
+            type="checkbox"
             checked={settings.motionBlur}
             onChange={(e) => updateSetting('motionBlur', e.target.checked)}
           />
@@ -475,7 +491,7 @@ export const SettingsModuleV2: React.FC<SettingsModuleV2Props> = ({ platform }) 
   const renderAdvancedSettings = () => (
     <div className="settings-section">
       <h2>Advanced Settings</h2>
-      
+
       <div className="advanced-actions">
         <button className="advanced-btn">Clear Cache</button>
         <button className="advanced-btn">Run Diagnostics</button>
@@ -515,15 +531,24 @@ export const SettingsModuleV2: React.FC<SettingsModuleV2Props> = ({ platform }) 
 
   const renderContent = () => {
     switch (activeCategory) {
-      case 'general': return renderGeneralSettings();
-      case 'graphics': return renderGraphicsSettings();
-      case 'audio': return renderAudioSettings();
-      case 'controls': return renderControlsSettings();
-      case 'network': return renderNetworkSettings();
-      case 'privacy': return renderPrivacySettings();
-      case 'accessibility': return renderAccessibilitySettings();
-      case 'advanced': return renderAdvancedSettings();
-      default: return renderGeneralSettings();
+      case 'general':
+        return renderGeneralSettings();
+      case 'graphics':
+        return renderGraphicsSettings();
+      case 'audio':
+        return renderAudioSettings();
+      case 'controls':
+        return renderControlsSettings();
+      case 'network':
+        return renderNetworkSettings();
+      case 'privacy':
+        return renderPrivacySettings();
+      case 'accessibility':
+        return renderAccessibilitySettings();
+      case 'advanced':
+        return renderAdvancedSettings();
+      default:
+        return renderGeneralSettings();
     }
   };
 
@@ -556,7 +581,7 @@ export const SettingsModuleV2: React.FC<SettingsModuleV2Props> = ({ platform }) 
         {/* Main settings content */}
         <div className="settings-content">
           {renderContent()}
-          
+
           <div className="settings-actions">
             <button className="save-btn">Save Changes</button>
             <button className="cancel-btn">Cancel</button>

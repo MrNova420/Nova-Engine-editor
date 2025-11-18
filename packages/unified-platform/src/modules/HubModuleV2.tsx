@@ -60,7 +60,7 @@ export const HubModuleV2: React.FC<HubModuleV2Props> = ({ platform }) => {
     setLoading(true);
     try {
       const demoGames = getAllDemoGames();
-      
+
       // Map demo games to Hub format
       const gameList: Game[] = demoGames.map((demo) => ({
         id: demo.id,
@@ -105,7 +105,7 @@ export const HubModuleV2: React.FC<HubModuleV2Props> = ({ platform }) => {
 
   const handlePlayGame = (game: Game) => {
     if (game.isDemo && game.demoGame) {
-      platform.navigateTo(`/launcher?game=${game.id}`);
+      platform.switchMode('launcher');
     }
   };
 
@@ -235,7 +235,9 @@ export const HubModuleV2: React.FC<HubModuleV2Props> = ({ platform }) => {
                       <h3 className="game-card-title">{game.name}</h3>
                       <p className="game-card-dev">{game.developer}</p>
                       <div className="game-card-stats">
-                        <span className="rating">⭐ {game.rating.toFixed(1)}</span>
+                        <span className="rating">
+                          ⭐ {game.rating.toFixed(1)}
+                        </span>
                         <span className="downloads">
                           ⬇ {(game.downloads / 1000).toFixed(1)}K
                         </span>
@@ -273,7 +275,10 @@ export const HubModuleV2: React.FC<HubModuleV2Props> = ({ platform }) => {
 
       {/* Game Detail Modal */}
       {selectedGame && (
-        <div className="hub-v2-modal-overlay" onClick={() => setSelectedGame(null)}>
+        <div
+          className="hub-v2-modal-overlay"
+          onClick={() => setSelectedGame(null)}
+        >
           <div className="hub-v2-modal" onClick={(e) => e.stopPropagation()}>
             <button
               className="modal-close"
@@ -290,7 +295,9 @@ export const HubModuleV2: React.FC<HubModuleV2Props> = ({ platform }) => {
               <div className="modal-stats">
                 <span>⭐ {selectedGame.rating.toFixed(1)}</span>
                 <span>⬇ {selectedGame.downloads.toLocaleString()}</span>
-                <span>📅 {new Date(selectedGame.releaseDate).toLocaleDateString()}</span>
+                <span>
+                  📅 {new Date(selectedGame.releaseDate).toLocaleDateString()}
+                </span>
               </div>
               <p className="modal-description">{selectedGame.description}</p>
               <div className="modal-actions">
@@ -303,9 +310,7 @@ export const HubModuleV2: React.FC<HubModuleV2Props> = ({ platform }) => {
                 >
                   ▶ Play Now
                 </button>
-                <button className="btn-secondary">
-                  + Add to Library
-                </button>
+                <button className="btn-secondary">+ Add to Library</button>
               </div>
             </div>
           </div>

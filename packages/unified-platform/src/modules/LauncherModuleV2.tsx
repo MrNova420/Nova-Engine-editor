@@ -1,5 +1,10 @@
 import React, { useState } from 'react';
+import { UnifiedPlatformCore } from '../core/UnifiedPlatformCore';
 import './styles/LauncherModuleV2.css';
+
+interface LauncherModuleV2Props {
+  platform: UnifiedPlatformCore;
+}
 
 interface GameInstance {
   id: string;
@@ -18,7 +23,7 @@ interface PerformanceMetrics {
   vram: number;
 }
 
-export const LauncherModuleV2: React.FC = () => {
+export const LauncherModuleV2: React.FC<LauncherModuleV2Props> = () => {
   const [selectedGame, setSelectedGame] = useState<GameInstance | null>(null);
   const [isPlaying, setIsPlaying] = useState(false);
   const [showPerformance, setShowPerformance] = useState(false);

@@ -1,6 +1,6 @@
 /**
  * Social Module V2 - Complete Redesign with Image 2 Theme
- * 
+ *
  * Comprehensive social features with:
  * - User profiles with progression and stats
  * - Friends list and management
@@ -9,7 +9,7 @@
  * - Activity feed
  * - Groups/Communities
  * - Direct messaging
- * 
+ *
  * Theme: Purple/pink/blue space aesthetic from Image 2 mockup
  * NOVA branding throughout
  */
@@ -21,9 +21,9 @@ interface SocialModuleV2Props {
   platform?: any;
 }
 
-export const SocialModuleV2: React.FC<SocialModuleV2Props> = ({ platform }) => {
+export const SocialModuleV2: React.FC<SocialModuleV2Props> = () => {
   const [activeTab, setActiveTab] = useState('profile');
-  
+
   // Mock data - TODO: Replace with actual API calls
   const currentUser = {
     id: 1,
@@ -43,35 +43,172 @@ export const SocialModuleV2: React.FC<SocialModuleV2Props> = ({ platform }) => {
   };
 
   const friends = [
-    { id: 1, username: 'GameDev123', status: 'online', avatar: '🎮', playing: 'Space Adventure' },
-    { id: 2, username: 'ArtistPro', status: 'online', avatar: '🎨', playing: 'Creating in Editor' },
-    { id: 3, username: 'CodeWizard', status: 'away', avatar: '⚡', playing: null },
-    { id: 4, username: 'PixelMaster', status: 'offline', avatar: '🖼️', lastSeen: '2 hours ago' },
-    { id: 5, username: 'SoundDesigner', status: 'online', avatar: '🎵', playing: 'Testing Audio' },
+    {
+      id: 1,
+      username: 'GameDev123',
+      status: 'online',
+      avatar: '🎮',
+      playing: 'Space Adventure',
+    },
+    {
+      id: 2,
+      username: 'ArtistPro',
+      status: 'online',
+      avatar: '🎨',
+      playing: 'Creating in Editor',
+    },
+    {
+      id: 3,
+      username: 'CodeWizard',
+      status: 'away',
+      avatar: '⚡',
+      playing: null,
+    },
+    {
+      id: 4,
+      username: 'PixelMaster',
+      status: 'offline',
+      avatar: '🖼️',
+      lastSeen: '2 hours ago',
+    },
+    {
+      id: 5,
+      username: 'SoundDesigner',
+      status: 'online',
+      avatar: '🎵',
+      playing: 'Testing Audio',
+    },
   ];
 
   const achievements = [
-    { id: 1, name: 'First Steps', description: 'Create your first game', icon: '🎯', unlocked: true, rarity: 'common', date: '2023-02-01' },
-    { id: 2, name: 'Master Builder', description: 'Create 10 games', icon: '🏗️', unlocked: true, rarity: 'rare', date: '2023-06-15' },
-    { id: 3, name: 'Community Favorite', description: 'Get 1000 plays on a game', icon: '⭐', unlocked: true, rarity: 'epic', date: '2023-08-20' },
-    { id: 4, name: 'Perfectionist', description: 'Complete a game with no bugs', icon: '✨', unlocked: false, rarity: 'legendary', date: null },
-    { id: 5, name: 'Social Butterfly', description: 'Have 100 friends', icon: '🦋', unlocked: true, rarity: 'rare', date: '2023-09-10' },
-    { id: 6, name: 'Speed Demon', description: 'Create a game in under 1 hour', icon: '⚡', unlocked: false, rarity: 'epic', date: null },
+    {
+      id: 1,
+      name: 'First Steps',
+      description: 'Create your first game',
+      icon: '🎯',
+      unlocked: true,
+      rarity: 'common',
+      date: '2023-02-01',
+    },
+    {
+      id: 2,
+      name: 'Master Builder',
+      description: 'Create 10 games',
+      icon: '🏗️',
+      unlocked: true,
+      rarity: 'rare',
+      date: '2023-06-15',
+    },
+    {
+      id: 3,
+      name: 'Community Favorite',
+      description: 'Get 1000 plays on a game',
+      icon: '⭐',
+      unlocked: true,
+      rarity: 'epic',
+      date: '2023-08-20',
+    },
+    {
+      id: 4,
+      name: 'Perfectionist',
+      description: 'Complete a game with no bugs',
+      icon: '✨',
+      unlocked: false,
+      rarity: 'legendary',
+      date: null,
+    },
+    {
+      id: 5,
+      name: 'Social Butterfly',
+      description: 'Have 100 friends',
+      icon: '🦋',
+      unlocked: true,
+      rarity: 'rare',
+      date: '2023-09-10',
+    },
+    {
+      id: 6,
+      name: 'Speed Demon',
+      description: 'Create a game in under 1 hour',
+      icon: '⚡',
+      unlocked: false,
+      rarity: 'epic',
+      date: null,
+    },
   ];
 
   const leaderboard = [
-    { rank: 1, username: 'ProDev99', score: 99999, gamesCreated: 50, level: 99 },
-    { rank: 2, username: 'EliteBuilder', score: 87654, gamesCreated: 45, level: 85 },
-    { rank: 3, username: 'MegaCreator', score: 76543, gamesCreated: 40, level: 78 },
-    { rank: 4, username: 'NovaPlayer', score: 65432, gamesCreated: 35, level: 72, isCurrentUser: true },
-    { rank: 5, username: 'TopGamer', score: 54321, gamesCreated: 30, level: 65 },
+    {
+      rank: 1,
+      username: 'ProDev99',
+      score: 99999,
+      gamesCreated: 50,
+      level: 99,
+    },
+    {
+      rank: 2,
+      username: 'EliteBuilder',
+      score: 87654,
+      gamesCreated: 45,
+      level: 85,
+    },
+    {
+      rank: 3,
+      username: 'MegaCreator',
+      score: 76543,
+      gamesCreated: 40,
+      level: 78,
+    },
+    {
+      rank: 4,
+      username: 'NovaPlayer',
+      score: 65432,
+      gamesCreated: 35,
+      level: 72,
+      isCurrentUser: true,
+    },
+    {
+      rank: 5,
+      username: 'TopGamer',
+      score: 54321,
+      gamesCreated: 30,
+      level: 65,
+    },
   ];
 
   const activityFeed = [
-    { id: 1, user: 'GameDev123', action: 'published a new game', item: 'Space Quest 2', time: '5 minutes ago', icon: '🚀' },
-    { id: 2, user: 'ArtistPro', action: 'unlocked achievement', item: 'Master Builder', time: '15 minutes ago', icon: '🏆' },
-    { id: 3, user: 'CodeWizard', action: 'reached level', item: 'Level 50', time: '1 hour ago', icon: '⭐' },
-    { id: 4, user: 'PixelMaster', action: 'joined group', item: 'Indie Developers', time: '3 hours ago', icon: '👥' },
+    {
+      id: 1,
+      user: 'GameDev123',
+      action: 'published a new game',
+      item: 'Space Quest 2',
+      time: '5 minutes ago',
+      icon: '🚀',
+    },
+    {
+      id: 2,
+      user: 'ArtistPro',
+      action: 'unlocked achievement',
+      item: 'Master Builder',
+      time: '15 minutes ago',
+      icon: '🏆',
+    },
+    {
+      id: 3,
+      user: 'CodeWizard',
+      action: 'reached level',
+      item: 'Level 50',
+      time: '1 hour ago',
+      icon: '⭐',
+    },
+    {
+      id: 4,
+      user: 'PixelMaster',
+      action: 'joined group',
+      item: 'Indie Developers',
+      time: '3 hours ago',
+      icon: '👥',
+    },
   ];
 
   const renderProfile = () => (
@@ -102,12 +239,16 @@ export const SocialModuleV2: React.FC<SocialModuleV2Props> = ({ platform }) => {
       <div className="profile-progression">
         <div className="level-info">
           <span className="level-label">Level {currentUser.level}</span>
-          <span className="xp-label">{currentUser.xp} / {currentUser.xpToNext} XP</span>
+          <span className="xp-label">
+            {currentUser.xp} / {currentUser.xpToNext} XP
+          </span>
         </div>
         <div className="progress-bar">
-          <div 
-            className="progress-fill" 
-            style={{ width: `${(currentUser.xp / currentUser.xpToNext) * 100}%` }}
+          <div
+            className="progress-fill"
+            style={{
+              width: `${(currentUser.xp / currentUser.xpToNext) * 100}%`,
+            }}
           ></div>
         </div>
       </div>
@@ -115,16 +256,22 @@ export const SocialModuleV2: React.FC<SocialModuleV2Props> = ({ platform }) => {
       <div className="profile-achievements-preview">
         <h3>Recent Achievements</h3>
         <div className="achievements-grid">
-          {achievements.filter(a => a.unlocked).slice(0, 3).map(achievement => (
-            <div key={achievement.id} className={`achievement-card ${achievement.rarity}`}>
-              <div className="achievement-icon">{achievement.icon}</div>
-              <div className="achievement-info">
-                <h4>{achievement.name}</h4>
-                <p>{achievement.description}</p>
-                <span className="achievement-date">{achievement.date}</span>
+          {achievements
+            .filter((a) => a.unlocked)
+            .slice(0, 3)
+            .map((achievement) => (
+              <div
+                key={achievement.id}
+                className={`achievement-card ${achievement.rarity}`}
+              >
+                <div className="achievement-icon">{achievement.icon}</div>
+                <div className="achievement-info">
+                  <h4>{achievement.name}</h4>
+                  <p>{achievement.description}</p>
+                  <span className="achievement-date">{achievement.date}</span>
+                </div>
               </div>
-            </div>
-          ))}
+            ))}
         </div>
       </div>
     </div>
@@ -138,7 +285,7 @@ export const SocialModuleV2: React.FC<SocialModuleV2Props> = ({ platform }) => {
       </div>
 
       <div className="friends-list">
-        {friends.map(friend => (
+        {friends.map((friend) => (
           <div key={friend.id} className="friend-card">
             <div className="friend-avatar">{friend.avatar}</div>
             <div className="friend-info">
@@ -171,14 +318,15 @@ export const SocialModuleV2: React.FC<SocialModuleV2Props> = ({ platform }) => {
       <div className="achievements-header">
         <h2>Achievements</h2>
         <p className="achievements-progress">
-          {currentUser.achievementsUnlocked} / {currentUser.totalAchievements} Unlocked
+          {currentUser.achievementsUnlocked} / {currentUser.totalAchievements}{' '}
+          Unlocked
         </p>
       </div>
 
       <div className="achievements-grid-full">
-        {achievements.map(achievement => (
-          <div 
-            key={achievement.id} 
+        {achievements.map((achievement) => (
+          <div
+            key={achievement.id}
             className={`achievement-card-full ${achievement.rarity} ${achievement.unlocked ? 'unlocked' : 'locked'}`}
           >
             <div className="achievement-icon-large">{achievement.icon}</div>
@@ -186,9 +334,13 @@ export const SocialModuleV2: React.FC<SocialModuleV2Props> = ({ platform }) => {
               <h3>{achievement.name}</h3>
               <p>{achievement.description}</p>
               <div className="achievement-meta">
-                <span className={`rarity-badge ${achievement.rarity}`}>{achievement.rarity}</span>
+                <span className={`rarity-badge ${achievement.rarity}`}>
+                  {achievement.rarity}
+                </span>
                 {achievement.unlocked && achievement.date && (
-                  <span className="unlock-date">Unlocked: {achievement.date}</span>
+                  <span className="unlock-date">
+                    Unlocked: {achievement.date}
+                  </span>
                 )}
                 {!achievement.unlocked && (
                   <span className="locked-text">🔒 Locked</span>
@@ -220,9 +372,9 @@ export const SocialModuleV2: React.FC<SocialModuleV2Props> = ({ platform }) => {
           <span>Games</span>
           <span>Level</span>
         </div>
-        {leaderboard.map(entry => (
-          <div 
-            key={entry.rank} 
+        {leaderboard.map((entry) => (
+          <div
+            key={entry.rank}
             className={`leaderboard-row ${entry.isCurrentUser ? 'current-user' : ''}`}
           >
             <span className="rank">#{entry.rank}</span>
@@ -240,7 +392,7 @@ export const SocialModuleV2: React.FC<SocialModuleV2Props> = ({ platform }) => {
     <div className="activity-section">
       <h2>Activity Feed</h2>
       <div className="activity-feed">
-        {activityFeed.map(activity => (
+        {activityFeed.map((activity) => (
           <div key={activity.id} className="activity-item">
             <div className="activity-icon">{activity.icon}</div>
             <div className="activity-content">
@@ -258,12 +410,18 @@ export const SocialModuleV2: React.FC<SocialModuleV2Props> = ({ platform }) => {
 
   const renderContent = () => {
     switch (activeTab) {
-      case 'profile': return renderProfile();
-      case 'friends': return renderFriends();
-      case 'achievements': return renderAchievements();
-      case 'leaderboard': return renderLeaderboard();
-      case 'activity': return renderActivity();
-      default: return renderProfile();
+      case 'profile':
+        return renderProfile();
+      case 'friends':
+        return renderFriends();
+      case 'achievements':
+        return renderAchievements();
+      case 'leaderboard':
+        return renderLeaderboard();
+      case 'activity':
+        return renderActivity();
+      default:
+        return renderProfile();
     }
   };
 
@@ -286,7 +444,7 @@ export const SocialModuleV2: React.FC<SocialModuleV2Props> = ({ platform }) => {
           { id: 'achievements', label: 'Achievements', icon: '🏆' },
           { id: 'leaderboard', label: 'Leaderboard', icon: '📊' },
           { id: 'activity', label: 'Activity', icon: '📰' },
-        ].map(tab => (
+        ].map((tab) => (
           <button
             key={tab.id}
             className={`social-tab-btn ${activeTab === tab.id ? 'active' : ''}`}
@@ -299,9 +457,7 @@ export const SocialModuleV2: React.FC<SocialModuleV2Props> = ({ platform }) => {
       </div>
 
       {/* Main content */}
-      <div className="social-content">
-        {renderContent()}
-      </div>
+      <div className="social-content">{renderContent()}</div>
     </div>
   );
 };

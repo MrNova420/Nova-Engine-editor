@@ -2,7 +2,7 @@
  * NOVA ENGINE - EDITOR V2
  * Complete redesign matching Image 2 mockup
  * Production-grade Unity/Unreal-inspired editor with Image 2 theme
- * 
+ *
  * Features:
  * - Professional menu bar and toolbar
  * - Multi-panel layout (Scene, Hierarchy, Inspector, Assets, Console)
@@ -47,9 +47,9 @@ interface ConsoleLog {
   timestamp: Date;
 }
 
-export const EditorModuleV2: React.FC<EditorModuleV2Props> = ({ platform }) => {
+export const EditorModuleV2: React.FC<EditorModuleV2Props> = () => {
   // Editor state
-  const [currentProject, setCurrentProject] = useState<string>('Untitled Project');
+  const [currentProject] = useState<string>('Untitled Project');
   const [entities, setEntities] = useState<Entity[]>([
     {
       id: '1',
@@ -57,7 +57,11 @@ export const EditorModuleV2: React.FC<EditorModuleV2Props> = ({ platform }) => {
       type: 'Camera',
       components: ['Transform', 'Camera'],
       children: [],
-      transform: { position: { x: 0, y: 5, z: -10 }, rotation: { x: 0, y: 0, z: 0 }, scale: { x: 1, y: 1, z: 1 } }
+      transform: {
+        position: { x: 0, y: 5, z: -10 },
+        rotation: { x: 0, y: 0, z: 0 },
+        scale: { x: 1, y: 1, z: 1 },
+      },
     },
     {
       id: '2',
@@ -65,17 +69,27 @@ export const EditorModuleV2: React.FC<EditorModuleV2Props> = ({ platform }) => {
       type: 'Light',
       components: ['Transform', 'Light'],
       children: [],
-      transform: { position: { x: 0, y: 10, z: 0 }, rotation: { x: 50, y: -30, z: 0 }, scale: { x: 1, y: 1, z: 1 } }
-    }
+      transform: {
+        position: { x: 0, y: 10, z: 0 },
+        rotation: { x: 50, y: -30, z: 0 },
+        scale: { x: 1, y: 1, z: 1 },
+      },
+    },
   ]);
   const [selectedEntity, setSelectedEntity] = useState<Entity | null>(null);
   const [assets, setAssets] = useState<Asset[]>([]);
   const [consoleLogs, setConsoleLogs] = useState<ConsoleLog[]>([
-    { type: 'info', message: 'Editor initialized successfully', timestamp: new Date() }
+    {
+      type: 'info',
+      message: 'Editor initialized successfully',
+      timestamp: new Date(),
+    },
   ]);
 
   // Tool state
-  const [currentTool, setCurrentTool] = useState<'select' | 'translate' | 'rotate' | 'scale'>('select');
+  const [currentTool, setCurrentTool] = useState<
+    'select' | 'translate' | 'rotate' | 'scale'
+  >('select');
   const [isPlaying, setIsPlaying] = useState(false);
   const [isPaused, setIsPaused] = useState(false);
 
@@ -99,29 +113,70 @@ export const EditorModuleV2: React.FC<EditorModuleV2Props> = ({ platform }) => {
 
   const loadDemoAssets = () => {
     const demoAssets: Asset[] = [
-      { id: 'a1', name: 'Player Character', type: 'model', path: '/assets/models/player.fbx' },
-      { id: 'a2', name: 'Ground Texture', type: 'texture', path: '/assets/textures/ground.png' },
-      { id: 'a3', name: 'Metal Material', type: 'material', path: '/assets/materials/metal.mat' },
-      { id: 'a4', name: 'Player Controller', type: 'script', path: '/assets/scripts/PlayerController.ts' },
-      { id: 'a5', name: 'Background Music', type: 'audio', path: '/assets/audio/bgm.mp3' },
-      { id: 'a6', name: 'Enemy Prefab', type: 'prefab', path: '/assets/prefabs/enemy.prefab' },
+      {
+        id: 'a1',
+        name: 'Player Character',
+        type: 'model',
+        path: '/assets/models/player.fbx',
+      },
+      {
+        id: 'a2',
+        name: 'Ground Texture',
+        type: 'texture',
+        path: '/assets/textures/ground.png',
+      },
+      {
+        id: 'a3',
+        name: 'Metal Material',
+        type: 'material',
+        path: '/assets/materials/metal.mat',
+      },
+      {
+        id: 'a4',
+        name: 'Player Controller',
+        type: 'script',
+        path: '/assets/scripts/PlayerController.ts',
+      },
+      {
+        id: 'a5',
+        name: 'Background Music',
+        type: 'audio',
+        path: '/assets/audio/bgm.mp3',
+      },
+      {
+        id: 'a6',
+        name: 'Enemy Prefab',
+        type: 'prefab',
+        path: '/assets/prefabs/enemy.prefab',
+      },
     ];
     setAssets(demoAssets);
   };
 
   const initializeCanvas = () => {
     // TODO: Initialize WebGL/Three.js rendering context
-    addLog('info', 'Canvas initialized - TODO: Connect to Nova Engine renderer');
+    addLog(
+      'info',
+      'Canvas initialized - TODO: Connect to Nova Engine renderer'
+    );
   };
 
   const addLog = (type: ConsoleLog['type'], message: string) => {
-    setConsoleLogs(prev => [...prev, { type, message, timestamp: new Date() }]);
+    setConsoleLogs((prev) => [
+      ...prev,
+      { type, message, timestamp: new Date() },
+    ]);
   };
 
   const handlePlay = () => {
     setIsPlaying(!isPlaying);
     setIsPaused(false);
-    addLog('info', isPlaying ? 'Stopped playback' : 'Started playback - TODO: Connect to game runtime');
+    addLog(
+      'info',
+      isPlaying
+        ? 'Stopped playback'
+        : 'Started playback - TODO: Connect to game runtime'
+    );
   };
 
   const handlePause = () => {
@@ -138,14 +193,21 @@ export const EditorModuleV2: React.FC<EditorModuleV2Props> = ({ platform }) => {
       type: type,
       components: ['Transform'],
       children: [],
-      transform: { position: { x: 0, y: 0, z: 0 }, rotation: { x: 0, y: 0, z: 0 }, scale: { x: 1, y: 1, z: 1 } }
+      transform: {
+        position: { x: 0, y: 0, z: 0 },
+        rotation: { x: 0, y: 0, z: 0 },
+        scale: { x: 1, y: 1, z: 1 },
+      },
     };
     setEntities([...entities, newEntity]);
-    addLog('info', `Added ${type} to scene - TODO: Create actual entity in engine`);
+    addLog(
+      'info',
+      `Added ${type} to scene - TODO: Create actual entity in engine`
+    );
   };
 
   const handleDeleteEntity = (entityId: string) => {
-    setEntities(entities.filter(e => e.id !== entityId));
+    setEntities(entities.filter((e) => e.id !== entityId));
     if (selectedEntity?.id === entityId) {
       setSelectedEntity(null);
     }
@@ -171,35 +233,40 @@ export const EditorModuleV2: React.FC<EditorModuleV2Props> = ({ platform }) => {
         </div>
         <div className="editor-v2-actions">
           <button className="action-btn">Save</button>
-          <button className="action-btn" onClick={() => setShowBuildSettings(true)}>Build</button>
+          <button
+            className="action-btn"
+            onClick={() => setShowBuildSettings(true)}
+          >
+            Build
+          </button>
         </div>
       </div>
 
       {/* Toolbar */}
       <div className="editor-v2-toolbar">
         <div className="toolbar-section">
-          <button 
+          <button
             className={`tool-btn ${currentTool === 'select' ? 'active' : ''}`}
             onClick={() => setCurrentTool('select')}
             title="Select (Q)"
           >
             <span className="icon">⬜</span>
           </button>
-          <button 
+          <button
             className={`tool-btn ${currentTool === 'translate' ? 'active' : ''}`}
             onClick={() => setCurrentTool('translate')}
             title="Translate (W)"
           >
             <span className="icon">✢</span>
           </button>
-          <button 
+          <button
             className={`tool-btn ${currentTool === 'rotate' ? 'active' : ''}`}
             onClick={() => setCurrentTool('rotate')}
             title="Rotate (E)"
           >
             <span className="icon">↻</span>
           </button>
-          <button 
+          <button
             className={`tool-btn ${currentTool === 'scale' ? 'active' : ''}`}
             onClick={() => setCurrentTool('scale')}
             title="Scale (R)"
@@ -208,14 +275,14 @@ export const EditorModuleV2: React.FC<EditorModuleV2Props> = ({ platform }) => {
           </button>
         </div>
         <div className="toolbar-section toolbar-center">
-          <button 
+          <button
             className={`play-btn ${isPlaying ? 'active' : ''}`}
             onClick={handlePlay}
             title="Play (Ctrl+P)"
           >
             {isPlaying ? '⏹' : '▶'}
           </button>
-          <button 
+          <button
             className={`pause-btn ${isPaused ? 'active' : ''}`}
             onClick={handlePause}
             disabled={!isPlaying}
@@ -223,15 +290,44 @@ export const EditorModuleV2: React.FC<EditorModuleV2Props> = ({ platform }) => {
           >
             ⏸
           </button>
-          <button className="step-btn" disabled={!isPaused} title="Step">⏭</button>
+          <button className="step-btn" disabled={!isPaused} title="Step">
+            ⏭
+          </button>
         </div>
         <div className="toolbar-section">
-          <button className="tool-btn" onClick={() => setShowAnimationPanel(true)}>🎬 Animation</button>
-          <button className="tool-btn" onClick={() => setShowLightingPanel(true)}>💡 Lighting</button>
-          <button className="tool-btn" onClick={() => setShowPhysicsPanel(true)}>⚛️ Physics</button>
-          <button className="tool-btn" onClick={() => setShowParticlePanel(true)}>✨ Particles</button>
-          <button className="tool-btn" onClick={() => setShowShaderPanel(true)}>🎨 Shaders</button>
-          <button className="tool-btn" onClick={() => setShowProfilerPanel(true)}>📊 Profiler</button>
+          <button
+            className="tool-btn"
+            onClick={() => setShowAnimationPanel(true)}
+          >
+            🎬 Animation
+          </button>
+          <button
+            className="tool-btn"
+            onClick={() => setShowLightingPanel(true)}
+          >
+            💡 Lighting
+          </button>
+          <button
+            className="tool-btn"
+            onClick={() => setShowPhysicsPanel(true)}
+          >
+            ⚛️ Physics
+          </button>
+          <button
+            className="tool-btn"
+            onClick={() => setShowParticlePanel(true)}
+          >
+            ✨ Particles
+          </button>
+          <button className="tool-btn" onClick={() => setShowShaderPanel(true)}>
+            🎨 Shaders
+          </button>
+          <button
+            className="tool-btn"
+            onClick={() => setShowProfilerPanel(true)}
+          >
+            📊 Profiler
+          </button>
         </div>
       </div>
 
@@ -242,22 +338,31 @@ export const EditorModuleV2: React.FC<EditorModuleV2Props> = ({ platform }) => {
           <div className="panel-header">
             <h3>Hierarchy</h3>
             <div className="panel-actions">
-              <button className="icon-btn" onClick={() => handleAddEntity('GameObject')}>+</button>
+              <button
+                className="icon-btn"
+                onClick={() => handleAddEntity('GameObject')}
+              >
+                +
+              </button>
             </div>
           </div>
           <div className="panel-content hierarchy-content">
             <div className="hierarchy-tree">
-              {entities.map(entity => (
-                <div 
-                  key={entity.id} 
+              {entities.map((entity) => (
+                <div
+                  key={entity.id}
                   className={`hierarchy-item ${selectedEntity?.id === entity.id ? 'selected' : ''}`}
                   onClick={() => setSelectedEntity(entity)}
                 >
                   <span className="entity-icon">
-                    {entity.type === 'Camera' ? '📷' : entity.type === 'Light' ? '💡' : '📦'}
+                    {entity.type === 'Camera'
+                      ? '📷'
+                      : entity.type === 'Light'
+                        ? '💡'
+                        : '📦'}
                   </span>
                   <span className="entity-name">{entity.name}</span>
-                  <button 
+                  <button
                     className="entity-delete"
                     onClick={(e) => {
                       e.stopPropagation();
@@ -270,10 +375,30 @@ export const EditorModuleV2: React.FC<EditorModuleV2Props> = ({ platform }) => {
               ))}
             </div>
             <div className="hierarchy-actions">
-              <button className="add-entity-btn" onClick={() => handleAddEntity('Cube')}>+ Cube</button>
-              <button className="add-entity-btn" onClick={() => handleAddEntity('Sphere')}>+ Sphere</button>
-              <button className="add-entity-btn" onClick={() => handleAddEntity('Light')}>+ Light</button>
-              <button className="add-entity-btn" onClick={() => handleAddEntity('Camera')}>+ Camera</button>
+              <button
+                className="add-entity-btn"
+                onClick={() => handleAddEntity('Cube')}
+              >
+                + Cube
+              </button>
+              <button
+                className="add-entity-btn"
+                onClick={() => handleAddEntity('Sphere')}
+              >
+                + Sphere
+              </button>
+              <button
+                className="add-entity-btn"
+                onClick={() => handleAddEntity('Light')}
+              >
+                + Light
+              </button>
+              <button
+                className="add-entity-btn"
+                onClick={() => handleAddEntity('Camera')}
+              >
+                + Camera
+              </button>
             </div>
           </div>
         </aside>
@@ -282,13 +407,13 @@ export const EditorModuleV2: React.FC<EditorModuleV2Props> = ({ platform }) => {
         <div className="editor-v2-center">
           <div className="panel-header">
             <div className="panel-tabs">
-              <button 
+              <button
                 className={`tab-btn ${activePanel === 'scene' ? 'active' : ''}`}
                 onClick={() => setActivePanel('scene')}
               >
                 Scene
               </button>
-              <button 
+              <button
                 className={`tab-btn ${activePanel === 'game' ? 'active' : ''}`}
                 onClick={() => setActivePanel('game')}
               >
@@ -315,7 +440,9 @@ export const EditorModuleV2: React.FC<EditorModuleV2Props> = ({ platform }) => {
             <div className="scene-placeholder">
               <div className="placeholder-planet"></div>
               <p className="placeholder-text">Scene View</p>
-              <p className="placeholder-note">TODO: Connect to Nova Engine renderer</p>
+              <p className="placeholder-note">
+                TODO: Connect to Nova Engine renderer
+              </p>
             </div>
           </div>
 
@@ -323,22 +450,38 @@ export const EditorModuleV2: React.FC<EditorModuleV2Props> = ({ platform }) => {
           <div className="editor-v2-bottom-panel">
             <div className="panel-header">
               <div className="panel-tabs">
-                <button className={`tab-btn ${activePanel === 'assets' ? 'active' : ''}`} onClick={() => setActivePanel('assets')}>Assets</button>
-                <button className={`tab-btn ${activePanel === 'console' ? 'active' : ''}`} onClick={() => setActivePanel('console')}>Console</button>
+                <button
+                  className={`tab-btn ${activePanel === 'assets' ? 'active' : ''}`}
+                  onClick={() => setActivePanel('assets')}
+                >
+                  Assets
+                </button>
+                <button
+                  className={`tab-btn ${activePanel === 'console' ? 'active' : ''}`}
+                  onClick={() => setActivePanel('console')}
+                >
+                  Console
+                </button>
               </div>
               <div className="panel-actions">
-                <button className="icon-btn" onClick={() => setConsoleLogs([])}>Clear</button>
+                <button className="icon-btn" onClick={() => setConsoleLogs([])}>
+                  Clear
+                </button>
               </div>
             </div>
             <div className="panel-content bottom-content">
               {activePanel === 'assets' && (
                 <div className="assets-browser">
                   <div className="assets-toolbar">
-                    <input type="text" className="assets-search" placeholder="Search assets..." />
+                    <input
+                      type="text"
+                      className="assets-search"
+                      placeholder="Search assets..."
+                    />
                     <button className="assets-filter-btn">All Types ▼</button>
                   </div>
                   <div className="assets-grid">
-                    {assets.map(asset => (
+                    {assets.map((asset) => (
                       <div key={asset.id} className="asset-item">
                         <div className="asset-thumbnail">
                           {asset.type === 'model' && '📦'}
@@ -357,13 +500,18 @@ export const EditorModuleV2: React.FC<EditorModuleV2Props> = ({ platform }) => {
               {activePanel === 'console' && (
                 <div className="console-panel">
                   {consoleLogs.map((log, index) => (
-                    <div key={index} className={`console-log console-${log.type}`}>
+                    <div
+                      key={index}
+                      className={`console-log console-${log.type}`}
+                    >
                       <span className="log-icon">
                         {log.type === 'info' && 'ℹ️'}
                         {log.type === 'warning' && '⚠️'}
                         {log.type === 'error' && '❌'}
                       </span>
-                      <span className="log-time">{log.timestamp.toLocaleTimeString()}</span>
+                      <span className="log-time">
+                        {log.timestamp.toLocaleTimeString()}
+                      </span>
                       <span className="log-message">{log.message}</span>
                     </div>
                   ))}
@@ -382,14 +530,21 @@ export const EditorModuleV2: React.FC<EditorModuleV2Props> = ({ platform }) => {
             {selectedEntity ? (
               <>
                 <div className="inspector-section">
-                  <input 
-                    type="text" 
+                  <input
+                    type="text"
                     className="entity-name-input"
                     value={selectedEntity.name}
                     onChange={(e) => {
-                      const updated = { ...selectedEntity, name: e.target.value };
+                      const updated = {
+                        ...selectedEntity,
+                        name: e.target.value,
+                      };
                       setSelectedEntity(updated);
-                      setEntities(entities.map(ent => ent.id === updated.id ? updated : ent));
+                      setEntities(
+                        entities.map((ent) =>
+                          ent.id === updated.id ? updated : ent
+                        )
+                      );
                     }}
                   />
                   <div className="entity-type">{selectedEntity.type}</div>
@@ -401,28 +556,66 @@ export const EditorModuleV2: React.FC<EditorModuleV2Props> = ({ platform }) => {
                     <div className="transform-field">
                       <label>Position</label>
                       <div className="vector3-input">
-                        <input type="number" value={selectedEntity.transform.position.x} readOnly />
-                        <input type="number" value={selectedEntity.transform.position.y} readOnly />
-                        <input type="number" value={selectedEntity.transform.position.z} readOnly />
+                        <input
+                          type="number"
+                          value={selectedEntity.transform.position.x}
+                          readOnly
+                        />
+                        <input
+                          type="number"
+                          value={selectedEntity.transform.position.y}
+                          readOnly
+                        />
+                        <input
+                          type="number"
+                          value={selectedEntity.transform.position.z}
+                          readOnly
+                        />
                       </div>
                     </div>
                     <div className="transform-field">
                       <label>Rotation</label>
                       <div className="vector3-input">
-                        <input type="number" value={selectedEntity.transform.rotation.x} readOnly />
-                        <input type="number" value={selectedEntity.transform.rotation.y} readOnly />
-                        <input type="number" value={selectedEntity.transform.rotation.z} readOnly />
+                        <input
+                          type="number"
+                          value={selectedEntity.transform.rotation.x}
+                          readOnly
+                        />
+                        <input
+                          type="number"
+                          value={selectedEntity.transform.rotation.y}
+                          readOnly
+                        />
+                        <input
+                          type="number"
+                          value={selectedEntity.transform.rotation.z}
+                          readOnly
+                        />
                       </div>
                     </div>
                     <div className="transform-field">
                       <label>Scale</label>
                       <div className="vector3-input">
-                        <input type="number" value={selectedEntity.transform.scale.x} readOnly />
-                        <input type="number" value={selectedEntity.transform.scale.y} readOnly />
-                        <input type="number" value={selectedEntity.transform.scale.z} readOnly />
+                        <input
+                          type="number"
+                          value={selectedEntity.transform.scale.x}
+                          readOnly
+                        />
+                        <input
+                          type="number"
+                          value={selectedEntity.transform.scale.y}
+                          readOnly
+                        />
+                        <input
+                          type="number"
+                          value={selectedEntity.transform.scale.z}
+                          readOnly
+                        />
                       </div>
                     </div>
-                    <p className="todo-note">TODO: Make transform editable and sync with engine</p>
+                    <p className="todo-note">
+                      TODO: Make transform editable and sync with engine
+                    </p>
                   </div>
                 )}
 
@@ -435,7 +628,9 @@ export const EditorModuleV2: React.FC<EditorModuleV2Props> = ({ platform }) => {
                     </div>
                   ))}
                   <button className="add-component-btn">+ Add Component</button>
-                  <p className="todo-note">TODO: Implement component adding/removing</p>
+                  <p className="todo-note">
+                    TODO: Implement component adding/removing
+                  </p>
                 </div>
               </>
             ) : (
@@ -449,11 +644,22 @@ export const EditorModuleV2: React.FC<EditorModuleV2Props> = ({ platform }) => {
 
       {/* Advanced Panels (Modals) */}
       {showAnimationPanel && (
-        <div className="editor-modal" onClick={() => setShowAnimationPanel(false)}>
-          <div className="modal-content animation-panel" onClick={e => e.stopPropagation()}>
+        <div
+          className="editor-modal"
+          onClick={() => setShowAnimationPanel(false)}
+        >
+          <div
+            className="modal-content animation-panel"
+            onClick={(e) => e.stopPropagation()}
+          >
             <div className="modal-header">
               <h3>🎬 Animation Timeline</h3>
-              <button className="modal-close" onClick={() => setShowAnimationPanel(false)}>✕</button>
+              <button
+                className="modal-close"
+                onClick={() => setShowAnimationPanel(false)}
+              >
+                ✕
+              </button>
             </div>
             <div className="modal-body">
               <div className="timeline-view">
@@ -464,18 +670,31 @@ export const EditorModuleV2: React.FC<EditorModuleV2Props> = ({ platform }) => {
                 </div>
                 <div className="timeline-grid"></div>
               </div>
-              <p className="todo-note">TODO: Implement animation timeline with keyframes and curves</p>
+              <p className="todo-note">
+                TODO: Implement animation timeline with keyframes and curves
+              </p>
             </div>
           </div>
         </div>
       )}
 
       {showLightingPanel && (
-        <div className="editor-modal" onClick={() => setShowLightingPanel(false)}>
-          <div className="modal-content lighting-panel" onClick={e => e.stopPropagation()}>
+        <div
+          className="editor-modal"
+          onClick={() => setShowLightingPanel(false)}
+        >
+          <div
+            className="modal-content lighting-panel"
+            onClick={(e) => e.stopPropagation()}
+          >
             <div className="modal-header">
               <h3>💡 Lighting Settings</h3>
-              <button className="modal-close" onClick={() => setShowLightingPanel(false)}>✕</button>
+              <button
+                className="modal-close"
+                onClick={() => setShowLightingPanel(false)}
+              >
+                ✕
+              </button>
             </div>
             <div className="modal-body">
               <div className="lighting-controls">
@@ -485,25 +704,40 @@ export const EditorModuleV2: React.FC<EditorModuleV2Props> = ({ platform }) => {
                 </div>
                 <div className="control-group">
                   <label>Skybox</label>
-                  <select><option>Default</option></select>
+                  <select>
+                    <option>Default</option>
+                  </select>
                 </div>
                 <div className="control-group">
                   <label>Global Illumination</label>
                   <input type="checkbox" />
                 </div>
               </div>
-              <p className="todo-note">TODO: Connect lighting settings to renderer</p>
+              <p className="todo-note">
+                TODO: Connect lighting settings to renderer
+              </p>
             </div>
           </div>
         </div>
       )}
 
       {showPhysicsPanel && (
-        <div className="editor-modal" onClick={() => setShowPhysicsPanel(false)}>
-          <div className="modal-content physics-panel" onClick={e => e.stopPropagation()}>
+        <div
+          className="editor-modal"
+          onClick={() => setShowPhysicsPanel(false)}
+        >
+          <div
+            className="modal-content physics-panel"
+            onClick={(e) => e.stopPropagation()}
+          >
             <div className="modal-header">
               <h3>⚛️ Physics Settings</h3>
-              <button className="modal-close" onClick={() => setShowPhysicsPanel(false)}>✕</button>
+              <button
+                className="modal-close"
+                onClick={() => setShowPhysicsPanel(false)}
+              >
+                ✕
+              </button>
             </div>
             <div className="modal-body">
               <div className="physics-controls">
@@ -523,11 +757,22 @@ export const EditorModuleV2: React.FC<EditorModuleV2Props> = ({ platform }) => {
       )}
 
       {showParticlePanel && (
-        <div className="editor-modal" onClick={() => setShowParticlePanel(false)}>
-          <div className="modal-content particle-panel" onClick={e => e.stopPropagation()}>
+        <div
+          className="editor-modal"
+          onClick={() => setShowParticlePanel(false)}
+        >
+          <div
+            className="modal-content particle-panel"
+            onClick={(e) => e.stopPropagation()}
+          >
             <div className="modal-header">
               <h3>✨ Particle System</h3>
-              <button className="modal-close" onClick={() => setShowParticlePanel(false)}>✕</button>
+              <button
+                className="modal-close"
+                onClick={() => setShowParticlePanel(false)}
+              >
+                ✕
+              </button>
             </div>
             <div className="modal-body">
               <div className="particle-preview"></div>
@@ -539,25 +784,46 @@ export const EditorModuleV2: React.FC<EditorModuleV2Props> = ({ platform }) => {
 
       {showShaderPanel && (
         <div className="editor-modal" onClick={() => setShowShaderPanel(false)}>
-          <div className="modal-content shader-panel" onClick={e => e.stopPropagation()}>
+          <div
+            className="modal-content shader-panel"
+            onClick={(e) => e.stopPropagation()}
+          >
             <div className="modal-header">
               <h3>🎨 Shader Graph</h3>
-              <button className="modal-close" onClick={() => setShowShaderPanel(false)}>✕</button>
+              <button
+                className="modal-close"
+                onClick={() => setShowShaderPanel(false)}
+              >
+                ✕
+              </button>
             </div>
             <div className="modal-body">
               <div className="shader-graph"></div>
-              <p className="todo-note">TODO: Create node-based shader graph editor</p>
+              <p className="todo-note">
+                TODO: Create node-based shader graph editor
+              </p>
             </div>
           </div>
         </div>
       )}
 
       {showProfilerPanel && (
-        <div className="editor-modal" onClick={() => setShowProfilerPanel(false)}>
-          <div className="modal-content profiler-panel" onClick={e => e.stopPropagation()}>
+        <div
+          className="editor-modal"
+          onClick={() => setShowProfilerPanel(false)}
+        >
+          <div
+            className="modal-content profiler-panel"
+            onClick={(e) => e.stopPropagation()}
+          >
             <div className="modal-header">
               <h3>📊 Profiler</h3>
-              <button className="modal-close" onClick={() => setShowProfilerPanel(false)}>✕</button>
+              <button
+                className="modal-close"
+                onClick={() => setShowProfilerPanel(false)}
+              >
+                ✕
+              </button>
             </div>
             <div className="modal-body">
               <div className="profiler-stats">
@@ -565,18 +831,31 @@ export const EditorModuleV2: React.FC<EditorModuleV2Props> = ({ platform }) => {
                 <div className="stat">CPU: 12ms</div>
                 <div className="stat">GPU: 8ms</div>
               </div>
-              <p className="todo-note">TODO: Implement real-time performance profiling</p>
+              <p className="todo-note">
+                TODO: Implement real-time performance profiling
+              </p>
             </div>
           </div>
         </div>
       )}
 
       {showBuildSettings && (
-        <div className="editor-modal" onClick={() => setShowBuildSettings(false)}>
-          <div className="modal-content build-panel" onClick={e => e.stopPropagation()}>
+        <div
+          className="editor-modal"
+          onClick={() => setShowBuildSettings(false)}
+        >
+          <div
+            className="modal-content build-panel"
+            onClick={(e) => e.stopPropagation()}
+          >
             <div className="modal-header">
               <h3>🔨 Build Settings</h3>
-              <button className="modal-close" onClick={() => setShowBuildSettings(false)}>✕</button>
+              <button
+                className="modal-close"
+                onClick={() => setShowBuildSettings(false)}
+              >
+                ✕
+              </button>
             </div>
             <div className="modal-body">
               <div className="build-platforms">

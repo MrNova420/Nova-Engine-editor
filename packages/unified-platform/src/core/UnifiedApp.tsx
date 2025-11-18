@@ -197,9 +197,10 @@ const UnifiedAppContent: React.FC<{ platform: UnifiedPlatformCore }> = ({
         {/* Side Navigation - Always visible when logged in */}
         {isLoggedIn && (
           <UnifiedNavigation
-            platform={platform}
             currentMode={currentMode}
             onModeChange={(mode) => platform.switchMode(mode as PlatformMode)}
+            isLoggedIn={isLoggedIn}
+            currentUser={currentUser}
           />
         )}
 
@@ -227,17 +228,32 @@ const UnifiedAppContent: React.FC<{ platform: UnifiedPlatformCore }> = ({
             {isLoggedIn ? (
               <>
                 {/* Hub - Game Discovery - V2 REDESIGNED */}
-                <Route path="/hub/*" element={<HubModule />} />
+                <Route
+                  path="/hub/*"
+                  element={<HubModule platform={platform} />}
+                />
 
                 {/* Editor - Game Creation - V2 REDESIGNED */}
-                <Route path="/editor/*" element={<EditorModule />} />
+                <Route
+                  path="/editor/*"
+                  element={<EditorModule platform={platform} />}
+                />
 
                 {/* Launcher - Game Playing - V2 REDESIGNED */}
-                <Route path="/launcher/*" element={<LauncherModule />} />
-                <Route path="/play/:gameId" element={<LauncherModule />} />
+                <Route
+                  path="/launcher/*"
+                  element={<LauncherModule platform={platform} />}
+                />
+                <Route
+                  path="/play/:gameId"
+                  element={<LauncherModule platform={platform} />}
+                />
 
                 {/* Multiplayer - Online Features - V2 REDESIGNED */}
-                <Route path="/multiplayer/*" element={<MultiplayerModule />} />
+                <Route
+                  path="/multiplayer/*"
+                  element={<MultiplayerModule platform={platform} />}
+                />
 
                 {/* Social - Friends & Achievements */}
                 <Route

@@ -1,6 +1,6 @@
 /**
  * Games API Routes
- * 
+ *
  * Endpoints for game management:
  * - GET /api/games - List all games
  * - GET /api/games/:id - Get game details
@@ -11,7 +11,7 @@
  */
 
 import { Router, Request, Response } from 'express';
-import { authenticateToken } from '../middleware/auth';
+import { authMiddleware } from '../middleware/auth';
 import { pool } from '../config/database';
 
 const router = Router();
@@ -88,7 +88,7 @@ router.get('/:id', async (req: Request, res: Response) => {
 });
 
 // Create new game (authenticated)
-router.post('/', authenticateToken, async (req: any, res: Response) => {
+router.post('/', authMiddleware, async (req: any, res: Response) => {
   try {
     const { title, description, category, thumbnail, published } = req.body;
     const creator_id = req.user.userId;
@@ -108,7 +108,7 @@ router.post('/', authenticateToken, async (req: any, res: Response) => {
 });
 
 // Update game (authenticated, creator only)
-router.put('/:id', authenticateToken, async (req: any, res: Response) => {
+router.put('/:id', authMiddleware, async (req: any, res: Response) => {
   try {
     const { id } = req.params;
     const { title, description, category, thumbnail, published } = req.body;
@@ -121,7 +121,9 @@ router.put('/:id', authenticateToken, async (req: any, res: Response) => {
     );
 
     if (checkResult.rows.length === 0) {
-      return res.status(403).json({ error: 'Not authorized to update this game' });
+      return res
+        .status(403)
+        .json({ error: 'Not authorized to update this game' });
     }
 
     const result = await pool.query(
@@ -140,7 +142,7 @@ router.put('/:id', authenticateToken, async (req: any, res: Response) => {
 });
 
 // Delete game (authenticated, creator only)
-router.delete('/:id', authenticateToken, async (req: any, res: Response) => {
+router.delete('/:id', authMiddleware, async (req: any, res: Response) => {
   try {
     const { id } = req.params;
     const creator_id = req.user.userId;
@@ -151,7 +153,9 @@ router.delete('/:id', authenticateToken, async (req: any, res: Response) => {
     );
 
     if (result.rows.length === 0) {
-      return res.status(403).json({ error: 'Not authorized to delete this game' });
+      return res
+        .status(403)
+        .json({ error: 'Not authorized to delete this game' });
     }
 
     res.json({ message: 'Game deleted successfully' });
@@ -162,7 +166,7 @@ router.delete('/:id', authenticateToken, async (req: any, res: Response) => {
 });
 
 // Track game play (authenticated)
-router.post('/:id/play', authenticateToken, async (req: any, res: Response) => {
+router.post('/:id/play', authMiddleware, async (req: any, res: Response) => {
   try {
     const { id } = req.params;
     const user_id = req.user.userId;
@@ -180,7 +184,7 @@ router.post('/:id/play', authenticateToken, async (req: any, res: Response) => {
 });
 
 // Rate game (authenticated)
-router.post('/:id/rate', authenticateToken, async (req: any, res: Response) => {
+router.post('/:id/rate', authMiddleware, async (req: any, res: Response) => {
   try {
     const { id } = req.params;
     const { rating } = req.body;

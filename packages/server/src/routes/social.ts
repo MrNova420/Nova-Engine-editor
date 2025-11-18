@@ -1,6 +1,6 @@
 /**
  * Social API Routes
- * 
+ *
  * Endpoints for social features:
  * - GET /api/social/profile/:id - Get user profile
  * - PUT /api/social/profile - Update own profile
@@ -14,7 +14,7 @@
  */
 
 import { Router, Request, Response } from 'express';
-import { authenticateToken } from '../middleware/auth';
+import { authMiddleware } from '../middleware/auth';
 import { pool } from '../config/database';
 
 const router = Router();
@@ -43,7 +43,7 @@ router.get('/profile/:id', async (req: Request, res: Response) => {
 });
 
 // Update own profile (authenticated)
-router.put('/profile', authenticateToken, async (req: any, res: Response) => {
+router.put('/profile', authMiddleware, async (req: any, res: Response) => {
   try {
     const user_id = req.user.userId;
     const { avatar, title, bio } = req.body;
@@ -64,7 +64,7 @@ router.put('/profile', authenticateToken, async (req: any, res: Response) => {
 });
 
 // Get friends list (authenticated)
-router.get('/friends', authenticateToken, async (req: any, res: Response) => {
+router.get('/friends', authMiddleware, async (req: any, res: Response) => {
   try {
     const user_id = req.user.userId;
 
@@ -85,7 +85,7 @@ router.get('/friends', authenticateToken, async (req: any, res: Response) => {
 });
 
 // Send friend request (authenticated)
-router.post('/friends/:id', authenticateToken, async (req: any, res: Response) => {
+router.post('/friends/:id', authMiddleware, async (req: any, res: Response) => {
   try {
     const user_id = req.user.userId;
     const friend_id = parseInt(req.params.id);
@@ -102,7 +102,9 @@ router.post('/friends/:id', authenticateToken, async (req: any, res: Response) =
     );
 
     if (existing.rows.length > 0) {
-      return res.status(400).json({ error: 'Friendship already exists or pending' });
+      return res
+        .status(400)
+        .json({ error: 'Friendship already exists or pending' });
     }
 
     await pool.query(
@@ -119,26 +121,30 @@ router.post('/friends/:id', authenticateToken, async (req: any, res: Response) =
 });
 
 // Remove friend (authenticated)
-router.delete('/friends/:id', authenticateToken, async (req: any, res: Response) => {
-  try {
-    const user_id = req.user.userId;
-    const friend_id = parseInt(req.params.id);
+router.delete(
+  '/friends/:id',
+  authMiddleware,
+  async (req: any, res: Response) => {
+    try {
+      const user_id = req.user.userId;
+      const friend_id = parseInt(req.params.id);
 
-    await pool.query(
-      `DELETE FROM friendships 
+      await pool.query(
+        `DELETE FROM friendships 
        WHERE (user_id = $1 AND friend_id = $2) OR (user_id = $2 AND friend_id = $1)`,
-      [user_id, friend_id]
-    );
+        [user_id, friend_id]
+      );
 
-    res.json({ message: 'Friend removed' });
-  } catch (error) {
-    console.error('Error removing friend:', error);
-    res.status(500).json({ error: 'Failed to remove friend' });
+      res.json({ message: 'Friend removed' });
+    } catch (error) {
+      console.error('Error removing friend:', error);
+      res.status(500).json({ error: 'Failed to remove friend' });
+    }
   }
-});
+);
 
 // Get all achievements with user progress (authenticated)
-router.get('/achievements', authenticateToken, async (req: any, res: Response) => {
+router.get('/achievements', authMiddleware, async (req: any, res: Response) => {
   try {
     const user_id = req.user.userId;
 
@@ -159,45 +165,49 @@ router.get('/achievements', authenticateToken, async (req: any, res: Response) =
 });
 
 // Unlock achievement (authenticated)
-router.post('/achievements/:id/unlock', authenticateToken, async (req: any, res: Response) => {
-  try {
-    const user_id = req.user.userId;
-    const achievement_id = parseInt(req.params.id);
+router.post(
+  '/achievements/:id/unlock',
+  authMiddleware,
+  async (req: any, res: Response) => {
+    try {
+      const user_id = req.user.userId;
+      const achievement_id = parseInt(req.params.id);
 
-    // Check if already unlocked
-    const existing = await pool.query(
-      'SELECT * FROM user_achievements WHERE user_id = $1 AND achievement_id = $2',
-      [user_id, achievement_id]
-    );
+      // Check if already unlocked
+      const existing = await pool.query(
+        'SELECT * FROM user_achievements WHERE user_id = $1 AND achievement_id = $2',
+        [user_id, achievement_id]
+      );
 
-    if (existing.rows.length > 0) {
-      return res.status(400).json({ error: 'Achievement already unlocked' });
-    }
+      if (existing.rows.length > 0) {
+        return res.status(400).json({ error: 'Achievement already unlocked' });
+      }
 
-    await pool.query(
-      `INSERT INTO user_achievements (user_id, achievement_id, progress, unlocked_at)
+      await pool.query(
+        `INSERT INTO user_achievements (user_id, achievement_id, progress, unlocked_at)
        VALUES ($1, $2, 100, CURRENT_TIMESTAMP)`,
-      [user_id, achievement_id]
-    );
+        [user_id, achievement_id]
+      );
 
-    // Update user achievements count
-    await pool.query(
-      'UPDATE users SET achievements_unlocked = achievements_unlocked + 1 WHERE id = $1',
-      [user_id]
-    );
+      // Update user achievements count
+      await pool.query(
+        'UPDATE users SET achievements_unlocked = achievements_unlocked + 1 WHERE id = $1',
+        [user_id]
+      );
 
-    res.json({ message: 'Achievement unlocked!' });
-  } catch (error) {
-    console.error('Error unlocking achievement:', error);
-    res.status(500).json({ error: 'Failed to unlock achievement' });
+      res.json({ message: 'Achievement unlocked!' });
+    } catch (error) {
+      console.error('Error unlocking achievement:', error);
+      res.status(500).json({ error: 'Failed to unlock achievement' });
+    }
   }
-});
+);
 
 // Get leaderboard
 router.get('/leaderboard', async (req: Request, res: Response) => {
   try {
     const limit = parseInt(req.query.limit as string) || 100;
-    const timeframe = req.query.timeframe as string || 'all_time';
+    const timeframe = (req.query.timeframe as string) || 'all_time';
 
     let query = `
       SELECT id, username, level, experience, games_created, games_played, achievements_unlocked,
@@ -229,7 +239,7 @@ router.get('/leaderboard', async (req: Request, res: Response) => {
 });
 
 // Get activity feed (authenticated)
-router.get('/activity', authenticateToken, async (req: any, res: Response) => {
+router.get('/activity', authMiddleware, async (req: any, res: Response) => {
   try {
     const user_id = req.user.userId;
     const limit = parseInt(req.query.limit as string) || 50;

@@ -1,6 +1,6 @@
 /**
  * Multiplayer API Routes
- * 
+ *
  * Endpoints for multiplayer features:
  * - GET /api/multiplayer/lobbies - List lobbies
  * - POST /api/multiplayer/lobbies - Create lobby
@@ -14,13 +14,13 @@
  */
 
 import { Router, Request, Response } from 'express';
-import { authenticateToken } from '../middleware/auth';
+import { authMiddleware } from '../middleware/auth';
 import { pool } from '../config/database';
 
 const router = Router();
 
 // Get all lobbies
-router.get('/lobbies', authenticateToken, async (req: Request, res: Response) => {
+router.get('/lobbies', authMiddleware, async (req: Request, res: Response) => {
   try {
     const game = req.query.game as string;
     const region = req.query.region as string;
@@ -59,16 +59,25 @@ router.get('/lobbies', authenticateToken, async (req: Request, res: Response) =>
 });
 
 // Create lobby (authenticated)
-router.post('/lobbies', authenticateToken, async (req: any, res: Response) => {
+router.post('/lobbies', authMiddleware, async (req: any, res: Response) => {
   try {
-    const { game_id, name, max_players, region, game_mode, is_private } = req.body;
+    const { game_id, name, max_players, region, game_mode, is_private } =
+      req.body;
     const host_id = req.user.userId;
 
     const result = await pool.query(
       `INSERT INTO lobbies (game_id, host_id, name, max_players, region, game_mode, is_private, status)
        VALUES ($1, $2, $3, $4, $5, $6, $7, 'open')
        RETURNING *`,
-      [game_id, host_id, name, max_players, region, game_mode, is_private || false]
+      [
+        game_id,
+        host_id,
+        name,
+        max_players,
+        region,
+        game_mode,
+        is_private || false,
+      ]
     );
 
     // Add host as first player
@@ -85,179 +94,207 @@ router.post('/lobbies', authenticateToken, async (req: any, res: Response) => {
 });
 
 // Get lobby details
-router.get('/lobbies/:id', authenticateToken, async (req: Request, res: Response) => {
-  try {
-    const { id } = req.params;
+router.get(
+  '/lobbies/:id',
+  authMiddleware,
+  async (req: Request, res: Response) => {
+    try {
+      const { id } = req.params;
 
-    const lobby = await pool.query(
-      `SELECT l.*, u.username as host_name
+      const lobby = await pool.query(
+        `SELECT l.*, u.username as host_name
        FROM lobbies l
        JOIN users u ON l.host_id = u.id
        WHERE l.id = $1`,
-      [id]
-    );
+        [id]
+      );
 
-    if (lobby.rows.length === 0) {
-      return res.status(404).json({ error: 'Lobby not found' });
-    }
+      if (lobby.rows.length === 0) {
+        return res.status(404).json({ error: 'Lobby not found' });
+      }
 
-    // Get players in lobby
-    const players = await pool.query(
-      `SELECT u.id, u.username, u.avatar, u.level, lp.joined_at
+      // Get players in lobby
+      const players = await pool.query(
+        `SELECT u.id, u.username, u.avatar, u.level, lp.joined_at
        FROM lobby_players lp
        JOIN users u ON lp.user_id = u.id
        WHERE lp.lobby_id = $1
        ORDER BY lp.joined_at`,
-      [id]
-    );
+        [id]
+      );
 
-    res.json({
-      ...lobby.rows[0],
-      players: players.rows,
-    });
-  } catch (error) {
-    console.error('Error fetching lobby details:', error);
-    res.status(500).json({ error: 'Failed to fetch lobby details' });
+      res.json({
+        ...lobby.rows[0],
+        players: players.rows,
+      });
+    } catch (error) {
+      console.error('Error fetching lobby details:', error);
+      res.status(500).json({ error: 'Failed to fetch lobby details' });
+    }
   }
-});
+);
 
 // Join lobby (authenticated)
-router.post('/lobbies/:id/join', authenticateToken, async (req: any, res: Response) => {
-  try {
-    const { id } = req.params;
-    const user_id = req.user.userId;
+router.post(
+  '/lobbies/:id/join',
+  authMiddleware,
+  async (req: any, res: Response) => {
+    try {
+      const { id } = req.params;
+      const user_id = req.user.userId;
 
-    // Check if lobby exists and is open
-    const lobby = await pool.query(
-      `SELECT l.*, COUNT(lp.user_id) as current_players
+      // Check if lobby exists and is open
+      const lobby = await pool.query(
+        `SELECT l.*, COUNT(lp.user_id) as current_players
        FROM lobbies l
        LEFT JOIN lobby_players lp ON l.id = lp.lobby_id
        WHERE l.id = $1 AND l.status = 'open'
        GROUP BY l.id`,
-      [id]
-    );
+        [id]
+      );
 
-    if (lobby.rows.length === 0) {
-      return res.status(404).json({ error: 'Lobby not found or closed' });
+      if (lobby.rows.length === 0) {
+        return res.status(404).json({ error: 'Lobby not found or closed' });
+      }
+
+      if (lobby.rows[0].current_players >= lobby.rows[0].max_players) {
+        return res.status(400).json({ error: 'Lobby is full' });
+      }
+
+      // Check if user is already in lobby
+      const existing = await pool.query(
+        'SELECT * FROM lobby_players WHERE lobby_id = $1 AND user_id = $2',
+        [id, user_id]
+      );
+
+      if (existing.rows.length > 0) {
+        return res.status(400).json({ error: 'Already in lobby' });
+      }
+
+      await pool.query(
+        'INSERT INTO lobby_players (lobby_id, user_id) VALUES ($1, $2)',
+        [id, user_id]
+      );
+
+      res.json({ message: 'Joined lobby successfully' });
+    } catch (error) {
+      console.error('Error joining lobby:', error);
+      res.status(500).json({ error: 'Failed to join lobby' });
     }
-
-    if (lobby.rows[0].current_players >= lobby.rows[0].max_players) {
-      return res.status(400).json({ error: 'Lobby is full' });
-    }
-
-    // Check if user is already in lobby
-    const existing = await pool.query(
-      'SELECT * FROM lobby_players WHERE lobby_id = $1 AND user_id = $2',
-      [id, user_id]
-    );
-
-    if (existing.rows.length > 0) {
-      return res.status(400).json({ error: 'Already in lobby' });
-    }
-
-    await pool.query(
-      'INSERT INTO lobby_players (lobby_id, user_id) VALUES ($1, $2)',
-      [id, user_id]
-    );
-
-    res.json({ message: 'Joined lobby successfully' });
-  } catch (error) {
-    console.error('Error joining lobby:', error);
-    res.status(500).json({ error: 'Failed to join lobby' });
   }
-});
+);
 
 // Leave lobby (authenticated)
-router.post('/lobbies/:id/leave', authenticateToken, async (req: any, res: Response) => {
-  try {
-    const { id } = req.params;
-    const user_id = req.user.userId;
+router.post(
+  '/lobbies/:id/leave',
+  authMiddleware,
+  async (req: any, res: Response) => {
+    try {
+      const { id } = req.params;
+      const user_id = req.user.userId;
 
-    await pool.query(
-      'DELETE FROM lobby_players WHERE lobby_id = $1 AND user_id = $2',
-      [id, user_id]
-    );
+      await pool.query(
+        'DELETE FROM lobby_players WHERE lobby_id = $1 AND user_id = $2',
+        [id, user_id]
+      );
 
-    // Check if lobby is now empty
-    const remaining = await pool.query(
-      'SELECT COUNT(*) FROM lobby_players WHERE lobby_id = $1',
-      [id]
-    );
+      // Check if lobby is now empty
+      const remaining = await pool.query(
+        'SELECT COUNT(*) FROM lobby_players WHERE lobby_id = $1',
+        [id]
+      );
 
-    if (parseInt(remaining.rows[0].count) === 0) {
-      // Delete empty lobby
-      await pool.query('DELETE FROM lobbies WHERE id = $1', [id]);
+      if (parseInt(remaining.rows[0].count) === 0) {
+        // Delete empty lobby
+        await pool.query('DELETE FROM lobbies WHERE id = $1', [id]);
+      }
+
+      res.json({ message: 'Left lobby successfully' });
+    } catch (error) {
+      console.error('Error leaving lobby:', error);
+      res.status(500).json({ error: 'Failed to leave lobby' });
     }
-
-    res.json({ message: 'Left lobby successfully' });
-  } catch (error) {
-    console.error('Error leaving lobby:', error);
-    res.status(500).json({ error: 'Failed to leave lobby' });
   }
-});
+);
 
 // Delete lobby (authenticated, host only)
-router.delete('/lobbies/:id', authenticateToken, async (req: any, res: Response) => {
-  try {
-    const { id } = req.params;
-    const user_id = req.user.userId;
+router.delete(
+  '/lobbies/:id',
+  authMiddleware,
+  async (req: any, res: Response) => {
+    try {
+      const { id } = req.params;
+      const user_id = req.user.userId;
 
-    const result = await pool.query(
-      'DELETE FROM lobbies WHERE id = $1 AND host_id = $2 RETURNING *',
-      [id, user_id]
-    );
+      const result = await pool.query(
+        'DELETE FROM lobbies WHERE id = $1 AND host_id = $2 RETURNING *',
+        [id, user_id]
+      );
 
-    if (result.rows.length === 0) {
-      return res.status(403).json({ error: 'Not authorized to delete this lobby' });
+      if (result.rows.length === 0) {
+        return res
+          .status(403)
+          .json({ error: 'Not authorized to delete this lobby' });
+      }
+
+      res.json({ message: 'Lobby deleted successfully' });
+    } catch (error) {
+      console.error('Error deleting lobby:', error);
+      res.status(500).json({ error: 'Failed to delete lobby' });
     }
-
-    res.json({ message: 'Lobby deleted successfully' });
-  } catch (error) {
-    console.error('Error deleting lobby:', error);
-    res.status(500).json({ error: 'Failed to delete lobby' });
   }
-});
+);
 
 // Start matchmaking (authenticated)
-router.post('/matchmaking/start', authenticateToken, async (req: any, res: Response) => {
-  try {
-    const { game_id, region, game_mode, skill_range } = req.body;
-    const user_id = req.user.userId;
+router.post(
+  '/matchmaking/start',
+  authMiddleware,
+  async (req: any, res: Response) => {
+    try {
+      const { game_id, region, game_mode, skill_range } = req.body;
+      const user_id = req.user.userId;
 
-    // Add to matchmaking queue
-    await pool.query(
-      `INSERT INTO matchmaking_queue (user_id, game_id, region, game_mode, skill_range)
+      // Add to matchmaking queue
+      await pool.query(
+        `INSERT INTO matchmaking_queue (user_id, game_id, region, game_mode, skill_range)
        VALUES ($1, $2, $3, $4, $5)
        ON CONFLICT (user_id) DO UPDATE 
        SET game_id = $2, region = $3, game_mode = $4, skill_range = $5, created_at = CURRENT_TIMESTAMP`,
-      [user_id, game_id, region, game_mode, skill_range || 100]
-    );
+        [user_id, game_id, region, game_mode, skill_range || 100]
+      );
 
-    res.json({ message: 'Matchmaking started', status: 'searching' });
+      res.json({ message: 'Matchmaking started', status: 'searching' });
 
-    // TODO: Implement actual matchmaking logic via WebSocket
-  } catch (error) {
-    console.error('Error starting matchmaking:', error);
-    res.status(500).json({ error: 'Failed to start matchmaking' });
+      // TODO: Implement actual matchmaking logic via WebSocket
+    } catch (error) {
+      console.error('Error starting matchmaking:', error);
+      res.status(500).json({ error: 'Failed to start matchmaking' });
+    }
   }
-});
+);
 
 // Cancel matchmaking (authenticated)
-router.post('/matchmaking/cancel', authenticateToken, async (req: any, res: Response) => {
-  try {
-    const user_id = req.user.userId;
+router.post(
+  '/matchmaking/cancel',
+  authMiddleware,
+  async (req: any, res: Response) => {
+    try {
+      const user_id = req.user.userId;
 
-    await pool.query('DELETE FROM matchmaking_queue WHERE user_id = $1', [user_id]);
+      await pool.query('DELETE FROM matchmaking_queue WHERE user_id = $1', [
+        user_id,
+      ]);
 
-    res.json({ message: 'Matchmaking cancelled' });
-  } catch (error) {
-    console.error('Error cancelling matchmaking:', error);
-    res.status(500).json({ error: 'Failed to cancel matchmaking' });
+      res.json({ message: 'Matchmaking cancelled' });
+    } catch (error) {
+      console.error('Error cancelling matchmaking:', error);
+      res.status(500).json({ error: 'Failed to cancel matchmaking' });
+    }
   }
-});
+);
 
 // Get match history (authenticated)
-router.get('/matches', authenticateToken, async (req: any, res: Response) => {
+router.get('/matches', authMiddleware, async (req: any, res: Response) => {
   try {
     const user_id = req.user.userId;
     const limit = parseInt(req.query.limit as string) || 50;

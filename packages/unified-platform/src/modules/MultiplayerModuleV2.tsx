@@ -1,5 +1,10 @@
 import React, { useState } from 'react';
+import { UnifiedPlatformCore } from '../core/UnifiedPlatformCore';
 import './styles/MultiplayerModuleV2.css';
+
+interface MultiplayerModuleV2Props {
+  platform: UnifiedPlatformCore;
+}
 
 interface Lobby {
   id: string;
@@ -31,14 +36,14 @@ interface Match {
   deaths?: number;
 }
 
-export const MultiplayerModuleV2: React.FC = () => {
+export const MultiplayerModuleV2: React.FC<MultiplayerModuleV2Props> = () => {
   const [selectedTab, setSelectedTab] = useState<
     'matchmaking' | 'lobbies' | 'friends' | 'stats'
   >('matchmaking');
   const [selectedRegion, setSelectedRegion] = useState('auto');
   const [selectedGameMode, setSelectedGameMode] = useState('deathmatch');
   const [isSearching, setIsSearching] = useState(false);
-  const [partyMembers, setPartyMembers] = useState<string[]>([]);
+  const [partyMembers] = useState<string[]>([]);
 
   // Mock data - TODO: Connect to backend API and WebSocket
   const lobbies: Lobby[] = [

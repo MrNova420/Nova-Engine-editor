@@ -7,15 +7,15 @@ import React from 'react';
 
 interface UnifiedNavigationProps {
   currentMode: string;
-  onNavigate: (mode: string) => void;
-  isLoggedIn: boolean;
+  onModeChange: (mode: string) => void;
+  isLoggedIn?: boolean;
   currentUser?: any;
 }
 
 export const UnifiedNavigation: React.FC<UnifiedNavigationProps> = ({
   currentMode,
-  onNavigate,
-  isLoggedIn,
+  onModeChange,
+  isLoggedIn = false,
   currentUser,
 }) => {
   const navItems = [
@@ -30,7 +30,8 @@ export const UnifiedNavigation: React.FC<UnifiedNavigationProps> = ({
   const containerStyle: React.CSSProperties = {
     width: '240px',
     height: '100vh',
-    background: 'linear-gradient(180deg, rgba(26,0,51,0.95) 0%, rgba(58,12,88,0.95) 100%)',
+    background:
+      'linear-gradient(180deg, rgba(26,0,51,0.95) 0%, rgba(58,12,88,0.95) 100%)',
     borderRight: '2px solid rgba(123, 47, 247, 0.3)',
     display: 'flex',
     flexDirection: 'column',
@@ -52,7 +53,8 @@ export const UnifiedNavigation: React.FC<UnifiedNavigationProps> = ({
     fontSize: '24px',
     fontWeight: 900,
     letterSpacing: '3px',
-    background: 'linear-gradient(135deg, #ff6ec4 0%, #7b2ff7 50%, #4cc9f0 100%)',
+    background:
+      'linear-gradient(135deg, #ff6ec4 0%, #7b2ff7 50%, #4cc9f0 100%)',
     WebkitBackgroundClip: 'text',
     WebkitTextFillColor: 'transparent',
     backgroundClip: 'text',
@@ -69,10 +71,10 @@ export const UnifiedNavigation: React.FC<UnifiedNavigationProps> = ({
     gap: '12px',
     padding: '12px 16px',
     margin: '4px 0',
-    background: isActive 
+    background: isActive
       ? 'linear-gradient(135deg, rgba(168, 85, 247, 0.3), rgba(236, 72, 153, 0.3))'
       : 'transparent',
-    border: isActive 
+    border: isActive
       ? '1px solid rgba(168, 85, 247, 0.5)'
       : '1px solid transparent',
     borderRadius: '8px',
@@ -115,7 +117,9 @@ export const UnifiedNavigation: React.FC<UnifiedNavigationProps> = ({
       {/* Logo */}
       <div style={logoSection}>
         <div style={logoStyle}>NOVA</div>
-        <div style={{ fontSize: '12px', color: '#a855f7', marginTop: '4px' }}>ENGINE</div>
+        <div style={{ fontSize: '12px', color: '#a855f7', marginTop: '4px' }}>
+          ENGINE
+        </div>
       </div>
 
       {/* Navigation Items */}
@@ -124,7 +128,7 @@ export const UnifiedNavigation: React.FC<UnifiedNavigationProps> = ({
           <div
             key={item.id}
             style={navItemStyle(currentMode === item.id)}
-            onClick={() => onNavigate(item.id)}
+            onClick={() => onModeChange(item.id)}
             onMouseEnter={(e) => {
               if (currentMode !== item.id) {
                 e.currentTarget.style.background = 'rgba(168, 85, 247, 0.1)';
@@ -155,9 +159,7 @@ export const UnifiedNavigation: React.FC<UnifiedNavigationProps> = ({
               <div style={{ fontSize: '14px', fontWeight: 600 }}>
                 {currentUser?.username || 'User'}
               </div>
-              <div style={{ fontSize: '12px', color: '#a855f7' }}>
-                Level 45
-              </div>
+              <div style={{ fontSize: '12px', color: '#a855f7' }}>Level 45</div>
             </div>
           </div>
         </div>

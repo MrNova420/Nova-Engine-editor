@@ -20,7 +20,6 @@ export const UnifiedTopBar: React.FC<UnifiedTopBarProps> = ({
   currentMode,
 }) => {
   const [showNotifications, setShowNotifications] = useState(false);
-  const [showUserMenu, setShowUserMenu] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
 
   const handleLogout = () => {
@@ -28,9 +27,24 @@ export const UnifiedTopBar: React.FC<UnifiedTopBarProps> = ({
   };
 
   const notifications = [
-    { id: '1', text: 'Friend request from SpeedDemon', time: '5m ago', type: 'friend' },
-    { id: '2', text: 'Achievement unlocked: Master Builder', time: '1h ago', type: 'achievement' },
-    { id: '3', text: 'New game update available', time: '2h ago', type: 'update' },
+    {
+      id: '1',
+      text: 'Friend request from SpeedDemon',
+      time: '5m ago',
+      type: 'friend',
+    },
+    {
+      id: '2',
+      text: 'Achievement unlocked: Master Builder',
+      time: '1h ago',
+      type: 'achievement',
+    },
+    {
+      id: '3',
+      text: 'New game update available',
+      time: '2h ago',
+      type: 'update',
+    },
   ];
 
   const getModeIcon = (mode: string) => {
@@ -47,7 +61,8 @@ export const UnifiedTopBar: React.FC<UnifiedTopBarProps> = ({
 
   const containerStyle: React.CSSProperties = {
     height: '70px',
-    background: 'linear-gradient(135deg, rgba(26,0,51,0.95) 0%, rgba(58,12,88,0.95) 100%)',
+    background:
+      'linear-gradient(135deg, rgba(26,0,51,0.95) 0%, rgba(58,12,88,0.95) 100%)',
     borderBottom: '2px solid rgba(123, 47, 247, 0.3)',
     display: 'flex',
     alignItems: 'center',
@@ -71,7 +86,8 @@ export const UnifiedTopBar: React.FC<UnifiedTopBarProps> = ({
     fontSize: '28px',
     fontWeight: 900,
     letterSpacing: '4px',
-    background: 'linear-gradient(135deg, #ff6ec4 0%, #7b2ff7 50%, #4cc9f0 100%)',
+    background:
+      'linear-gradient(135deg, #ff6ec4 0%, #7b2ff7 50%, #4cc9f0 100%)',
     WebkitBackgroundClip: 'text',
     WebkitTextFillColor: 'transparent',
     backgroundClip: 'text',
@@ -140,7 +156,9 @@ export const UnifiedTopBar: React.FC<UnifiedTopBarProps> = ({
         </div>
         <div style={modeIndicatorStyle}>
           <span>{getModeIcon(currentMode)}</span>
-          <span>{currentMode.charAt(0).toUpperCase() + currentMode.slice(1)}</span>
+          <span>
+            {currentMode.charAt(0).toUpperCase() + currentMode.slice(1)}
+          </span>
         </div>
       </div>
 
@@ -153,7 +171,14 @@ export const UnifiedTopBar: React.FC<UnifiedTopBarProps> = ({
           onChange={(e) => setSearchQuery(e.target.value)}
           style={searchInputStyle}
         />
-        <span style={{ position: 'absolute', right: '12px', top: '50%', transform: 'translateY(-50%)' }}>
+        <span
+          style={{
+            position: 'absolute',
+            right: '12px',
+            top: '50%',
+            transform: 'translateY(-50%)',
+          }}
+        >
           🔍
         </span>
       </div>
@@ -167,19 +192,21 @@ export const UnifiedTopBar: React.FC<UnifiedTopBarProps> = ({
               onClick={() => setShowNotifications(!showNotifications)}
             >
               🔔
-              <span style={{
-                position: 'absolute',
-                top: '4px',
-                right: '4px',
-                background: '#ec4899',
-                borderRadius: '50%',
-                width: '16px',
-                height: '16px',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                fontSize: '10px',
-              }}>
+              <span
+                style={{
+                  position: 'absolute',
+                  top: '4px',
+                  right: '4px',
+                  background: '#ec4899',
+                  borderRadius: '50%',
+                  width: '16px',
+                  height: '16px',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  fontSize: '10px',
+                }}
+              >
                 3
               </span>
             </button>
@@ -208,30 +235,50 @@ export const UnifiedTopBar: React.FC<UnifiedTopBarProps> = ({
 
       {/* Notifications Dropdown */}
       {showNotifications && (
-        <div style={{
-          position: 'absolute',
-          top: '80px',
-          right: '100px',
-          width: '320px',
-          background: 'linear-gradient(135deg, #1a0b2e, #2d1b4e)',
-          border: '1px solid rgba(168, 85, 247, 0.3)',
-          borderRadius: '12px',
-          padding: '16px',
-          zIndex: 1000,
-        }}>
-          <div style={{ marginBottom: '12px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+        <div
+          style={{
+            position: 'absolute',
+            top: '80px',
+            right: '100px',
+            width: '320px',
+            background: 'linear-gradient(135deg, #1a0b2e, #2d1b4e)',
+            border: '1px solid rgba(168, 85, 247, 0.3)',
+            borderRadius: '12px',
+            padding: '16px',
+            zIndex: 1000,
+          }}
+        >
+          <div
+            style={{
+              marginBottom: '12px',
+              display: 'flex',
+              justifyContent: 'space-between',
+              alignItems: 'center',
+            }}
+          >
             <h4 style={{ margin: 0 }}>Notifications</h4>
-            <button style={{ ...buttonStyle, padding: '4px 8px', fontSize: '12px' }}>Mark all read</button>
+            <button
+              style={{ ...buttonStyle, padding: '4px 8px', fontSize: '12px' }}
+            >
+              Mark all read
+            </button>
           </div>
           {notifications.map((notif) => (
-            <div key={notif.id} style={{
-              padding: '12px',
-              background: 'rgba(168, 85, 247, 0.1)',
-              borderRadius: '8px',
-              marginBottom: '8px',
-            }}>
-              <p style={{ margin: '0 0 4px 0', fontSize: '14px' }}>{notif.text}</p>
-              <span style={{ fontSize: '12px', color: '#a855f7' }}>{notif.time}</span>
+            <div
+              key={notif.id}
+              style={{
+                padding: '12px',
+                background: 'rgba(168, 85, 247, 0.1)',
+                borderRadius: '8px',
+                marginBottom: '8px',
+              }}
+            >
+              <p style={{ margin: '0 0 4px 0', fontSize: '14px' }}>
+                {notif.text}
+              </p>
+              <span style={{ fontSize: '12px', color: '#a855f7' }}>
+                {notif.time}
+              </span>
             </div>
           ))}
         </div>
