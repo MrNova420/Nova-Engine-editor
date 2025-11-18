@@ -62,11 +62,14 @@ const UnifiedAppContent: React.FC<{ platform: UnifiedPlatformCore }> = ({
   }, [location.pathname]);
 
   useEffect(() => {
-    // Initialize platform
+    let mounted = true;
+
+    // Initialize platform once
     platform.initialize();
 
-    // Listen to mode changes from platform and navigate
-    platform.on('modeChanged', ({ to }: any) => {
+    // Mode change handler
+    const handleModeChange = ({ to }: any) => {
+      if (!mounted) return;
       setCurrentMode(to);
       // Navigate to the corresponding route
       const modeToPath: Record<string, string> = {
@@ -80,32 +83,53 @@ const UnifiedAppContent: React.FC<{ platform: UnifiedPlatformCore }> = ({
       if (modeToPath[to]) {
         navigate(modeToPath[to]);
       }
-    });
+    };
 
-    // Listen to auth changes
-    platform.on('login', (user: any) => {
+    // Login handler
+    const handleLogin = (user: any) => {
+      if (!mounted) return;
       setIsLoggedIn(true);
       setCurrentUser(user);
-      // Navigate to hub after login
-      navigate('/hub');
-    });
+      // Only navigate to hub after login if on auth pages
+      const currentPath = window.location.pathname;
+      if (
+        currentPath === '/login' ||
+        currentPath === '/register' ||
+        currentPath === '/'
+      ) {
+        navigate('/hub');
+      }
+    };
 
-    platform.on('sessionRestored', (user: any) => {
+    // Session restore handler
+    const handleSessionRestored = (user: any) => {
+      if (!mounted) return;
       setIsLoggedIn(true);
       setCurrentUser(user);
       setIsCheckingAuth(false);
-    });
+      // Don't navigate on session restore - stay on current page
+    };
 
-    platform.on('logout', () => {
+    // Logout handler
+    const handleLogout = () => {
+      if (!mounted) return;
       setIsLoggedIn(false);
       setCurrentUser(null);
       navigate('/login');
-    });
+    };
 
-    // Listen to notifications
-    platform.on('notification', (notification: any) => {
+    // Notification handler
+    const handleNotification = (notification: any) => {
+      if (!mounted) return;
       setNotifications((prev) => [notification, ...prev]);
-    });
+    };
+
+    // Register event handlers
+    platform.on('modeChanged', handleModeChange);
+    platform.on('login', handleLogin);
+    platform.on('sessionRestored', handleSessionRestored);
+    platform.on('logout', handleLogout);
+    platform.on('notification', handleNotification);
 
     // Check if already logged in
     const token = localStorage.getItem('auth_token');
@@ -114,20 +138,28 @@ const UnifiedAppContent: React.FC<{ platform: UnifiedPlatformCore }> = ({
       platform
         .restoreSession()
         .then((success) => {
-          if (!success) {
+          if (!success && mounted) {
             setIsCheckingAuth(false);
           }
         })
         .catch((err) => {
           console.error('Failed to restore session:', err);
-          setIsCheckingAuth(false);
+          if (mounted) {
+            setIsCheckingAuth(false);
+          }
         });
     } else {
       setIsCheckingAuth(false);
     }
 
     return () => {
-      platform.removeAllListeners();
+      mounted = false;
+      // Remove specific handlers
+      platform.off('modeChanged', handleModeChange);
+      platform.off('login', handleLogin);
+      platform.off('sessionRestored', handleSessionRestored);
+      platform.off('logout', handleLogout);
+      platform.off('notification', handleNotification);
     };
   }, [platform, navigate]);
 
