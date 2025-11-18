@@ -41,12 +41,13 @@ class Engine implements IEngine {
   private systems: System[];
   private time: Time;
   private loop: GameLoop;
-  
+
   // Implementation
 }
 ```
 
 **Responsibilities:**
+
 - Engine initialization and shutdown
 - System registration and lifecycle
 - Main game loop
@@ -54,6 +55,7 @@ class Engine implements IEngine {
 - Global engine state
 
 **Key Files:**
+
 - `packages/engine/src/core/Engine.ts`
 - `packages/engine/src/core/Time.ts`
 - `packages/engine/src/core/Loop.ts`
@@ -94,6 +96,7 @@ class World {
 ```
 
 **Built-in Components:**
+
 - Transform (position, rotation, scale)
 - MeshRenderer (mesh, material)
 - Camera (projection, viewport)
@@ -104,6 +107,7 @@ class World {
 - Script (behavior)
 
 **Key Files:**
+
 - `packages/engine/src/ecs/Entity.ts`
 - `packages/engine/src/ecs/Component.ts`
 - `packages/engine/src/ecs/System.ts`
@@ -129,12 +133,13 @@ class WebGLRenderer implements IRenderer {
   private gl: WebGL2RenderingContext;
   private pipeline: RenderPipeline;
   private shaderCache: Map<string, Shader>;
-  
+
   // Implementation
 }
 ```
 
 **Sub-Components:**
+
 - Shader Manager
 - Material System
 - Texture Manager
@@ -143,6 +148,7 @@ class WebGLRenderer implements IRenderer {
 - Camera System
 
 **Key Features:**
+
 - Forward rendering pipeline
 - Multiple light types
 - Shadow mapping
@@ -150,6 +156,7 @@ class WebGLRenderer implements IRenderer {
 - Debug rendering
 
 **Key Files:**
+
 - `packages/engine/src/graphics/Renderer.ts`
 - `packages/engine/src/graphics/Shader.ts`
 - `packages/engine/src/graphics/Material.ts`
@@ -168,7 +175,7 @@ interface IScene {
   name: string;
   entities: Entity[];
   root: SceneNode;
-  
+
   load(): Promise<void>;
   unload(): void;
   serialize(): SceneData;
@@ -177,7 +184,7 @@ interface IScene {
 
 class SceneGraph {
   root: SceneNode;
-  
+
   addNode(parent: SceneNode, child: SceneNode): void;
   removeNode(node: SceneNode): void;
   findNode(id: string): SceneNode | null;
@@ -186,6 +193,7 @@ class SceneGraph {
 ```
 
 **Key Files:**
+
 - `packages/engine/src/scene/Scene.ts`
 - `packages/engine/src/scene/SceneGraph.ts`
 - `packages/engine/src/scene/SceneManager.ts`
@@ -214,6 +222,7 @@ interface IAssetLoader<T> {
 ```
 
 **Asset Types:**
+
 - 3D Models (GLTF, FBX, OBJ)
 - Textures (PNG, JPG, WebP)
 - Audio (MP3, OGG, WAV)
@@ -221,6 +230,7 @@ interface IAssetLoader<T> {
 - Scripts (JS/TS)
 
 **Key Files:**
+
 - `packages/engine/src/assets/AssetManager.ts`
 - `packages/engine/src/assets/loaders/GLTFLoader.ts`
 - `packages/engine/src/assets/loaders/TextureLoader.ts`
@@ -239,7 +249,11 @@ interface IPhysicsWorld {
   addRigidBody(body: RigidBody): void;
   removeRigidBody(body: RigidBody): void;
   step(deltaTime: number): void;
-  raycast(origin: Vector3, direction: Vector3, maxDistance: number): RaycastHit[];
+  raycast(
+    origin: Vector3,
+    direction: Vector3,
+    maxDistance: number
+  ): RaycastHit[];
 }
 
 class RigidBody {
@@ -247,7 +261,7 @@ class RigidBody {
   velocity: Vector3;
   angularVelocity: Vector3;
   isKinematic: boolean;
-  
+
   applyForce(force: Vector3): void;
   applyImpulse(impulse: Vector3): void;
 }
@@ -256,6 +270,7 @@ class RigidBody {
 **Integration:** Ammo.js (Bullet Physics)
 
 **Key Files:**
+
 - `packages/engine/src/physics/PhysicsWorld.ts`
 - `packages/engine/src/physics/RigidBody.ts`
 - `packages/engine/src/physics/Collider.ts`
@@ -282,7 +297,7 @@ class AudioSource {
   pitch: number;
   loop: boolean;
   spatial: boolean;
-  
+
   play(): void;
   pause(): void;
   stop(): void;
@@ -290,6 +305,7 @@ class AudioSource {
 ```
 
 **Key Files:**
+
 - `packages/engine/src/audio/AudioSystem.ts`
 - `packages/engine/src/audio/AudioSource.ts`
 - `packages/engine/src/audio/AudioListener.ts`
@@ -307,16 +323,17 @@ interface IInputManager {
   isKeyPressed(key: string): boolean;
   isKeyDown(key: string): boolean;
   isKeyUp(key: string): boolean;
-  
+
   getMousePosition(): Vector2;
   isMouseButtonPressed(button: number): boolean;
-  
+
   getAxis(axisName: string): number;
   getButton(buttonName: string): boolean;
 }
 ```
 
 **Key Files:**
+
 - `packages/engine/src/input/InputManager.ts`
 - `packages/engine/src/input/Keyboard.ts`
 - `packages/engine/src/input/Mouse.ts`
@@ -334,7 +351,7 @@ class Vector3 {
   x: number;
   y: number;
   z: number;
-  
+
   add(v: Vector3): Vector3;
   subtract(v: Vector3): Vector3;
   multiply(scalar: number): Vector3;
@@ -346,7 +363,7 @@ class Vector3 {
 
 class Matrix4 {
   elements: Float32Array;
-  
+
   identity(): Matrix4;
   multiply(m: Matrix4): Matrix4;
   translate(v: Vector3): Matrix4;
@@ -357,6 +374,7 @@ class Matrix4 {
 ```
 
 **Key Files:**
+
 - `packages/engine/src/math/Vector2.ts`
 - `packages/engine/src/math/Vector3.ts`
 - `packages/engine/src/math/Matrix4.ts`
@@ -378,7 +396,7 @@ interface IEditorShell {
   toolbar: Toolbar;
   panels: Panel[];
   statusBar: StatusBar;
-  
+
   registerPanel(panel: Panel): void;
   showPanel(panelId: string): void;
   hidePanel(panelId: string): void;
@@ -386,12 +404,14 @@ interface IEditorShell {
 ```
 
 **Components:**
+
 - MenuBar (File, Edit, View, etc.)
 - Toolbar (quick actions)
 - StatusBar (notifications, progress)
 - Panel docking system
 
 **Key Files:**
+
 - `packages/editor/src/components/layout/EditorShell.tsx`
 - `packages/editor/src/components/layout/MenuBar.tsx`
 
@@ -408,7 +428,7 @@ interface IViewportPanel {
   canvas: HTMLCanvasElement;
   camera: Camera;
   gizmos: Gizmo[];
-  
+
   render(): void;
   setCamera(camera: Camera): void;
   addGizmo(gizmo: Gizmo): void;
@@ -417,6 +437,7 @@ interface IViewportPanel {
 ```
 
 **Features:**
+
 - 3D scene rendering
 - Transform gizmos
 - Grid and guides
@@ -424,6 +445,7 @@ interface IViewportPanel {
 - Selection highlighting
 
 **Key Files:**
+
 - `packages/editor/src/components/panels/Viewport.tsx`
 - `packages/editor/src/components/viewport/Gizmos.tsx`
 
@@ -439,7 +461,7 @@ interface IViewportPanel {
 interface IHierarchyPanel {
   scene: Scene;
   selectedEntities: Entity[];
-  
+
   refresh(): void;
   selectEntity(entity: Entity): void;
   deleteEntity(entity: Entity): void;
@@ -448,12 +470,14 @@ interface IHierarchyPanel {
 ```
 
 **Features:**
+
 - Tree view of scene entities
 - Drag-and-drop reparenting
 - Search and filter
 - Context menus
 
 **Key Files:**
+
 - `packages/editor/src/components/panels/Hierarchy.tsx`
 
 ---
@@ -468,7 +492,7 @@ interface IHierarchyPanel {
 interface IInspectorPanel {
   selectedEntity: Entity | null;
   components: IComponent[];
-  
+
   addComponent(type: string): void;
   removeComponent(type: string): void;
   updateComponent(type: string, data: any): void;
@@ -476,12 +500,14 @@ interface IInspectorPanel {
 ```
 
 **Features:**
+
 - Component list
 - Property editors
 - Add/remove components
 - Multi-object editing
 
 **Key Files:**
+
 - `packages/editor/src/components/panels/Inspector.tsx`
 - `packages/editor/src/components/inspector/ComponentEditor.tsx`
 
@@ -498,7 +524,7 @@ interface IAssetBrowser {
   currentFolder: string;
   assets: Asset[];
   selectedAssets: Asset[];
-  
+
   navigateToFolder(path: string): void;
   importAsset(file: File): Promise<Asset>;
   deleteAsset(asset: Asset): void;
@@ -507,6 +533,7 @@ interface IAssetBrowser {
 ```
 
 **Features:**
+
 - Folder navigation
 - Asset thumbnails
 - Asset import/export
@@ -514,6 +541,7 @@ interface IAssetBrowser {
 - Drag-and-drop
 
 **Key Files:**
+
 - `packages/editor/src/components/panels/AssetBrowser.tsx`
 - `packages/editor/src/components/assets/AssetImporter.tsx`
 
@@ -529,7 +557,7 @@ interface IAssetBrowser {
 interface IMaterialEditor {
   material: Material;
   nodeGraph: MaterialNodeGraph;
-  
+
   addNode(type: string, position: Vector2): MaterialNode;
   connectNodes(output: NodeOutput, input: NodeInput): void;
   compile(): Shader;
@@ -538,12 +566,14 @@ interface IMaterialEditor {
 ```
 
 **Features:**
+
 - Node-based editor
 - Real-time preview
 - PBR material support
 - Shader code generation
 
 **Key Files:**
+
 - `packages/editor/src/components/panels/MaterialEditor.tsx`
 
 ---
@@ -559,7 +589,7 @@ interface IAnimationTimeline {
   clip: AnimationClip;
   tracks: AnimationTrack[];
   currentTime: number;
-  
+
   addTrack(property: string): AnimationTrack;
   addKeyframe(track: AnimationTrack, time: number, value: any): void;
   playAnimation(): void;
@@ -568,6 +598,7 @@ interface IAnimationTimeline {
 ```
 
 **Key Files:**
+
 - `packages/editor/src/components/panels/Timeline.tsx`
 
 ---
@@ -581,7 +612,7 @@ interface IAnimationTimeline {
 ```typescript
 interface IConsolePanel {
   logs: LogEntry[];
-  
+
   log(message: string, level: LogLevel): void;
   clear(): void;
   filter(level: LogLevel): LogEntry[];
@@ -589,6 +620,7 @@ interface IConsolePanel {
 ```
 
 **Key Files:**
+
 - `packages/editor/src/components/panels/Console.tsx`
 
 ---
@@ -618,6 +650,7 @@ interface ICommandManager {
 ```
 
 **Key Files:**
+
 - `packages/editor/src/store/index.ts`
 - `packages/editor/src/commands/CommandManager.ts`
 
@@ -642,6 +675,7 @@ interface IProjectService {
 ```
 
 **Key Files:**
+
 - `packages/server/src/services/ProjectService.ts`
 - `packages/server/src/controllers/ProjectController.ts`
 
@@ -662,11 +696,13 @@ interface IAssetProcessor {
 ```
 
 **Processors:**
+
 - Image processor (compression, resizing)
 - Model processor (optimization, LOD)
 - Audio processor (transcoding)
 
 **Key Files:**
+
 - `packages/server/src/services/AssetProcessor.ts`
 - `packages/server/src/processors/ImageProcessor.ts`
 
@@ -687,6 +723,7 @@ interface IBuildService {
 ```
 
 **Key Files:**
+
 - `packages/server/src/services/BuildService.ts`
 - `packages/server/src/builders/WebBuilder.ts`
 
@@ -707,6 +744,7 @@ interface IWebSocketServer {
 ```
 
 **Key Files:**
+
 - `packages/server/src/websocket/WebSocketServer.ts`
 
 ---
@@ -722,7 +760,7 @@ interface IWebSocketServer {
 ```typescript
 interface IParticleSystem {
   emitters: ParticleEmitter[];
-  
+
   createEmitter(config: EmitterConfig): ParticleEmitter;
   update(deltaTime: number): void;
   render(renderer: Renderer): void;
@@ -742,7 +780,7 @@ interface ITerrain {
   heightmap: Float32Array;
   size: Vector2;
   resolution: number;
-  
+
   getHeight(x: number, z: number): number;
   setHeight(x: number, z: number, height: number): void;
   sculpt(brush: TerrainBrush, position: Vector3): void;
@@ -786,51 +824,54 @@ interface INetworkManager {
 
 ## Component Priority Matrix
 
-| Component | Priority | Phase | Dependencies | Effort |
-|-----------|----------|-------|--------------|--------|
-| Engine Core | P0 | 1 | None | 2 weeks |
-| ECS | P0 | 1 | Engine Core | 3 weeks |
-| Math Library | P0 | 1 | None | 1 week |
-| Graphics Renderer | P0 | 2 | ECS | 4 weeks |
-| Scene Management | P0 | 2 | ECS, Graphics | 2 weeks |
-| Asset Management | P0 | 2 | Engine Core | 3 weeks |
-| Input System | P0 | 2 | Engine Core | 2 weeks |
-| Editor Shell | P0 | 3 | React | 2 weeks |
-| Viewport | P0 | 3 | Engine | 3 weeks |
-| Hierarchy | P0 | 3 | Scene | 2 weeks |
-| Inspector | P0 | 3 | ECS | 3 weeks |
-| Asset Browser | P0 | 3 | Assets | 3 weeks |
-| Console | P0 | 3 | None | 1 week |
-| State Management | P0 | 3 | React | 2 weeks |
-| Project Service | P0 | 3 | Database | 2 weeks |
-| Physics Engine | P1 | 4 | ECS | 3 weeks |
-| Audio System | P1 | 4 | Assets | 2 weeks |
-| Material Editor | P1 | 4 | Graphics | 4 weeks |
-| Asset Processor | P1 | 4 | Storage | 3 weeks |
-| Build Service | P1 | 5 | Assets | 4 weeks |
-| WebSocket | P1 | 5 | Server | 2 weeks |
-| Animation | P2 | 4 | ECS | 3 weeks |
-| Particle System | P2 | 4 | Graphics | 3 weeks |
-| Terrain | P2 | 4 | Graphics | 4 weeks |
-| AI/Navigation | P2 | 4 | ECS | 3 weeks |
-| Networking | P3 | 6 | Engine | 4 weeks |
+| Component         | Priority | Phase | Dependencies  | Effort  |
+| ----------------- | -------- | ----- | ------------- | ------- |
+| Engine Core       | P0       | 1     | None          | 2 weeks |
+| ECS               | P0       | 1     | Engine Core   | 3 weeks |
+| Math Library      | P0       | 1     | None          | 1 week  |
+| Graphics Renderer | P0       | 2     | ECS           | 4 weeks |
+| Scene Management  | P0       | 2     | ECS, Graphics | 2 weeks |
+| Asset Management  | P0       | 2     | Engine Core   | 3 weeks |
+| Input System      | P0       | 2     | Engine Core   | 2 weeks |
+| Editor Shell      | P0       | 3     | React         | 2 weeks |
+| Viewport          | P0       | 3     | Engine        | 3 weeks |
+| Hierarchy         | P0       | 3     | Scene         | 2 weeks |
+| Inspector         | P0       | 3     | ECS           | 3 weeks |
+| Asset Browser     | P0       | 3     | Assets        | 3 weeks |
+| Console           | P0       | 3     | None          | 1 week  |
+| State Management  | P0       | 3     | React         | 2 weeks |
+| Project Service   | P0       | 3     | Database      | 2 weeks |
+| Physics Engine    | P1       | 4     | ECS           | 3 weeks |
+| Audio System      | P1       | 4     | Assets        | 2 weeks |
+| Material Editor   | P1       | 4     | Graphics      | 4 weeks |
+| Asset Processor   | P1       | 4     | Storage       | 3 weeks |
+| Build Service     | P1       | 5     | Assets        | 4 weeks |
+| WebSocket         | P1       | 5     | Server        | 2 weeks |
+| Animation         | P2       | 4     | ECS           | 3 weeks |
+| Particle System   | P2       | 4     | Graphics      | 3 weeks |
+| Terrain           | P2       | 4     | Graphics      | 4 weeks |
+| AI/Navigation     | P2       | 4     | ECS           | 3 weeks |
+| Networking        | P3       | 6     | Engine        | 4 weeks |
 
 ---
 
 ## Implementation Order
 
 ### Phase 1: Foundation (Weeks 1-6)
+
 1. Math Library
 2. Engine Core
 3. ECS System
 
 ### Phase 2: Core Engine (Weeks 7-18)
+
 4. Graphics Renderer
 5. Scene Management
 6. Asset Management
 7. Input System
 
 ### Phase 3: Editor (Weeks 19-32)
+
 8. Editor Shell
 9. Viewport Panel
 10. Hierarchy Panel
@@ -840,11 +881,13 @@ interface INetworkManager {
 14. State Management
 
 ### Phase 4: Server (Weeks 25-32)
+
 15. Project Service
 16. Asset Processor
 17. WebSocket Server
 
 ### Phase 5: Advanced Features (Weeks 33-50)
+
 18. Physics Engine
 19. Audio System
 20. Material Editor
@@ -852,6 +895,7 @@ interface INetworkManager {
 22. Build Service
 
 ### Phase 6: Polish (Weeks 51-60)
+
 23. Particle System
 24. Terrain System
 25. AI/Navigation
@@ -859,6 +903,6 @@ interface INetworkManager {
 
 ---
 
-*Document Version: 1.0*  
-*Last Updated: 2025-11-16*  
-*Status: Initial Breakdown*
+_Document Version: 1.0_  
+_Last Updated: 2025-11-16_  
+_Status: Initial Breakdown_

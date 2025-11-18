@@ -446,6 +446,7 @@ node_modules/                   # Dependencies (gitignored)
 ### Package-Specific
 
 Each package has its own:
+
 - **package.json** - Package dependencies and scripts
 - **tsconfig.json** - TypeScript configuration (extends root)
 - **vite.config.ts** or **webpack.config.js** - Build config
@@ -471,6 +472,7 @@ scripts/
 ## Git Workflow
 
 ### Branch Structure
+
 ```
 main                            # Production-ready code
 ├── develop                     # Development branch
@@ -481,7 +483,9 @@ main                            # Production-ready code
 ```
 
 ### Commit Convention
+
 Follow Conventional Commits:
+
 - `feat:` New features
 - `fix:` Bug fixes
 - `docs:` Documentation
@@ -495,12 +499,14 @@ Follow Conventional Commits:
 ## Best Practices
 
 ### File Organization
+
 1. Group related files in directories
 2. Keep files focused and single-purpose
 3. Use index files for public API exports
 4. Separate concerns (logic, UI, data)
 
 ### Naming Conventions
+
 - **Files:** PascalCase for components/classes, camelCase for utilities
 - **Directories:** kebab-case
 - **Components:** PascalCase
@@ -509,6 +515,7 @@ Follow Conventional Commits:
 - **Types/Interfaces:** PascalCase with I prefix for interfaces
 
 ### Module Structure
+
 ```typescript
 // Public API exports
 export * from './publicModule';
@@ -522,6 +529,7 @@ import { privateModule } from './private';
 ## Future Additions
 
 As the project grows, consider adding:
+
 - `packages/plugins/` - Plugin system
 - `packages/cli/` - Command-line tools
 - `packages/mobile/` - Mobile editor support
@@ -530,6 +538,6 @@ As the project grows, consider adding:
 
 ---
 
-*Document Version: 1.0*  
-*Last Updated: 2025-11-16*  
-*Status: Initial Structure*
+_Document Version: 1.0_  
+_Last Updated: 2025-11-16_  
+_Status: Initial Structure_

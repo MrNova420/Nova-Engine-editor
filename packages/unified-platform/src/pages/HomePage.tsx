@@ -93,12 +93,8 @@ export const HomePage: React.FC<HomePageProps> = ({
 
   return (
     <div className="homepage-with-real-bg">
-      {/* Top Bar */}
+      {/* Top Bar with Auth Buttons */}
       <div className="home-topbar">
-        <div className="home-logo">
-          <span className="logo-nova">NOVA</span>
-          <span className="logo-engine">ENGINE</span>
-        </div>
         {!isLoggedIn && (
           <div className="home-auth-btns">
             <button
@@ -117,28 +113,38 @@ export const HomePage: React.FC<HomePageProps> = ({
         )}
       </div>
 
+      {/* Main Planet Center Title */}
+      <div className="center-title">
+        <div className="home-logo">
+          <span className="logo-nova">NOVA</span>
+          <span className="logo-engine">ENGINE</span>
+        </div>
+      </div>
+
       {/* Invisible clickable planet hotspots over the real background image */}
       <div className="planet-hotspots-container">
         {planetHotspots.map((planet) => (
           <div
             key={planet.id}
-            className={`planet-hotspot ${hoveredPlanet === planet.id ? 'hovered' : ''} ${!isLoggedIn ? 'locked' : ''}`}
+            className="planet-wrapper"
             style={planet.position}
-            onClick={() => handlePlanetClick(planet.path)}
-            onMouseEnter={() => setHoveredPlanet(planet.id)}
-            onMouseLeave={() => setHoveredPlanet(null)}
           >
-            {/* Tooltip that appears on hover */}
-            <div className="planet-tooltip">
-              <h3>{planet.name}</h3>
-              <p>{planet.description}</p>
-              {!isLoggedIn && (
-                <span className="lock-badge">🔒 Login Required</span>
-              )}
+            {/* Simple text label above planet - always visible */}
+            <div className="planet-label">
+              {planet.name}
+              {!isLoggedIn && <span className="lock-icon">🔒</span>}
             </div>
 
-            {/* Visual indicator circle (subtle, only visible on hover) */}
-            <div className="hotspot-circle"></div>
+            {/* Invisible clickable hotspot */}
+            <div
+              className={`planet-hotspot ${hoveredPlanet === planet.id ? 'hovered' : ''} ${!isLoggedIn ? 'locked' : ''}`}
+              onClick={() => handlePlanetClick(planet.path)}
+              onMouseEnter={() => setHoveredPlanet(planet.id)}
+              onMouseLeave={() => setHoveredPlanet(null)}
+            >
+              {/* Subtle hover indicator */}
+              <div className="hotspot-indicator"></div>
+            </div>
           </div>
         ))}
       </div>
@@ -146,7 +152,7 @@ export const HomePage: React.FC<HomePageProps> = ({
       {/* Login prompt for unauthenticated users */}
       {!isLoggedIn && (
         <div className="login-reminder">
-          <p>👆 Login or Sign Up to explore all features</p>
+          <p>Hover over planets to explore • Login to access features</p>
         </div>
       )}
 
@@ -154,8 +160,8 @@ export const HomePage: React.FC<HomePageProps> = ({
         .homepage-with-real-bg {
           width: 100%;
           min-height: 100vh;
-          /* USE LOCAL PLANET BACKGROUND IMAGE */
-          background-image: url('/planet-background.svg');
+          /* USE ACTUAL PLANET BACKGROUND IMAGE */
+          background-image: url('/homepagebackground.png');
           background-size: cover;
           background-position: center;
           background-repeat: no-repeat;
@@ -164,42 +170,12 @@ export const HomePage: React.FC<HomePageProps> = ({
           overflow: hidden;
         }
 
-        /* Top Bar */
+        /* Top Bar - Minimal, just auth buttons */
         .home-topbar {
           position: absolute;
-          top: 0;
-          left: 0;
-          right: 0;
-          height: 80px;
-          display: flex;
-          justify-content: space-between;
-          align-items: center;
-          padding: 0 40px;
-          background: linear-gradient(180deg, rgba(0,0,0,0.6) 0%, transparent 100%);
+          top: 30px;
+          right: 40px;
           z-index: 100;
-        }
-
-        .home-logo {
-          display: flex;
-          align-items: baseline;
-          gap: 10px;
-        }
-
-        .logo-nova {
-          font-size: 36px;
-          font-weight: 900;
-          letter-spacing: 6px;
-          background: linear-gradient(135deg, #ff6ec4 0%, #7b2ff7 50%, #4cc9f0 100%);
-          -webkit-background-clip: text;
-          -webkit-text-fill-color: transparent;
-          text-shadow: 0 0 20px rgba(123, 47, 247, 0.5);
-        }
-
-        .logo-engine {
-          font-size: 14px;
-          font-weight: 300;
-          letter-spacing: 3px;
-          color: #a0a0ff;
         }
 
         .home-auth-btns {
@@ -209,34 +185,72 @@ export const HomePage: React.FC<HomePageProps> = ({
 
         .home-login-btn,
         .home-signup-btn {
-          padding: 12px 30px;
-          border-radius: 25px;
-          font-weight: 700;
-          font-size: 15px;
+          padding: 10px 28px;
+          border-radius: 6px;
+          font-weight: 600;
+          font-size: 14px;
           cursor: pointer;
-          transition: all 0.3s ease;
+          transition: all 0.2s ease;
           border: none;
+          text-transform: uppercase;
+          letter-spacing: 1px;
         }
 
         .home-login-btn {
-          background: rgba(123, 47, 247, 0.3);
-          border: 2px solid rgba(123, 47, 247, 0.6);
+          background: transparent;
+          border: 1px solid rgba(255, 255, 255, 0.3);
           color: white;
         }
 
         .home-login-btn:hover {
-          background: rgba(123, 47, 247, 0.5);
-          transform: translateY(-2px);
+          background: rgba(255, 255, 255, 0.1);
+          border-color: rgba(255, 255, 255, 0.5);
         }
 
         .home-signup-btn {
-          background: linear-gradient(135deg, #7b2ff7 0%, #ff6ec4 100%);
+          background: rgba(255, 255, 255, 0.15);
           color: white;
+          border: 1px solid rgba(255, 255, 255, 0.3);
         }
 
         .home-signup-btn:hover {
-          transform: translateY(-2px);
-          box-shadow: 0 8px 25px rgba(123, 47, 247, 0.4);
+          background: rgba(255, 255, 255, 0.25);
+        }
+
+        /* Center Title under main planet */
+        .center-title {
+          position: absolute;
+          top: 52%;
+          left: 50%;
+          transform: translate(-50%, -50%);
+          z-index: 50;
+        }
+
+        .home-logo {
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          text-align: center;
+        }
+
+        .logo-nova {
+          font-size: 72px;
+          font-weight: 900;
+          letter-spacing: 12px;
+          color: white;
+          text-shadow: 
+            0 0 20px rgba(255, 255, 255, 0.5),
+            0 0 40px rgba(123, 47, 247, 0.3),
+            0 2px 8px rgba(0, 0, 0, 0.8);
+        }
+
+        .logo-engine {
+          font-size: 18px;
+          font-weight: 300;
+          letter-spacing: 8px;
+          color: rgba(255, 255, 255, 0.8);
+          margin-top: 10px;
+          text-shadow: 0 2px 8px rgba(0, 0, 0, 0.8);
         }
 
         /* Planet Hotspots Container */
@@ -248,12 +262,45 @@ export const HomePage: React.FC<HomePageProps> = ({
           bottom: 0;
         }
 
-        /* Individual Planet Hotspot (invisible clickable area) */
-        .planet-hotspot {
+        /* Planet Wrapper */
+        .planet-wrapper {
           position: absolute;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+        }
+
+        /* Simple text label above planet - always visible, no box */
+        .planet-label {
+          position: absolute;
+          top: -35px;
+          left: 50%;
+          transform: translateX(-50%);
+          font-size: 16px;
+          font-weight: 600;
+          color: white;
+          text-shadow: 
+            0 2px 8px rgba(0, 0, 0, 0.9),
+            0 0 20px rgba(0, 0, 0, 0.5);
+          letter-spacing: 1px;
+          white-space: nowrap;
+          z-index: 20;
+          text-transform: uppercase;
+        }
+
+        .lock-icon {
+          margin-left: 6px;
+          font-size: 14px;
+          opacity: 0.8;
+        }
+
+        /* Invisible clickable hotspot */
+        .planet-hotspot {
+          width: 100%;
+          height: 100%;
           cursor: pointer;
           border-radius: 50%;
-          transition: all 0.3s ease;
+          position: relative;
           z-index: 10;
         }
 
@@ -261,139 +308,71 @@ export const HomePage: React.FC<HomePageProps> = ({
           cursor: not-allowed;
         }
 
-        /* Subtle circle indicator (only visible on hover) */
-        .hotspot-circle {
+        /* Subtle hover indicator - very minimal */
+        .hotspot-indicator {
           width: 100%;
           height: 100%;
           border-radius: 50%;
-          border: 3px solid transparent;
+          border: 2px solid transparent;
           transition: all 0.3s ease;
           position: absolute;
           top: 0;
           left: 0;
-        }
-
-        .planet-hotspot:hover .hotspot-circle {
-          border-color: rgba(123, 47, 247, 0.6);
-          box-shadow: 0 0 30px rgba(123, 47, 247, 0.8), inset 0 0 20px rgba(123, 47, 247, 0.3);
-          animation: pulse-ring 1.5s ease-in-out infinite;
-        }
-
-        @keyframes pulse-ring {
-          0%, 100% {
-            transform: scale(1);
-            opacity: 1;
-          }
-          50% {
-            transform: scale(1.05);
-            opacity: 0.8;
-          }
-        }
-
-        /* Tooltip that appears on hover */
-        .planet-tooltip {
-          position: absolute;
-          bottom: calc(100% + 15px);
-          left: 50%;
-          transform: translateX(-50%) translateY(10px);
-          background: linear-gradient(135deg, rgba(26,0,51,0.98) 0%, rgba(58,12,88,0.98) 100%);
-          border: 2px solid rgba(123, 47, 247, 0.6);
-          border-radius: 16px;
-          padding: 20px 25px;
-          min-width: 250px;
-          text-align: center;
-          opacity: 0;
-          visibility: hidden;
-          transition: all 0.3s ease;
-          backdrop-filter: blur(10px);
-          box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
           pointer-events: none;
-          z-index: 100;
         }
 
-        .planet-hotspot:hover .planet-tooltip {
-          opacity: 1;
-          visibility: visible;
-          transform: translateX(-50%) translateY(0);
+        .planet-hotspot:hover .hotspot-indicator {
+          border-color: rgba(255, 255, 255, 0.4);
+          box-shadow: 0 0 20px rgba(255, 255, 255, 0.3);
         }
 
-        .planet-tooltip h3 {
-          margin: 0 0 8px 0;
-          font-size: 20px;
-          font-weight: 700;
-          color: white;
-          background: linear-gradient(135deg, #ff6ec4 0%, #4cc9f0 100%);
-          -webkit-background-clip: text;
-          -webkit-text-fill-color: transparent;
-        }
-
-        .planet-tooltip p {
-          margin: 0 0 10px 0;
-          font-size: 14px;
-          color: rgba(255, 255, 255, 0.8);
-        }
-
-        .lock-badge {
-          display: inline-block;
-          padding: 6px 14px;
-          background: rgba(239, 68, 68, 0.3);
-          border: 1px solid rgba(239, 68, 68, 0.6);
-          border-radius: 20px;
-          font-size: 13px;
-          color: #ef4444;
-          font-weight: 600;
-        }
-
-
-
-        /* Login Reminder */
+        /* Login Reminder - cleaner design */
         .login-reminder {
           position: absolute;
-          bottom: 40px;
+          bottom: 50px;
           left: 50%;
           transform: translateX(-50%);
-          background: linear-gradient(135deg, rgba(123, 47, 247, 0.95) 0%, rgba(255, 110, 196, 0.95) 100%);
-          border: 2px solid rgba(255, 255, 255, 0.3);
-          border-radius: 30px;
-          padding: 15px 40px;
+          background: rgba(0, 0, 0, 0.6);
+          border: 1px solid rgba(255, 255, 255, 0.2);
+          border-radius: 8px;
+          padding: 12px 30px;
           backdrop-filter: blur(10px);
-          box-shadow: 0 10px 40px rgba(123, 47, 247, 0.5);
-          animation: float 3s ease-in-out infinite;
-        }
-
-        @keyframes float {
-          0%, 100% { transform: translateX(-50%) translateY(0); }
-          50% { transform: translateX(-50%) translateY(-10px); }
+          z-index: 50;
         }
 
         .login-reminder p {
           margin: 0;
-          color: white;
-          font-size: 16px;
-          font-weight: 600;
-          text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+          color: rgba(255, 255, 255, 0.9);
+          font-size: 14px;
+          font-weight: 400;
+          letter-spacing: 0.5px;
         }
 
         @media (max-width: 768px) {
           .home-topbar {
-            padding: 0 20px;
+            top: 20px;
+            right: 20px;
           }
 
           .logo-nova {
-            font-size: 28px;
+            font-size: 48px;
+            letter-spacing: 8px;
           }
 
-          .planet-tooltip {
-            min-width: 200px;
-            padding: 15px 20px;
+          .logo-engine {
+            font-size: 14px;
+            letter-spacing: 6px;
           }
 
-          .planet-tooltip h3 {
-            font-size: 18px;
+          .planet-label {
+            font-size: 14px;
+            top: -30px;
           }
 
-          .planet-tooltip p {
-            font-size: 13px;
+          .home-login-btn,
+          .home-signup-btn {
+            padding: 8px 20px;
+            font-size: 12px;
           }
         }
       `}</style>

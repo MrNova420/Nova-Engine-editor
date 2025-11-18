@@ -86,3 +86,33 @@ docs/build/
 *.seed
 *.pid
 *.pid.lock
+
+# Security - Environment variables
+.env
+.env.*
+!.env.example
+
+# Uploads and user data
+uploads/
+user-data/
+*.log
+
+# OS specific
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+
+# Temporary files
+*.tmp
+*.temp
+*.swp
+*.swo
+*~
+
+# Test coverage
+coverage/
+.nyc_output/
+
+# Build artifacts
+*.tsbuildinfo
+.turbo/

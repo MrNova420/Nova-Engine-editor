@@ -1,6 +1,6 @@
 /**
  * NOVA ENGINE - Editor V2 Styles
- * Matches Image 2 mockup theme with Unity/Unreal professional styling
+ * Clean design matching template visual style
  */
 
 .editor-v2-container {
@@ -8,7 +8,7 @@
   height: 100vh;
   background: #0a0a0f;
   color: #fff;
-  font-family: 'Inter', 'Segoe UI', sans-serif;
+  font-family: 'Inter', 'Segoe UI', 'Arial', sans-serif;
   display: flex;
   flex-direction: column;
   overflow: hidden;
@@ -19,9 +19,9 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 0.5rem 1rem;
-  background: linear-gradient(135deg, #1a1a2e 0%, #16162a 100%);
-  border-bottom: 1px solid rgba(138, 43, 226, 0.3);
+  padding: 0.6rem 1.2rem;
+  background: rgba(20, 20, 30, 0.6);
+  border-bottom: 1px solid rgba(100, 100, 120, 0.15);
 }
 
 .editor-v2-logo {
@@ -31,20 +31,17 @@
 }
 
 .editor-v2-logo .nova-text {
-  font-size: 1.5rem;
-  font-weight: 900;
-  background: linear-gradient(135deg, #a855f7, #ec4899, #8b5cf6);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-  letter-spacing: 2px;
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: #e0e0ff;
+  letter-spacing: 1.5px;
 }
 
 .editor-title {
-  font-size: 1rem;
-  color: rgba(255, 255, 255, 0.8);
+  font-size: 0.95rem;
+  color: rgba(255, 255, 255, 0.7);
   padding-left: 1rem;
-  border-left: 1px solid rgba(138, 43, 226, 0.5);
+  border-left: 1px solid rgba(100, 100, 120, 0.3);
 }
 
 .editor-v2-menu {
@@ -72,19 +69,19 @@
 }
 
 .action-btn {
-  padding: 0.5rem 1.5rem;
-  background: linear-gradient(135deg, #a855f7, #ec4899);
-  border: none;
+  padding: 0.5rem 1.3rem;
+  background: rgba(147, 51, 234, 0.2);
+  border: 1px solid rgba(147, 51, 234, 0.4);
   border-radius: 6px;
   color: #fff;
   font-weight: 600;
   cursor: pointer;
-  transition: all 0.3s ease;
+  transition: all 0.2s ease;
 }
 
 .action-btn:hover {
-  transform: scale(1.05);
-  box-shadow: 0 0 15px rgba(168, 85, 247, 0.5);
+  background: rgba(147, 51, 234, 0.3);
+  border-color: rgba(147, 51, 234, 0.6);
 }
 
 /* Toolbar */

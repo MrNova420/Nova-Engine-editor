@@ -5,7 +5,7 @@
 
 .social-module-v2 {
   min-height: 100vh;
-  background: linear-gradient(135deg, #0a0a1e 0%, #1a1a3e 50%, #0f0f2e 100%);
+  background: #0a0a0f;
   color: #ffffff;
   padding: 20px;
   overflow-y: auto;
@@ -18,26 +18,7 @@
 }
 
 .orbital-planet-social {
-  width: 80px;
-  height: 80px;
-  margin: 0 auto 15px;
-  background: radial-gradient(circle, rgba(236, 72, 153, 0.4) 0%, transparent 70%);
-  border-radius: 50%;
-  position: relative;
-  animation: pulse 3s ease-in-out infinite;
-}
-
-.orbital-planet-social::before {
-  content: '';
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  width: 50px;
-  height: 50px;
-  background: linear-gradient(135deg, #ec4899 0%, #a855f7 100%);
-  border-radius: 50%;
-  box-shadow: 0 0 25px rgba(236, 72, 153, 0.6);
+  display: none; /* Remove per template - no planets on internal pages */
 }
 
 @keyframes pulse {

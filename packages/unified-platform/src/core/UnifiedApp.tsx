@@ -184,9 +184,9 @@ const UnifiedAppContent: React.FC<{ platform: UnifiedPlatformCore }> = ({
   }
 
   // Check if we're on a standalone page (homepage, login, register)
-  const isStandalonePage = ['/', '/login', '/register'].includes(
-    location.pathname
-  );
+  // const isStandalonePage = ['/', '/login', '/register'].includes(
+  //   location.pathname
+  // );
 
   return (
     <div className="unified-app">

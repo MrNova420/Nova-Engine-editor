@@ -42,6 +42,7 @@ Nova Engine is not just an editor—it's a complete game development platform wi
 **What it is:** The actual game engine that runs games.
 
 **Key Features:**
+
 - Entity-Component-System (ECS) architecture
 - Rendering system (WebGL/WebGPU/Native)
 - Physics engine
@@ -52,12 +53,14 @@ Nova Engine is not just an editor—it's a complete game development platform wi
 - Scene system
 
 **Platform Targets:**
+
 - **Web** (HTML5/WebGL/WebGPU) - Primary
 - **Desktop** (Windows/Linux/Mac) - Secondary
 - **Mobile** (Android/iOS) - Secondary
 - **Console** (Xbox/PlayStation/Switch) - Future (requires dev programs)
 
 **Architecture Benefits:**
+
 ```
 Data-driven & ECS-based → Easy to extend and optimize
 Rendering-agnostic → Can swap WebGL/Vulkan/DirectX/Metal
@@ -73,6 +76,7 @@ Platform-abstracted → Write once, deploy everywhere (within limits)
 **Current Status:** Being designed in current roadmap
 
 **Key Features:**
+
 - Visual scene editor
 - Component inspector
 - Asset browser
@@ -84,6 +88,7 @@ Platform-abstracted → Write once, deploy everywhere (within limits)
 - Console
 
 **Special Feature - Edit Mode vs Play Mode:**
+
 ```
 Edit Mode: Design your game with full editor UI
     ↓ Press Play
@@ -93,6 +98,7 @@ Edit Mode: Make changes and test immediately
 ```
 
 **Deployment Options:**
+
 - **Nova Editor Web** - Runs in browser, saves to Nova Hub or locally
 - **Nova Editor Desktop** - Electron app for heavy projects (future)
 
@@ -105,6 +111,7 @@ Edit Mode: Make changes and test immediately
 **Core Functions:**
 
 #### 3.1 Project Storage
+
 ```
 Stores:
 ├── Scenes (.novaScene.json)
@@ -115,6 +122,7 @@ Stores:
 ```
 
 #### 3.2 Build Pipeline
+
 ```
 Upload project → Nova Hub builds it for multiple platforms
     ├── Web Build (HTML + JS + WASM)
@@ -124,6 +132,7 @@ Upload project → Nova Hub builds it for multiple platforms
 ```
 
 **Automated Build Process:**
+
 1. Bundle scripts and assets
 2. Compile shaders for target platform
 3. Optimize assets (compression, format conversion)
@@ -131,6 +140,7 @@ Upload project → Nova Hub builds it for multiple platforms
 5. Generate distribution packages
 
 #### 3.3 Game Registry & Versioning
+
 ```
 Database tracks:
 ├── Your games
@@ -142,6 +152,7 @@ Database tracks:
 ```
 
 #### 3.4 Multiplayer Server
+
 ```
 For multiplayer games:
 ├── Dedicated server hosting
@@ -152,6 +163,7 @@ For multiplayer games:
 ```
 
 #### 3.5 Asset CDN
+
 ```
 Serves game assets efficiently:
 ├── Caching and compression
@@ -161,6 +173,7 @@ Serves game assets efficiently:
 ```
 
 **Technology Stack:**
+
 ```
 Backend:     Node.js + Express/Fastify
 Database:    PostgreSQL (metadata) + S3-compatible (assets)
@@ -177,6 +190,7 @@ CDN:         CloudFlare/Custom for asset delivery
 **What it is:** The app players use to browse and run your games.
 
 **The Vision:**
+
 ```
 Upload game once to Nova Hub
     ↓
@@ -188,6 +202,7 @@ Players can run it with appropriate Nova Runtime
 **Platform Variants:**
 
 #### 4.1 Nova Launcher Web
+
 ```
 Single-page web app that:
 ├── Lists available games
@@ -198,6 +213,7 @@ Single-page web app that:
 ```
 
 **URL Structure:**
+
 ```
 https://nova-launcher.yoursite.com/
     ├── /games          - Browse all games
@@ -207,6 +223,7 @@ https://nova-launcher.yoursite.com/
 ```
 
 #### 4.2 Nova Launcher Desktop
+
 ```
 Native desktop app (like Steam/Itch launcher):
 ├── Browse games from Nova Hub
@@ -220,6 +237,7 @@ Native desktop app (like Steam/Itch launcher):
 **Tech:** Electron or Tauri for cross-platform desktop
 
 #### 4.3 Nova Launcher Mobile
+
 ```
 Android/iOS app:
 ├── Browse mobile-compatible games
@@ -231,6 +249,7 @@ Android/iOS app:
 ```
 
 **Distribution:**
+
 - Android: Google Play Store or direct APK
 - iOS: TestFlight (beta) → App Store (production)
 
@@ -280,18 +299,22 @@ Android/iOS app:
 ## 🚀 Implementation Phases (Extended Roadmap)
 
 ### Phase 1-3: Core Editor (Months 1-14)
+
 **Status:** Current roadmap  
 **Deliverables:** Nova Editor + Nova Runtime core
 
 ### Phase 4: Advanced Features (Months 15-20)
+
 **Status:** Current roadmap  
 **Deliverables:** Complete engine features
 
 ### Phase 5: Platform Integration (Months 21-24)
+
 **Status:** Current roadmap  
 **Deliverables:** Multi-platform builds
 
 ### Phase 6: Polish & Initial Release (Months 25-30)
+
 **Status:** Current roadmap  
 **Deliverables:** Editor v1.0
 
@@ -300,10 +323,12 @@ Android/iOS app:
 ### 🌟 NEW PHASES FOR ECOSYSTEM
 
 ### Phase 7: Nova Hub Foundation (Months 31-36)
+
 **Goal:** Build platform backend  
 **Duration:** 6 months
 
 #### 7.1 Hub Core Infrastructure
+
 - [ ] Set up server architecture
 - [ ] Implement user authentication
 - [ ] Create project storage system
@@ -311,6 +336,7 @@ Android/iOS app:
 - [ ] Implement version control
 
 #### 7.2 Build Pipeline
+
 - [ ] Create build queue system
 - [ ] Implement web build pipeline
 - [ ] Add desktop build pipeline
@@ -318,6 +344,7 @@ Android/iOS app:
 - [ ] Implement build notifications
 
 #### 7.3 Game Registry
+
 - [ ] Design game database schema
 - [ ] Create game management API
 - [ ] Implement version tagging
@@ -325,6 +352,7 @@ Android/iOS app:
 - [ ] Build admin dashboard
 
 **Deliverables:**
+
 - Nova Hub API v1.0
 - Project storage and versioning
 - Automated build system
@@ -333,10 +361,12 @@ Android/iOS app:
 ---
 
 ### Phase 8: Nova Launcher Web (Months 37-40)
+
 **Goal:** Create web player platform  
 **Duration:** 4 months
 
 #### 8.1 Launcher Frontend
+
 - [ ] Design launcher UI
 - [ ] Implement game browser
 - [ ] Create game detail pages
@@ -344,6 +374,7 @@ Android/iOS app:
 - [ ] Add user profiles
 
 #### 8.2 Runtime Integration
+
 - [ ] Integrate Nova Runtime (web)
 - [ ] Implement game loading
 - [ ] Add save game management
@@ -351,6 +382,7 @@ Android/iOS app:
 - [ ] Implement achievement system
 
 #### 8.3 Social Features
+
 - [ ] User accounts
 - [ ] Friends system
 - [ ] Leaderboards
@@ -358,6 +390,7 @@ Android/iOS app:
 - [ ] Share functionality
 
 **Deliverables:**
+
 - Nova Launcher Web v1.0
 - Working game player
 - User account system
@@ -366,10 +399,12 @@ Android/iOS app:
 ---
 
 ### Phase 9: Nova Launcher Desktop (Months 41-46)
+
 **Goal:** Create desktop player platform  
 **Duration:** 6 months
 
 #### 9.1 Desktop Application
+
 - [ ] Set up Electron/Tauri project
 - [ ] Port launcher UI to desktop
 - [ ] Implement game download system
@@ -377,6 +412,7 @@ Android/iOS app:
 - [ ] Add offline mode
 
 #### 9.2 Desktop Runtime
+
 - [ ] Optimize Nova Runtime for desktop
 - [ ] Implement native rendering
 - [ ] Add desktop-specific features
@@ -384,6 +420,7 @@ Android/iOS app:
 - [ ] Build installer packages
 
 #### 9.3 Advanced Features
+
 - [ ] Mod support
 - [ ] Screenshot/video capture
 - [ ] Steam-like overlay
@@ -391,6 +428,7 @@ Android/iOS app:
 - [ ] Performance monitoring
 
 **Deliverables:**
+
 - Nova Launcher Desktop v1.0
 - Native desktop runtime
 - Installer packages (Win/Linux/Mac)
@@ -399,10 +437,12 @@ Android/iOS app:
 ---
 
 ### Phase 10: Nova Launcher Mobile (Months 47-52)
+
 **Goal:** Create mobile player platform  
 **Duration:** 6 months
 
 #### 10.1 Mobile Application
+
 - [ ] Design mobile UI/UX
 - [ ] Implement touch controls
 - [ ] Create mobile game browser
@@ -410,6 +450,7 @@ Android/iOS app:
 - [ ] Build mobile runtime integration
 
 #### 10.2 Platform Optimization
+
 - [ ] Optimize for mobile performance
 - [ ] Implement battery management
 - [ ] Add bandwidth optimization
@@ -417,6 +458,7 @@ Android/iOS app:
 - [ ] Implement cloud saves
 
 #### 10.3 Distribution
+
 - [ ] Prepare Play Store listing
 - [ ] Create App Store listing
 - [ ] Submit for review
@@ -424,6 +466,7 @@ Android/iOS app:
 - [ ] Launch marketing
 
 **Deliverables:**
+
 - Nova Launcher Mobile v1.0
 - Android app (Play Store)
 - iOS app (App Store)
@@ -432,10 +475,12 @@ Android/iOS app:
 ---
 
 ### Phase 11: Ecosystem Enhancement (Months 53-60)
+
 **Goal:** Advanced platform features  
 **Duration:** 8 months
 
 #### 11.1 Multiplayer Infrastructure
+
 - [ ] Dedicated server hosting
 - [ ] Matchmaking service
 - [ ] Lobby system
@@ -443,6 +488,7 @@ Android/iOS app:
 - [ ] Anti-cheat system
 
 #### 11.2 Developer Tools
+
 - [ ] Analytics dashboard
 - [ ] A/B testing tools
 - [ ] Crash reporting
@@ -450,6 +496,7 @@ Android/iOS app:
 - [ ] User feedback system
 
 #### 11.3 Monetization (Optional)
+
 - [ ] In-app purchases
 - [ ] Subscription system
 - [ ] Ad integration
@@ -457,6 +504,7 @@ Android/iOS app:
 - [ ] Revenue dashboard
 
 #### 11.4 Community Features
+
 - [ ] Forums integration
 - [ ] User-generated content
 - [ ] Game modding support
@@ -464,6 +512,7 @@ Android/iOS app:
 - [ ] Developer blog platform
 
 **Deliverables:**
+
 - Complete multiplayer infrastructure
 - Developer analytics suite
 - Community platform
@@ -476,18 +525,21 @@ Android/iOS app:
 ### ✅ Realistic Now (Months 1-52)
 
 **Web (Primary)**
+
 - Runs anywhere with modern browser
 - WebGL/WebGPU support
 - Instant play, no install
 - Progressive Web App capabilities
 
 **Desktop (Secondary)**
+
 - Windows, Linux, Mac
 - Native performance
 - Offline capability
 - Full feature set
 
 **Mobile (Secondary)**
+
 - Android (easier to distribute)
 - iOS (requires App Store approval)
 - Touch-optimized controls
@@ -496,11 +548,13 @@ Android/iOS app:
 ### 🔮 Future Possibilities (Requires Dev Programs)
 
 **Consoles**
+
 - Xbox (ID@Xbox program)
 - PlayStation (PlayStation Partners)
 - Nintendo Switch (Nintendo Developer Portal)
 
 **Requirements:**
+
 - Join official developer programs
 - Sign NDAs
 - Access proprietary SDKs
@@ -508,6 +562,7 @@ Android/iOS app:
 - Certification process
 
 **Strategy:**
+
 - Design architecture to be portable
 - Abstract platform-specific code
 - Maintain clean separation
@@ -519,23 +574,23 @@ Android/iOS app:
 ## 💰 Ecosystem Monetization (Optional)
 
 ### For Free/Open Source Model:
+
 - Core engine: Open source (MIT)
 - Editor: Free to use
 - Hub: Self-hosted or community servers
 - Launcher: Free downloads
 
 ### For Commercial Model:
+
 - **Freemium Tier:**
   - Free for indie developers
   - Limited Hub storage
   - Community support
-  
 - **Pro Tier:**
   - Unlimited storage
   - Priority builds
   - Advanced analytics
   - Priority support
-  
 - **Enterprise Tier:**
   - Private Hub instance
   - Custom features
@@ -547,6 +602,7 @@ Android/iOS app:
 ## 🔧 Technology Stack (Complete Ecosystem)
 
 ### Nova Runtime (Engine)
+
 ```
 Language:    TypeScript
 Graphics:    WebGL 2.0, WebGPU, (future: Vulkan, Metal, DirectX)
@@ -556,6 +612,7 @@ Networking:  WebSocket, WebRTC
 ```
 
 ### Nova Editor (Tools)
+
 ```
 Framework:   React 18+ with TypeScript
 UI Library:  Material-UI / Radix UI
@@ -565,6 +622,7 @@ Code Editor: Monaco Editor
 ```
 
 ### Nova Hub (Server)
+
 ```
 Runtime:     Node.js 18+ LTS
 Framework:   Fastify / Express
@@ -578,6 +636,7 @@ Container:   Docker + Kubernetes (optional)
 ```
 
 ### Nova Launcher Web
+
 ```
 Framework:   React / Next.js
 State:       Redux Toolkit
@@ -587,6 +646,7 @@ PWA:         Service Workers
 ```
 
 ### Nova Launcher Desktop
+
 ```
 Framework:   Electron / Tauri
 UI:          React
@@ -595,6 +655,7 @@ Storage:     SQLite (local game library)
 ```
 
 ### Nova Launcher Mobile
+
 ```
 Framework:   React Native / Flutter
 Storage:     SQLite + platform storage
@@ -611,44 +672,48 @@ Updates:     CodePush (React Native) / native stores
 **Year 2 (Months 13-24):** Complete Editor + Platform Integration  
 **Year 3 (Months 25-36):** Editor v1.0 + Nova Hub Foundation  
 **Year 4 (Months 37-48):** Web Launcher + Desktop Launcher  
-**Year 5 (Months 49-60):** Mobile Launcher + Ecosystem Enhancement  
+**Year 5 (Months 49-60):** Mobile Launcher + Ecosystem Enhancement
 
 ### Milestones
 
-| Milestone | Month | Deliverable |
-|-----------|-------|-------------|
-| M1: Alpha | 12 | Basic editor + runtime |
-| M2: Beta | 20 | Complete editor features |
-| M3: Editor v1.0 | 30 | Production editor |
-| M4: Hub v1.0 | 36 | Platform backend |
-| M5: Web Launcher | 40 | Browser player |
-| M6: Desktop Launcher | 46 | Desktop player |
-| M7: Mobile Launcher | 52 | Mobile apps |
-| M8: Full Ecosystem | 60 | Complete platform |
+| Milestone            | Month | Deliverable              |
+| -------------------- | ----- | ------------------------ |
+| M1: Alpha            | 12    | Basic editor + runtime   |
+| M2: Beta             | 20    | Complete editor features |
+| M3: Editor v1.0      | 30    | Production editor        |
+| M4: Hub v1.0         | 36    | Platform backend         |
+| M5: Web Launcher     | 40    | Browser player           |
+| M6: Desktop Launcher | 46    | Desktop player           |
+| M7: Mobile Launcher  | 52    | Mobile apps              |
+| M8: Full Ecosystem   | 60    | Complete platform        |
 
 ---
 
 ## 🎯 Success Criteria (Extended)
 
 ### Editor Success (Year 1-3)
+
 - Can create complete 3D games
 - Professional-grade tools
 - 60 FPS in editor
 - Stable and reliable
 
 ### Platform Success (Year 4-5)
+
 - Hub hosts 100+ games
 - 10,000+ registered developers
 - 100,000+ players using launcher
 - Sub-second game loading times
 
 ### Technical Success
+
 - 99.9% uptime for Hub
 - < 2 second build queue wait
 - < 5 MB launcher download
 - < 100ms API response time
 
 ### Community Success
+
 - Active developer community
 - Regular game releases
 - User-generated content
@@ -659,21 +724,25 @@ Updates:     CodePush (React Native) / native stores
 ## 🚀 Getting Started (Developer's Path)
 
 ### Immediate (Current Roadmap - Months 1-30)
+
 **Focus:** Nova Editor + Nova Runtime
 
 Follow: `DEVELOPMENT_GUIDE.md`
 
 ### Near Future (Months 31-36)
+
 **Focus:** Nova Hub backend
 
 New tasks will be added to `DEVELOPMENT_GUIDE.md` for Hub development
 
 ### Medium Term (Months 37-46)
+
 **Focus:** Nova Launcher Web + Desktop
 
 New phases for launcher development
 
 ### Long Term (Months 47-60)
+
 **Focus:** Mobile + Ecosystem
 
 Mobile apps and advanced features
@@ -685,12 +754,14 @@ Mobile apps and advanced features
 This ecosystem vision extends existing documentation:
 
 **Current Documents:**
+
 - `DEVELOPMENT_GUIDE.md` - Execution guide (Phases 1-6)
 - `ROADMAP.md` - Editor development plan
 - `ARCHITECTURE.md` - Engine architecture
 - `COMPONENT_BREAKDOWN.md` - Component details
 
 **New Documents Needed:**
+
 - `HUB_ARCHITECTURE.md` - Nova Hub technical design
 - `LAUNCHER_SPECIFICATION.md` - Launcher features and UI
 - `API_REFERENCE.md` - Nova Hub API documentation
@@ -702,16 +773,19 @@ This ecosystem vision extends existing documentation:
 ## 🤝 Collaboration Model
 
 ### Open Source Core
+
 - Nova Runtime: MIT License
 - Nova Editor: MIT License
 - Community contributions welcome
 
 ### Platform Services
+
 - Nova Hub: Can be self-hosted or use official hosting
 - Nova Launcher: Open source clients, official servers
 - Flexible deployment options
 
 ### Business Model Options
+
 - Free tier for developers
 - Paid hosting for convenience
 - Enterprise on-premises installations
@@ -727,14 +801,14 @@ This ecosystem vision extends existing documentation:
 ✨ Players can access games from any device  
 ✨ The community can grow and thrive  
 ✨ The technology is open and accessible  
-✨ The platform scales from indie to enterprise  
+✨ The platform scales from indie to enterprise
 
 **From idea to published game, all within Nova Engine Ecosystem.**
 
 ---
 
-*Last Updated: 2025-11-16*  
-*Version: 1.0*  
-*Status: Extended Vision Document*
+_Last Updated: 2025-11-16_  
+_Version: 1.0_  
+_Status: Extended Vision Document_
 
 **This document provides the "bigger dream" context while the main DEVELOPMENT_GUIDE.md focuses on immediate execution. Both work together to guide the complete platform development.**
