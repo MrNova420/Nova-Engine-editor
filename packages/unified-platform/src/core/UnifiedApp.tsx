@@ -36,6 +36,7 @@ export const UnifiedApp: React.FC = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [currentUser, setCurrentUser] = useState<any>(null);
   const [notifications, setNotifications] = useState<any[]>([]);
+  const [isCheckingAuth, setIsCheckingAuth] = useState(true);
 
   useEffect(() => {
     // Initialize platform
@@ -52,6 +53,12 @@ export const UnifiedApp: React.FC = () => {
       setCurrentUser(user);
     });
 
+    platform.on('sessionRestored', (user: any) => {
+      setIsLoggedIn(true);
+      setCurrentUser(user);
+      setIsCheckingAuth(false);
+    });
+
     platform.on('logout', () => {
       setIsLoggedIn(false);
       setCurrentUser(null);
@@ -65,13 +72,45 @@ export const UnifiedApp: React.FC = () => {
     // Check if already logged in
     const token = localStorage.getItem('auth_token');
     if (token) {
-      platform.restoreSession();
+      // Restore session asynchronously
+      platform
+        .restoreSession()
+        .then((success) => {
+          if (!success) {
+            setIsCheckingAuth(false);
+          }
+        })
+        .catch((err) => {
+          console.error('Failed to restore session:', err);
+          setIsCheckingAuth(false);
+        });
+    } else {
+      setIsCheckingAuth(false);
     }
 
     return () => {
       platform.removeAllListeners();
     };
   }, [platform]);
+
+  // Show loading screen while checking authentication
+  if (isCheckingAuth) {
+    return (
+      <div
+        style={{
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          minHeight: '100vh',
+          background: 'linear-gradient(135deg, #1a1a2e 0%, #16213e 100%)',
+          color: 'white',
+          fontSize: '24px',
+        }}
+      >
+        Loading Nova Engine...
+      </div>
+    );
+  }
 
   return (
     <BrowserRouter>

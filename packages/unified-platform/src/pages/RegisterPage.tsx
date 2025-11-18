@@ -3,6 +3,7 @@
  */
 
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { UnifiedPlatformCore } from '../core/UnifiedPlatformCore';
 
 interface RegisterPageProps {
@@ -16,6 +17,7 @@ export const RegisterPage: React.FC<RegisterPageProps> = ({ platform }) => {
   const [confirmPassword, setConfirmPassword] = useState('');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
+  const navigate = useNavigate();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -30,6 +32,7 @@ export const RegisterPage: React.FC<RegisterPageProps> = ({ platform }) => {
 
     try {
       await platform.register(username, email, password);
+      navigate('/hub');
     } catch (err: any) {
       setError(err.message || 'Registration failed');
     } finally {

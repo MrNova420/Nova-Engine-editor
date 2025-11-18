@@ -3,6 +3,7 @@
  */
 
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { UnifiedPlatformCore } from '../core/UnifiedPlatformCore';
 
 interface LoginPageProps {
@@ -14,6 +15,7 @@ export const LoginPage: React.FC<LoginPageProps> = ({ platform }) => {
   const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
+  const navigate = useNavigate();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -22,6 +24,7 @@ export const LoginPage: React.FC<LoginPageProps> = ({ platform }) => {
 
     try {
       await platform.login(email, password);
+      navigate('/hub');
     } catch (err: any) {
       setError(err.message || 'Login failed');
     } finally {

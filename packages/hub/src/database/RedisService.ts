@@ -26,9 +26,17 @@ export class RedisService {
 
     this.client = createClient({
       url: process.env.REDIS_URL || 'redis://localhost:6379',
+      socket: {
+        reconnectStrategy: false, // Disable auto-reconnect
+      },
     });
 
-    this.client.on('error', (err) => logger.error('Redis Client Error', err));
+    this.client.on('error', (err) => {
+      // Only log once, don't spam
+      if (!this.client?.isOpen) {
+        logger.warn('Redis unavailable - running without cache');
+      }
+    });
     this.client.on('connect', () => logger.info('Redis connecting...'));
     this.client.on('ready', () => logger.info('Redis ready'));
 

@@ -20,12 +20,13 @@ interface Game {
   description: string;
   developer: string;
   category: string;
-  rating: number;
-  downloads: number;
+  rating: number; // Real rating from user reviews
+  downloads: number; // Real download/play count
   thumbnail: string;
   screenshots: string[];
   releaseDate: string;
   version: string;
+  isDemo?: boolean; // Flag for demo games
   // Add demo game data
   demoGame?: DemoGame;
 }
@@ -58,46 +59,59 @@ export const HubModule: React.FC<HubModuleProps> = ({ platform }) => {
     loadFeaturedGames();
   }, [category, searchQuery]);
 
-  const loadGames = () => {
+  const loadGames = async () => {
     setLoading(true);
     try {
       // Load REAL demo games built with Nova Engine
       const demoGames = getAllDemoGames();
-      
-      const gameList: Game[] = demoGames.map(demo => ({
-        id: demo.id,
-        name: demo.title,
-        description: demo.description,
-        developer: 'Nova Engine Studios',
-        category: demo.category.toLowerCase(),
-        rating: demo.rating,
-        downloads: demo.downloads,
-        thumbnail: demo.coverImage,
-        screenshots: [demo.coverImage],
-        releaseDate: demo.lastUpdated,
-        version: demo.version,
-        demoGame: demo, // Store the actual game object
-      }));
-      
+
+      // Fetch real stats from backend
+      const statsResponse = await fetch('/api/games-stats/all');
+      const statsData = await statsResponse.json();
+      const statsMap = new Map(statsData.map((s: any) => [s.gameId, s]));
+
+      const gameList: Game[] = demoGames.map((demo) => {
+        const stats = statsMap.get(demo.id) || {
+          downloads: 0,
+          averageRating: 0,
+        };
+        return {
+          id: demo.id,
+          name: demo.title,
+          description: demo.description,
+          developer: 'Nova Engine Studios',
+          category: demo.category.toLowerCase(),
+          rating: stats.averageRating || 0, // Real rating from backend
+          downloads: stats.downloads || 0, // Real download count from backend
+          isDemo: demo.isDemo,
+          thumbnail: demo.coverImage,
+          screenshots: [demo.coverImage],
+          releaseDate: demo.lastUpdated,
+          version: demo.version,
+          demoGame: demo, // Store the actual game object
+        };
+      });
+
       // Filter by category
       let filtered = gameList;
       if (category !== 'all') {
-        filtered = filtered.filter(g => 
-          g.category.toLowerCase() === category.toLowerCase()
+        filtered = filtered.filter(
+          (g) => g.category.toLowerCase() === category.toLowerCase()
         );
       }
-      
+
       // Filter by search
       if (searchQuery) {
         const query = searchQuery.toLowerCase();
-        filtered = filtered.filter(g =>
-          g.name.toLowerCase().includes(query) ||
-          g.description.toLowerCase().includes(query)
+        filtered = filtered.filter(
+          (g) =>
+            g.name.toLowerCase().includes(query) ||
+            g.description.toLowerCase().includes(query)
         );
       }
-      
+
       setGames(filtered);
-      
+
       platform.showNotification({
         type: 'success',
         message: `Loaded ${filtered.length} demo games built with Nova Engine`,
@@ -113,28 +127,39 @@ export const HubModule: React.FC<HubModuleProps> = ({ platform }) => {
     }
   };
 
-  const loadFeaturedGames = () => {
+  const loadFeaturedGames = async () => {
     try {
-      // Featured = highest rated demo games
+      // Featured = demo games with real stats
       const demoGames = getAllDemoGames();
+
+      // Fetch real stats from backend
+      const statsResponse = await fetch('/api/games-stats/all');
+      const statsData = await statsResponse.json();
+      const statsMap = new Map(statsData.map((s: any) => [s.gameId, s]));
+
       const featured: Game[] = demoGames
-        .sort((a, b) => b.rating - a.rating)
-        .slice(0, 3)
-        .map(demo => ({
-          id: demo.id,
-          name: demo.title,
-          description: demo.description,
-          developer: 'Nova Engine Studios',
-          category: demo.category.toLowerCase(),
-          rating: demo.rating,
-          downloads: demo.downloads,
-          thumbnail: demo.coverImage,
-          screenshots: [demo.coverImage],
-          releaseDate: demo.lastUpdated,
-          version: demo.version,
-          demoGame: demo,
-        }));
-      
+        .map((demo) => {
+          const stats = statsMap.get(demo.id) || {
+            downloads: 0,
+            averageRating: 0,
+          };
+          return {
+            id: demo.id,
+            name: demo.title,
+            description: demo.description,
+            developer: 'Nova Engine Studios',
+            category: demo.category.toLowerCase(),
+            rating: stats.averageRating || 0, // Real rating from backend
+            downloads: stats.downloads || 0, // Real downloads from backend
+            thumbnail: demo.coverImage,
+            screenshots: [demo.coverImage],
+            releaseDate: demo.lastUpdated,
+            version: demo.version,
+            demoGame: demo,
+          };
+        })
+        .slice(0, 3); // Show first 3 games
+
       setFeaturedGames(featured);
     } catch (error) {
       console.error('Failed to load featured games:', error);
@@ -149,13 +174,24 @@ export const HubModule: React.FC<HubModuleProps> = ({ platform }) => {
     });
   };
 
-  const handlePlayGame = (game: Game) => {
+  const handlePlayGame = async (game: Game) => {
     if (game.demoGame) {
+      // Track real play/download in backend
+      try {
+        await fetch('/api/games-stats/play', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ gameId: game.id }),
+        });
+      } catch (error) {
+        console.error('Failed to track game play:', error);
+      }
+
       // Pass the REAL game object to launcher
       platform.switchMode('launcher');
-      platform.emit('playGame', { 
-        gameId: game.id, 
-        game: game.demoGame // Pass actual DemoGame object
+      platform.emit('playGame', {
+        gameId: game.id,
+        game: game.demoGame, // Pass actual DemoGame object
       });
       platform.showNotification({
         type: 'success',
@@ -189,9 +225,14 @@ export const HubModule: React.FC<HubModuleProps> = ({ platform }) => {
                 <h2>{game.name}</h2>
                 <p>{game.description}</p>
                 <div className="featured-meta">
-                  <span className="rating">⭐ {game.rating.toFixed(1)}</span>
+                  <span className="rating">
+                    {game.rating > 0
+                      ? `⭐ ${game.rating.toFixed(1)}`
+                      : '⭐ Not rated yet'}
+                  </span>
                   <span className="downloads">
-                    📥 {game.downloads.toLocaleString()}
+                    📥 {game.downloads.toLocaleString()}{' '}
+                    {game.downloads === 0 ? 'downloads' : 'plays'}
                   </span>
                 </div>
                 <button
@@ -265,7 +306,11 @@ export const HubModule: React.FC<HubModuleProps> = ({ platform }) => {
                   <p className="game-developer">{game.developer}</p>
                   <div className="game-meta">
                     <span className="category">{game.category}</span>
-                    <span className="rating">⭐ {game.rating.toFixed(1)}</span>
+                    <span className="rating">
+                      {game.rating > 0
+                        ? `⭐ ${game.rating.toFixed(1)}`
+                        : '⭐ Not rated'}
+                    </span>
                   </div>
                 </div>
               </div>
@@ -294,7 +339,11 @@ export const HubModule: React.FC<HubModuleProps> = ({ platform }) => {
                 <img src={game.thumbnail} alt={game.name} />
                 <div className="game-info-small">
                   <h4>{game.name}</h4>
-                  <span className="rating">⭐ {game.rating.toFixed(1)}</span>
+                  <span className="rating">
+                    {game.rating > 0
+                      ? `⭐ ${game.rating.toFixed(1)}`
+                      : '⭐ Not rated'}
+                  </span>
                 </div>
               </div>
             ))}
@@ -317,7 +366,11 @@ export const HubModule: React.FC<HubModuleProps> = ({ platform }) => {
                 <img src={game.thumbnail} alt={game.name} />
                 <div className="game-info-small">
                   <h4>{game.name}</h4>
-                  <span className="rating">⭐ {game.rating.toFixed(1)}</span>
+                  <span className="rating">
+                    {game.rating > 0
+                      ? `⭐ ${game.rating.toFixed(1)}`
+                      : '⭐ Not rated'}
+                  </span>
                 </div>
               </div>
             ))}
