@@ -27,20 +27,30 @@ export class WebGLRenderer implements IRenderer {
   async initialize(canvas: HTMLCanvasElement): Promise<void> {
     this._canvas = canvas;
 
-    // Get WebGL 2.0 context
+    // Detect device capabilities for mobile optimization
+    const isMobile =
+      /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(
+        navigator.userAgent
+      );
+    const isTablet =
+      /iPad|Android/i.test(navigator.userAgent) && window.innerWidth >= 768;
+
+    // Get WebGL 2.0 context with mobile-optimized settings
     const gl = canvas.getContext('webgl2', {
-      alpha: true,
+      alpha: false, // Better performance on mobile
       depth: true,
       stencil: false,
-      antialias: true,
+      antialias: !isMobile, // Disable AA on mobile for better performance
       premultipliedAlpha: true,
       preserveDrawingBuffer: false,
-      powerPreference: 'high-performance',
+      powerPreference: isMobile ? 'default' : 'high-performance', // Balance battery on mobile
+      desynchronized: true, // Reduce latency
+      failIfMajorPerformanceCaveat: false, // Allow on all devices
     });
 
     if (!gl) {
       throw new Error(
-        'WebGL 2.0 is not supported in this browser. Please use a modern browser.'
+        'WebGL 2.0 is not supported in this browser. Please use a modern browser with WebGL 2.0 support.'
       );
     }
 
@@ -51,13 +61,24 @@ export class WebGLRenderer implements IRenderer {
     // Initialize render pipeline
     this._pipeline = new RenderPipeline(gl);
 
-    // Set up initial WebGL state
+    // Set up initial WebGL state with mobile optimizations
     this.setupWebGLState();
 
-    console.log('WebGL 2.0 Renderer initialized successfully');
-    console.log('Vendor:', gl.getParameter(gl.VENDOR));
-    console.log('Renderer:', gl.getParameter(gl.RENDERER));
-    console.log('Version:', gl.getParameter(gl.VERSION));
+    // Log device and WebGL info
+    console.log('✅ WebGL 2.0 Renderer initialized successfully');
+    console.log(
+      '📱 Device Type:',
+      isMobile ? 'Mobile' : isTablet ? 'Tablet' : 'Desktop'
+    );
+    console.log('🎮 Vendor:', gl.getParameter(gl.VENDOR));
+    console.log('🖥️  Renderer:', gl.getParameter(gl.RENDERER));
+    console.log('📊 WebGL Version:', gl.getParameter(gl.VERSION));
+    console.log('⚡ Max Texture Size:', gl.getParameter(gl.MAX_TEXTURE_SIZE));
+    console.log('🎨 Max Viewport:', gl.getParameter(gl.MAX_VIEWPORT_DIMS));
+    console.log(
+      '💫 Max Vertex Attribs:',
+      gl.getParameter(gl.MAX_VERTEX_ATTRIBS)
+    );
   }
 
   /**
