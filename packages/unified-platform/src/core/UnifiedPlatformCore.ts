@@ -327,7 +327,8 @@ export class UnifiedPlatformCore extends EventEmitter {
 
       if (!response.ok) throw new Error('Session invalid');
 
-      const user = await response.json();
+      const data = await response.json();
+      const user = data.user || data; // Handle both { user } and direct user object
 
       this.state.isLoggedIn = true;
       this.state.user = user;
@@ -335,6 +336,7 @@ export class UnifiedPlatformCore extends EventEmitter {
       await this.initializeUserFeatures();
 
       this.emit('sessionRestored', user);
+      this.emit('login', user); // Also emit login event for navigation
       console.log(`✅ Session restored for ${user.username}`);
 
       return true;

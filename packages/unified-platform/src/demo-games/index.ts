@@ -17,12 +17,13 @@ export interface DemoGame {
     | 'Simulation'
     | 'Multiplayer';
   coverImage: string;
-  rating: number;
-  downloads: number;
+  rating: number; // Real rating from actual user reviews
+  downloads: number; // Real download/play count
   tags: string[];
   version: string;
   size: string;
   lastUpdated: string;
+  isDemo?: boolean; // Flag to indicate this is a demo/example game
 
   // Engine data
   scene: any; // Nova Engine scene data

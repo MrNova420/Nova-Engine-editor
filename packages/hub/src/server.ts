@@ -101,8 +101,10 @@ export async function createServer() {
   const { multiplayerRoutes } = await import('./api/multiplayer.routes');
   const { userRoutes, notificationRoutes } = await import('./api/user.routes');
   const { syncRoutes } = await import('./api/sync.routes');
+  const { gameStatsRoutes } = await import('./api/games-stats.routes');
 
   await server.register(gamesRoutes, { prefix: '/api/games' });
+  await server.register(gameStatsRoutes, { prefix: '/api/games-stats' });
   await server.register(importRoutes, { prefix: '/api/import' });
   await server.register(multiplayerRoutes, { prefix: '/api/multiplayer' });
   await server.register(userRoutes, { prefix: '/api/users' });

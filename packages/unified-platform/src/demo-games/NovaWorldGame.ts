@@ -32,9 +32,10 @@ export const NovaWorldGame: DemoGame = {
     'A massive open world 3D RPG adventure. Explore vast landscapes, complete epic quests, battle enemies, craft items, and uncover mysteries. Unreal/Unity-quality showcase.',
   category: 'RPG',
   coverImage: '/demo-games/nova-world-cover.jpg',
-  rating: 4.95,
-  downloads: 127500,
-  tags: ['Open World', '3D', 'RPG', 'Action', 'Multiplayer', 'AAA Quality'],
+  isDemo: true,
+  rating: 0, // Real rating - will be calculated from actual user reviews
+  downloads: 0, // Real downloads - will be tracked from actual plays
+  tags: ['Open World', '3D', 'RPG', 'Action', 'Multiplayer', 'Demo'],
   version: '1.0.0',
   size: '850 MB',
   lastUpdated: '2025-11-17',
