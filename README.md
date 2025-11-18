@@ -45,15 +45,16 @@ Comprehensive planning and documentation for the Nova Engine Editor project:
 
 ### Core Documentation
 
-- **[Development Guide](DEVELOPMENT_GUIDE.md)** - **⭐ START HERE** - Master execution guide for autonomous development
+- **[Development Guide](docs/DEVELOPMENT_GUIDE.md)** - **⭐ START HERE** - Master execution guide for autonomous development
 - **[Roadmap](ROADMAP.md)** - Complete 30-month development plan with phases and milestones
-- **[Ecosystem Vision](ECOSYSTEM_VISION.md)** - **🌟 NEW** - Complete platform vision (Editor + Hub + Launcher)
-- **[Progress Tracker](PROGRESS.md)** - Real-time progress tracking and status updates
-- **[Architecture](ARCHITECTURE.md)** - System architecture and technical design
-- **[Project Structure](PROJECT_STRUCTURE.md)** - Complete codebase organization
-- **[Component Breakdown](COMPONENT_BREAKDOWN.md)** - Detailed component specifications
-- **[Automation](AUTOMATION.md)** - Automated tracking and development systems
+- **[Ecosystem Vision](docs/ECOSYSTEM_VISION.md)** - **🌟 NEW** - Complete platform vision (Editor + Hub + Launcher)
+- **[Progress Tracker](docs/PROGRESS.md)** - Real-time progress tracking and status updates
+- **[Architecture](docs/ARCHITECTURE.md)** - System architecture and technical design
+- **[Project Structure](docs/PROJECT_STRUCTURE.md)** - Complete codebase organization
+- **[Component Breakdown](docs/COMPONENT_BREAKDOWN.md)** - Detailed component specifications
+- **[Automation](docs/AUTOMATION.md)** - Automated tracking and development systems
 - **[Contributing](CONTRIBUTING.md)** - Guidelines for contributors
+- **[All Documentation](docs/)** - Complete documentation index
 
 ### Quick Links
 
@@ -163,38 +164,53 @@ See [PROGRESS.md](PROGRESS.md) for detailed status and [RELEASE_NOTES.md](RELEAS
 
 ## 🚀 Getting Started
 
-### Super Easy Setup (3 Commands!)
+### Quick Setup
 
-**Linux/Mac:**
-
-```bash
-git clone https://github.com/MrNova420/Nova-Engine-editor.git
-cd Nova-Engine-editor
-./setup.sh
-```
-
-**Windows:**
+**Using Setup Scripts:**
 
 ```bash
-git clone https://github.com/MrNova420/Nova-Engine-editor.git
-cd Nova-Engine-editor
-setup.bat
+# Linux/Mac/WSL
+git clone https://github.com/MrNova420/Nova-Engine.git
+cd Nova-Engine
+npm run setup
+
+# Windows
+git clone https://github.com/MrNova420/Nova-Engine.git
+cd Nova-Engine
+npm run setup:windows
 ```
 
 **Manual Setup:**
 
 ```bash
-npm install  # Install all dependencies
-npm run build  # Build all packages
-npm test  # Verify everything works
-```
+# Clone and install
+git clone https://github.com/MrNova420/Nova-Engine.git
+cd Nova-Engine
+npm install
 
-**That's it!** See [SETUP.md](./SETUP.md) for detailed instructions.
+# Setup environment
+cp .env.example .env
+
+# Start development
+npm start
+```
 
 ### Prerequisites
 
 - **Node.js** 18.0.0 or higher ([Download](https://nodejs.org/))
-- That's all! Everything else installs automatically.
+- Modern web browser
+- Git for version control
+
+### Available Commands
+
+- `npm start` - Start unified platform + backend server
+- `npm run build` - Build all packages
+- `npm test` - Run all tests
+- `npm run lint` - Check code quality
+- `npm run format` - Format code
+
+📖 **Detailed Guide**: [docs/QUICK_START.md](docs/QUICK_START.md)  
+📁 **Project Structure**: [docs/PROJECT_ORGANIZATION.md](docs/PROJECT_ORGANIZATION.md)
 
 ---
 

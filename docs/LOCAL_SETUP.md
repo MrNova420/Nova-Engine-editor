@@ -26,6 +26,7 @@ npm run start:local
 ```
 
 That's it! Nova Engine will:
+
 - ✅ Start on `http://localhost:3000`
 - ✅ Open automatically in your browser
 - ✅ Work 100% offline
@@ -35,6 +36,7 @@ That's it! Nova Engine will:
 ## What You Get Locally
 
 ### Fully Functional Features:
+
 - ✅ **Game Editor** - Create games with visual tools
 - ✅ **Game Launcher** - Play games locally
 - ✅ **Local Game Library** - Store games on your device
@@ -44,6 +46,7 @@ That's it! Nova Engine will:
 - ✅ **Local Multiplayer** - LAN play with friends
 
 ### When Connected to Internet:
+
 - ✅ **P2P Game Discovery** - Find games from other users
 - ✅ **P2P Publishing** - Share your games instantly
 - ✅ **P2P Multiplayer** - Play with anyone online
@@ -54,6 +57,7 @@ That's it! Nova Engine will:
 ## Local Data Storage
 
 All data is stored locally in:
+
 ```
 ~/.nova-engine/
 ├── games/          # Downloaded and created games
@@ -97,12 +101,15 @@ Your Computer                Other Users
 ## Running Different Components
 
 ### All-in-One (Recommended)
+
 ```bash
 npm run start:local
 ```
+
 Starts unified platform with everything integrated.
 
 ### Individual Components
+
 ```bash
 # Just the editor
 npm run start:editor
@@ -120,6 +127,7 @@ npm run start:server
 ## Building for Distribution
 
 ### Web Build
+
 ```bash
 npm run build
 # Output: dist/web/
@@ -127,6 +135,7 @@ npm run build
 ```
 
 ### Desktop Build (Tauri)
+
 ```bash
 npm run build:desktop
 # Output: dist/desktop/
@@ -134,6 +143,7 @@ npm run build:desktop
 ```
 
 ### Mobile Build
+
 ```bash
 npm run build:mobile
 # Output: dist/mobile/
@@ -153,16 +163,19 @@ No central server needed!
 ## Playing Games
 
 ### Local Games
+
 - Play any game in your library
 - Works 100% offline
 - Save data stored locally
 
 ### Shared Games (P2P)
+
 - Browse games from connected peers
 - Download directly from other users
 - Cache locally for offline play
 
 ### Multiplayer
+
 - Create/join lobbies on LAN
 - Automatic peer discovery
 - Direct P2P connections
@@ -197,17 +210,20 @@ Edit `~/.nova-engine/config.json`:
 ## Troubleshooting
 
 ### Port Already in Use
+
 ```bash
 # Use different port
 PORT=3001 npm run start:local
 ```
 
 ### Can't Find Other Users
+
 - Check firewall settings
 - Ensure same network
 - Verify P2P is enabled
 
 ### Games Not Loading
+
 - Check `~/.nova-engine/games/` directory
 - Verify disk space
 - Check browser console for errors
@@ -215,6 +231,7 @@ PORT=3001 npm run start:local
 ## System Requirements
 
 ### Minimum:
+
 - **OS**: Windows 10, macOS 10.15, Linux (Ubuntu 20.04+)
 - **CPU**: Dual-core 2.0 GHz
 - **RAM**: 4 GB
@@ -222,6 +239,7 @@ PORT=3001 npm run start:local
 - **Browser**: Chrome 90+, Firefox 88+, Safari 14+
 
 ### Recommended:
+
 - **CPU**: Quad-core 3.0 GHz+
 - **RAM**: 8 GB+
 - **GPU**: Dedicated graphics card with WebGL 2.0
@@ -255,6 +273,7 @@ npm run format
 ## Future: Deployed Version
 
 Later, Nova Engine will also be available as a hosted service:
+
 - **Website**: https://novaengine.com
 - **Desktop App**: Download from website
 - **Mobile Apps**: iOS App Store, Google Play Store
