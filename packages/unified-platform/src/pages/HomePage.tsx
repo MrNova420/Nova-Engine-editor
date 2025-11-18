@@ -154,8 +154,8 @@ export const HomePage: React.FC<HomePageProps> = ({
         .homepage-with-real-bg {
           width: 100%;
           min-height: 100vh;
-          /* USE THE ACTUAL USER-PROVIDED BACKGROUND IMAGE */
-          background-image: url('https://github.com/user-attachments/assets/3c8547af-d2a1-4e29-ad37-0aeaed749ed1');
+          /* USE LOCAL PLANET BACKGROUND IMAGE */
+          background-image: url('/planet-background.svg');
           background-size: cover;
           background-position: center;
           background-repeat: no-repeat;

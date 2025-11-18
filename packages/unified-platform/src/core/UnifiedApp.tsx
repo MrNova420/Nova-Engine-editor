@@ -183,96 +183,108 @@ const UnifiedAppContent: React.FC<{ platform: UnifiedPlatformCore }> = ({
     );
   }
 
+  // Check if we're on a standalone page (homepage, login, register)
+  const isStandalonePage = ['/', '/login', '/register'].includes(
+    location.pathname
+  );
+
   return (
     <div className="unified-app">
-      {/* Top Bar - Always visible */}
-      <UnifiedTopBar
-        platform={platform}
-        isLoggedIn={isLoggedIn}
-        currentUser={currentUser}
-        currentMode={currentMode}
-      />
+      <Routes>
+        {/* Standalone Public Routes - NO TopBar/Navigation */}
+        <Route
+          path="/"
+          element={
+            <HomePage
+              platform={platform}
+              isLoggedIn={isLoggedIn}
+              onNavigate={(path) => navigate(path)}
+            />
+          }
+        />
+        <Route path="/login" element={<LoginPage platform={platform} />} />
+        <Route
+          path="/register"
+          element={<RegisterPage platform={platform} />}
+        />
 
-      <div className="unified-app-content">
-        {/* Side Navigation - Always visible when logged in */}
-        {isLoggedIn && (
-          <UnifiedNavigation
-            currentMode={currentMode}
-            onModeChange={(mode) => platform.switchMode(mode as PlatformMode)}
-            isLoggedIn={isLoggedIn}
-            currentUser={currentUser}
-          />
-        )}
-
-        {/* Main Content Area - Switches based on mode */}
-        <main className="unified-main-content">
-          <Routes>
-            {/* Public routes */}
-            <Route
-              path="/"
-              element={
-                <HomePage
+        {/* Protected Routes - WITH TopBar/Navigation */}
+        {isLoggedIn ? (
+          <Route
+            path="*"
+            element={
+              <>
+                {/* Top Bar - Only for logged-in app pages */}
+                <UnifiedTopBar
                   platform={platform}
                   isLoggedIn={isLoggedIn}
-                  onNavigate={(path) => navigate(path)}
-                />
-              }
-            />
-            <Route path="/login" element={<LoginPage platform={platform} />} />
-            <Route
-              path="/register"
-              element={<RegisterPage platform={platform} />}
-            />
-
-            {/* Protected routes - require login */}
-            {isLoggedIn ? (
-              <>
-                {/* Hub - Game Discovery - V2 REDESIGNED */}
-                <Route
-                  path="/hub/*"
-                  element={<HubModule platform={platform} />}
+                  currentUser={currentUser}
+                  currentMode={currentMode}
                 />
 
-                {/* Editor - Game Creation - V2 REDESIGNED */}
-                <Route
-                  path="/editor/*"
-                  element={<EditorModule platform={platform} />}
-                />
+                <div className="unified-app-content">
+                  {/* Side Navigation */}
+                  <UnifiedNavigation
+                    currentMode={currentMode}
+                    onModeChange={(mode) =>
+                      platform.switchMode(mode as PlatformMode)
+                    }
+                    isLoggedIn={isLoggedIn}
+                    currentUser={currentUser}
+                  />
 
-                {/* Launcher - Game Playing - V2 REDESIGNED */}
-                <Route
-                  path="/launcher/*"
-                  element={<LauncherModule platform={platform} />}
-                />
-                <Route
-                  path="/play/:gameId"
-                  element={<LauncherModule platform={platform} />}
-                />
+                  {/* Main Content Area */}
+                  <main className="unified-main-content">
+                    <Routes>
+                      {/* Hub - Game Discovery - V2 REDESIGNED */}
+                      <Route
+                        path="/hub/*"
+                        element={<HubModule platform={platform} />}
+                      />
 
-                {/* Multiplayer - Online Features - V2 REDESIGNED */}
-                <Route
-                  path="/multiplayer/*"
-                  element={<MultiplayerModule platform={platform} />}
-                />
+                      {/* Editor - Game Creation - V2 REDESIGNED */}
+                      <Route
+                        path="/editor/*"
+                        element={<EditorModule platform={platform} />}
+                      />
 
-                {/* Social - Friends & Achievements */}
-                <Route
-                  path="/social/*"
-                  element={<SocialModule platform={platform} />}
-                />
+                      {/* Launcher - Game Playing - V2 REDESIGNED */}
+                      <Route
+                        path="/launcher/*"
+                        element={<LauncherModule platform={platform} />}
+                      />
+                      <Route
+                        path="/play/:gameId"
+                        element={<LauncherModule platform={platform} />}
+                      />
 
-                {/* Settings */}
-                <Route
-                  path="/settings/*"
-                  element={<SettingsModule platform={platform} />}
-                />
+                      {/* Multiplayer - Online Features - V2 REDESIGNED */}
+                      <Route
+                        path="/multiplayer/*"
+                        element={<MultiplayerModule platform={platform} />}
+                      />
+
+                      {/* Social - Friends & Achievements */}
+                      <Route
+                        path="/social/*"
+                        element={<SocialModule platform={platform} />}
+                      />
+
+                      {/* Settings */}
+                      <Route
+                        path="/settings/*"
+                        element={<SettingsModule platform={platform} />}
+                      />
+                    </Routes>
+                  </main>
+                </div>
               </>
-            ) : (
-              <Route path="*" element={<Navigate to="/" replace />} />
-            )}
-          </Routes>
-        </main>
-      </div>
+            }
+          />
+        ) : (
+          <Route path="*" element={<Navigate to="/" replace />} />
+        )}
+      </Routes>
 
       {/* Notification Center - Always available */}
       {notifications.length > 0 && (
