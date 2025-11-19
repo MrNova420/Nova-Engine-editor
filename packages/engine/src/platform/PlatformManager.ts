@@ -3,12 +3,49 @@
  * @module @nova-engine/platform
  *
  * Automatically detects the current platform and provides the appropriate implementation.
+ * Supports Web, Desktop (Electron/Tauri), and Mobile (React Native/Capacitor) platforms.
  */
 
 import type { IPlatform } from './IPlatform';
 import { WebPlatform } from './WebPlatform';
+import { DesktopPlatform } from './DesktopPlatform';
+import { MobilePlatform } from './MobilePlatform';
 
 let currentPlatform: IPlatform | null = null;
+
+/**
+ * Detect if running in mobile environment
+ */
+function isMobile(): boolean {
+  const ua = (globalThis as any).navigator?.userAgent || '';
+  return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(
+    ua
+  );
+}
+
+/**
+ * Detect if running in desktop native environment
+ */
+function isDesktop(): boolean {
+  // Check for Electron
+  if (
+    typeof (globalThis as any).process !== 'undefined' &&
+    (globalThis as any).process.versions?.electron
+  ) {
+    return true;
+  }
+
+  // Check for Node.js (but not in browser with polyfills)
+  if (
+    typeof (globalThis as any).process !== 'undefined' &&
+    (globalThis as any).process.versions?.node &&
+    typeof window === 'undefined'
+  ) {
+    return true;
+  }
+
+  return false;
+}
 
 /**
  * Detect current platform and return appropriate implementation
@@ -19,16 +56,19 @@ export function getPlatform(): IPlatform {
   }
 
   // Detect platform
-  if (typeof window !== 'undefined' && typeof document !== 'undefined') {
-    // Web platform
+  if (isDesktop()) {
+    // Desktop platform (Electron/Tauri/Node.js)
+    currentPlatform = new DesktopPlatform();
+  } else if (isMobile()) {
+    // Mobile platform (React Native/Capacitor/Mobile browser)
+    currentPlatform = new MobilePlatform();
+  } else if (typeof window !== 'undefined' && typeof document !== 'undefined') {
+    // Web platform (browser)
     currentPlatform = new WebPlatform();
-  } else if (typeof (globalThis as any).process !== 'undefined') {
-    // Node.js/Electron/Desktop platform
-    // TODO: Implement DesktopPlatform
-    throw new Error('Desktop platform not yet implemented');
   } else {
-    // Unknown platform
-    throw new Error('Unknown platform - cannot initialize');
+    // Unknown platform - default to web
+    console.warn('Unknown platform detected, defaulting to WebPlatform');
+    currentPlatform = new WebPlatform();
   }
 
   return currentPlatform;
