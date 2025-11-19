@@ -76,8 +76,8 @@ export const MultiplayerModuleV2: React.FC<MultiplayerModuleV2Props> = () => {
       setLobbies(lobbyList);
     } catch (error) {
       console.error('Failed to load lobbies from backend API:', error);
-      throw new Error(
-        'Unable to connect to multiplayer server. Please ensure the backend is running.'
+      // Set empty lobbies list - UI will show no lobbies available
+      setLobbies([])
       );
     }
   };
@@ -99,9 +99,8 @@ export const MultiplayerModuleV2: React.FC<MultiplayerModuleV2Props> = () => {
       setFriends(friendsList);
     } catch (error) {
       console.error('Failed to load friends from backend API:', error);
-      throw new Error(
-        'Unable to load friends list. Please ensure the backend is running.'
-      );
+      // Set empty friends list - UI will show no friends
+      setFriends([]);
     }
   };
 

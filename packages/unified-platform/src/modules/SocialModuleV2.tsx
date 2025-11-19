@@ -59,9 +59,23 @@ export const SocialModuleV2: React.FC<SocialModuleV2Props> = () => {
       });
     } catch (error) {
       console.error('Failed to load user profile from backend API:', error);
-      throw new Error(
-        'Unable to load user profile. Please ensure the backend is running.'
-      );
+      // Set minimal user data - UI will still render
+      setCurrentUser({
+        id: 'guest',
+        username: 'Guest User',
+        level: 1,
+        xp: 0,
+        xpToNext: 1000,
+        avatar: '👤',
+        title: 'Guest',
+        bio: 'Profile unavailable - backend not connected',
+        gamesCreated: 0,
+        gamesPlayed: 0,
+        achievementsUnlocked: 0,
+        totalAchievements: 0,
+        friendsCount: 0,
+        joinedDate: new Date().toISOString(),
+      });
     }
   };
 
@@ -83,9 +97,8 @@ export const SocialModuleV2: React.FC<SocialModuleV2Props> = () => {
       setFriends(friendsList);
     } catch (error) {
       console.error('Failed to load friends from backend API:', error);
-      throw new Error(
-        'Unable to load friends. Please ensure the backend is running.'
-      );
+      // Set empty friends list
+      setFriends([]);
     }
   };
 
@@ -100,9 +113,8 @@ export const SocialModuleV2: React.FC<SocialModuleV2Props> = () => {
       setAchievements(achievementsList);
     } catch (error) {
       console.error('Failed to load achievements from backend API:', error);
-      throw new Error(
-        'Unable to load achievements. Please ensure the backend is running.'
-      );
+      // Set empty achievements list
+      setAchievements([]);
     }
   };
 

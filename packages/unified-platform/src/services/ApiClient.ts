@@ -3,8 +3,8 @@
  * Centralized API client that connects frontend to backend services
  */
 
-const API_BASE_URL = process.env.VITE_API_URL || 'http://localhost:3001';
-const HUB_API_URL = process.env.VITE_HUB_API_URL || 'http://localhost:3001';
+const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:3001';
+const HUB_API_URL = import.meta.env.VITE_HUB_API_URL || 'http://localhost:3001';
 
 class ApiClient {
   private baseUrl: string;
@@ -43,7 +43,10 @@ class ApiClient {
   /**
    * Validate and sanitize path parameter
    */
-  private validatePathParam(param: string, paramName: string = 'parameter'): string {
+  private validatePathParam(
+    param: string,
+    paramName: string = 'parameter'
+  ): string {
     if (!param || typeof param !== 'string') {
       throw new Error(`Invalid ${paramName}`);
     }
@@ -220,7 +223,9 @@ class ApiClient {
   // ============ MULTIPLAYER ============
 
   async getLobbies(gameId?: string) {
-    const query = gameId ? `?gameId=${this.validatePathParam(gameId, 'game ID')}` : '';
+    const query = gameId
+      ? `?gameId=${this.validatePathParam(gameId, 'game ID')}`
+      : '';
     return this.get(`/api/multiplayer/lobbies${query}`);
   }
 
@@ -283,7 +288,7 @@ class ApiClient {
 
   async uploadAsset(projectId: string, file: File, metadata?: any) {
     const safeProjectId = this.validatePathParam(projectId, 'project ID');
-    
+
     // No file size or type restrictions - users need to upload large game assets
     const formData = new FormData();
     formData.append('file', file);
@@ -313,7 +318,10 @@ class ApiClient {
 
   async buildProject(projectId: string, buildConfig: any) {
     const safeProjectId = this.validatePathParam(projectId, 'project ID');
-    return this.hubPost(`/api/builds`, { projectId: safeProjectId, ...buildConfig });
+    return this.hubPost(`/api/builds`, {
+      projectId: safeProjectId,
+      ...buildConfig,
+    });
   }
 
   async getBuildStatus(buildId: string) {
@@ -328,7 +336,10 @@ class ApiClient {
   }
 
   async markNotificationRead(notificationId: string) {
-    const safeNotificationId = this.validatePathParam(notificationId, 'notification ID');
+    const safeNotificationId = this.validatePathParam(
+      notificationId,
+      'notification ID'
+    );
     return this.put(`/api/notifications/${safeNotificationId}/read`, {});
   }
 

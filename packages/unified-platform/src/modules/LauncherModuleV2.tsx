@@ -70,10 +70,8 @@ export const LauncherModuleV2: React.FC<LauncherModuleV2Props> = () => {
       setInstalledGames(gameInstances);
     } catch (error) {
       console.error('Failed to load games from backend API:', error);
-      // Show error to user instead of hiding it with demo data
-      throw new Error(
-        'Unable to connect to backend server. Please ensure the backend is running.'
-      );
+      // Set empty games list - UI will show empty library
+      setInstalledGames([]);
     }
   };
 

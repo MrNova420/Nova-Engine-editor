@@ -60,12 +60,15 @@ export const HubModuleV2: React.FC<HubModuleV2Props> = ({ platform }) => {
   const loadGames = async () => {
     setLoading(true);
     try {
-      // Fetch from backend API - no fallbacks, production ready
-      const apiGames = await apiClient.getGames({
+      // Fetch from backend API
+      const response: any = await apiClient.getGames({
         category: category !== 'all' ? category : undefined,
         search: searchQuery || undefined,
         limit: 100,
       });
+
+      // Handle backend response format
+      const apiGames = response.games || response;
 
       // Map API response to Game format
       const gameList: Game[] = Array.isArray(apiGames)
@@ -95,10 +98,8 @@ export const HubModuleV2: React.FC<HubModuleV2Props> = ({ platform }) => {
       setGames(gameList);
     } catch (error) {
       console.error('Failed to load games from backend API:', error);
-      // Show error to user instead of hiding it with demo data
-      throw new Error(
-        'Unable to connect to backend server. Please ensure the backend is running.'
-      );
+      // Set empty games list - UI will show "No games found"
+      setGames([]);
     } finally {
       setLoading(false);
     }
@@ -121,9 +122,6 @@ export const HubModuleV2: React.FC<HubModuleV2Props> = ({ platform }) => {
           <button className="hub-v2-nav-btn active">Home</button>
           <button className="hub-v2-nav-btn">Discover</button>
           <button className="hub-v2-nav-btn">Featured</button>
-        </div>
-        <div className="hub-v2-user">
-          <button className="hub-v2-sterger-btn">Sterger</button>
         </div>
       </div>
 

@@ -47,6 +47,7 @@ const UnifiedAppContent: React.FC<{ platform: UnifiedPlatformCore }> = ({
   const [currentUser, setCurrentUser] = useState<any>(null);
   const [notifications, setNotifications] = useState<any[]>([]);
   const [isCheckingAuth, setIsCheckingAuth] = useState(true);
+  const [isNavOpen, setIsNavOpen] = useState(true);
   const location = useLocation();
   const navigate = useNavigate();
 
@@ -220,6 +221,8 @@ const UnifiedAppContent: React.FC<{ platform: UnifiedPlatformCore }> = ({
                   isLoggedIn={isLoggedIn}
                   currentUser={currentUser}
                   currentMode={currentMode}
+                  isNavOpen={isNavOpen}
+                  onToggleNav={() => setIsNavOpen(!isNavOpen)}
                 />
 
                 <div className="unified-app-content">
@@ -231,6 +234,8 @@ const UnifiedAppContent: React.FC<{ platform: UnifiedPlatformCore }> = ({
                     }
                     isLoggedIn={isLoggedIn}
                     currentUser={currentUser}
+                    isOpen={isNavOpen}
+                    onNavigateHome={() => navigate('/')}
                   />
 
                   {/* Main Content Area */}
