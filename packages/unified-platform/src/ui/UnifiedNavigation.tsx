@@ -1,9 +1,10 @@
 /**
  * NOVA ENGINE - Unified Navigation V2 (Clean, Working Version)
  * Space-themed sidebar navigation matching Image 2 mockup
+ * Now with mobile-responsive design
  */
 
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 
 interface UnifiedNavigationProps {
   currentMode: string;
@@ -18,6 +19,21 @@ export const UnifiedNavigation: React.FC<UnifiedNavigationProps> = ({
   isLoggedIn = false,
   currentUser,
 }) => {
+  const [isMobile, setIsMobile] = useState(false);
+  const [isCollapsed, setIsCollapsed] = useState(false);
+
+  // Detect mobile and auto-collapse on mobile
+  useEffect(() => {
+    const checkMobile = () => {
+      const mobile = window.innerWidth <= 768;
+      setIsMobile(mobile);
+      setIsCollapsed(mobile); // Auto-collapse on mobile
+    };
+
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
   const navItems = [
     { id: 'hub', icon: '🏠', label: 'Hub' },
     { id: 'editor', icon: '✏️', label: 'Editor' },
@@ -28,7 +44,7 @@ export const UnifiedNavigation: React.FC<UnifiedNavigationProps> = ({
   ];
 
   const containerStyle: React.CSSProperties = {
-    width: '240px',
+    width: isCollapsed ? '70px' : '240px',
     height: '100vh',
     background:
       'linear-gradient(180deg, rgba(26,0,51,0.95) 0%, rgba(58,12,88,0.95) 100%)',
@@ -39,8 +55,10 @@ export const UnifiedNavigation: React.FC<UnifiedNavigationProps> = ({
     color: 'white',
     position: 'fixed',
     left: 0,
-    top: 70,
-    zIndex: 90,
+    top: isMobile ? 0 : 70, // Full height on mobile
+    zIndex: isMobile ? 100 : 90, // Higher z-index on mobile
+    transition: 'width 0.3s ease, left 0.3s ease',
+    overflow: isCollapsed ? 'hidden' : 'auto',
   };
 
   const logoSection: React.CSSProperties = {
@@ -68,8 +86,9 @@ export const UnifiedNavigation: React.FC<UnifiedNavigationProps> = ({
   const navItemStyle = (isActive: boolean): React.CSSProperties => ({
     display: 'flex',
     alignItems: 'center',
+    justifyContent: isCollapsed ? 'center' : 'flex-start',
     gap: '12px',
-    padding: '12px 16px',
+    padding: isCollapsed ? '12px' : '12px 16px',
     margin: '4px 0',
     background: isActive
       ? 'linear-gradient(135deg, rgba(168, 85, 247, 0.3), rgba(236, 72, 153, 0.3))'
@@ -83,7 +102,24 @@ export const UnifiedNavigation: React.FC<UnifiedNavigationProps> = ({
     fontWeight: 600,
     color: isActive ? '#fff' : '#a0a0a0',
     transition: 'all 0.3s',
+    whiteSpace: 'nowrap',
+    overflow: 'hidden',
   });
+
+  const toggleButtonStyle: React.CSSProperties = {
+    position: 'absolute',
+    top: '10px',
+    right: '10px',
+    background: 'rgba(168, 85, 247, 0.3)',
+    border: '1px solid rgba(168, 85, 247, 0.5)',
+    borderRadius: '6px',
+    color: 'white',
+    padding: '8px',
+    cursor: 'pointer',
+    fontSize: '16px',
+    zIndex: 10,
+    display: isMobile ? 'block' : 'none', // Only show on mobile
+  };
 
   const userSection: React.CSSProperties = {
     padding: '20px',
@@ -114,13 +150,26 @@ export const UnifiedNavigation: React.FC<UnifiedNavigationProps> = ({
 
   return (
     <div style={containerStyle}>
+      {/* Mobile Toggle Button */}
+      {isMobile && (
+        <button
+          style={toggleButtonStyle}
+          onClick={() => setIsCollapsed(!isCollapsed)}
+          title={isCollapsed ? 'Expand Menu' : 'Collapse Menu'}
+        >
+          {isCollapsed ? '☰' : '✕'}
+        </button>
+      )}
+
       {/* Logo */}
-      <div style={logoSection}>
-        <div style={logoStyle}>NOVA</div>
-        <div style={{ fontSize: '12px', color: '#a855f7', marginTop: '4px' }}>
-          ENGINE
+      {!isCollapsed && (
+        <div style={logoSection}>
+          <div style={logoStyle}>NOVA</div>
+          <div style={{ fontSize: '12px', color: '#a855f7', marginTop: '4px' }}>
+            ENGINE
+          </div>
         </div>
-      </div>
+      )}
 
       {/* Navigation Items */}
       <div style={navList}>
@@ -128,7 +177,10 @@ export const UnifiedNavigation: React.FC<UnifiedNavigationProps> = ({
           <div
             key={item.id}
             style={navItemStyle(currentMode === item.id)}
-            onClick={() => onModeChange(item.id)}
+            onClick={() => {
+              onModeChange(item.id);
+              if (isMobile) setIsCollapsed(true); // Auto-collapse after selection on mobile
+            }}
             onMouseEnter={(e) => {
               if (currentMode !== item.id) {
                 e.currentTarget.style.background = 'rgba(168, 85, 247, 0.1)';
@@ -141,15 +193,16 @@ export const UnifiedNavigation: React.FC<UnifiedNavigationProps> = ({
                 e.currentTarget.style.color = '#a0a0a0';
               }
             }}
+            title={isCollapsed ? item.label : ''}
           >
             <span style={{ fontSize: '20px' }}>{item.icon}</span>
-            <span>{item.label}</span>
+            {!isCollapsed && <span>{item.label}</span>}
           </div>
         ))}
       </div>
 
       {/* User Info */}
-      {isLoggedIn && currentUser && (
+      {!isCollapsed && isLoggedIn && currentUser && (
         <div style={userSection}>
           <div style={userCardStyle}>
             <div style={avatarStyle}>
