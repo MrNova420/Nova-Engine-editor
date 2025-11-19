@@ -110,15 +110,42 @@ export const UnifiedNavigation: React.FC<UnifiedNavigationProps> = ({
     position: 'absolute',
     top: '10px',
     right: '10px',
-    background: 'rgba(168, 85, 247, 0.3)',
-    border: '1px solid rgba(168, 85, 247, 0.5)',
-    borderRadius: '6px',
+    background:
+      'linear-gradient(135deg, rgba(168, 85, 247, 0.4), rgba(236, 72, 153, 0.4))',
+    border: '2px solid rgba(168, 85, 247, 0.6)',
+    borderRadius: '8px',
     color: 'white',
-    padding: '8px',
+    padding: '10px 12px',
     cursor: 'pointer',
-    fontSize: '16px',
+    fontSize: '18px',
     zIndex: 10,
-    display: isMobile ? 'block' : 'none', // Only show on mobile
+    transition: 'all 0.3s ease',
+    boxShadow: '0 4px 12px rgba(123, 47, 247, 0.3)',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+  };
+
+  // Always show toggle button - desktop and mobile
+  const permanentToggleStyle: React.CSSProperties = {
+    position: 'fixed',
+    left: isCollapsed ? '10px' : '250px',
+    top: isMobile ? '10px' : '80px',
+    background:
+      'linear-gradient(135deg, rgba(168, 85, 247, 0.9), rgba(236, 72, 153, 0.9))',
+    border: '2px solid rgba(168, 85, 247, 0.8)',
+    borderRadius: '50%',
+    color: 'white',
+    width: '44px',
+    height: '44px',
+    cursor: 'pointer',
+    fontSize: '20px',
+    zIndex: 101,
+    transition: 'all 0.3s ease',
+    boxShadow: '0 4px 16px rgba(123, 47, 247, 0.5)',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
   };
 
   const userSection: React.CSSProperties = {
@@ -149,75 +176,90 @@ export const UnifiedNavigation: React.FC<UnifiedNavigationProps> = ({
   };
 
   return (
-    <div style={containerStyle}>
-      {/* Mobile Toggle Button */}
-      {isMobile && (
-        <button
-          style={toggleButtonStyle}
-          onClick={() => setIsCollapsed(!isCollapsed)}
-          title={isCollapsed ? 'Expand Menu' : 'Collapse Menu'}
-        >
-          {isCollapsed ? '☰' : '✕'}
-        </button>
-      )}
+    <>
+      {/* Floating Toggle Button - Always visible for user control */}
+      <button
+        style={permanentToggleStyle}
+        onClick={() => setIsCollapsed(!isCollapsed)}
+        onMouseEnter={(e) => {
+          e.currentTarget.style.transform = 'scale(1.1)';
+          e.currentTarget.style.boxShadow =
+            '0 6px 20px rgba(123, 47, 247, 0.7)';
+        }}
+        onMouseLeave={(e) => {
+          e.currentTarget.style.transform = 'scale(1)';
+          e.currentTarget.style.boxShadow =
+            '0 4px 16px rgba(123, 47, 247, 0.5)';
+        }}
+        title={isCollapsed ? 'Show Navigation' : 'Hide Navigation'}
+      >
+        {isCollapsed ? '☰' : '✕'}
+      </button>
 
-      {/* Logo */}
-      {!isCollapsed && (
-        <div style={logoSection}>
-          <div style={logoStyle}>NOVA</div>
-          <div style={{ fontSize: '12px', color: '#a855f7', marginTop: '4px' }}>
-            ENGINE
-          </div>
-        </div>
-      )}
-
-      {/* Navigation Items */}
-      <div style={navList}>
-        {navItems.map((item) => (
-          <div
-            key={item.id}
-            style={navItemStyle(currentMode === item.id)}
-            onClick={() => {
-              onModeChange(item.id);
-              if (isMobile) setIsCollapsed(true); // Auto-collapse after selection on mobile
-            }}
-            onMouseEnter={(e) => {
-              if (currentMode !== item.id) {
-                e.currentTarget.style.background = 'rgba(168, 85, 247, 0.1)';
-                e.currentTarget.style.color = '#fff';
-              }
-            }}
-            onMouseLeave={(e) => {
-              if (currentMode !== item.id) {
-                e.currentTarget.style.background = 'transparent';
-                e.currentTarget.style.color = '#a0a0a0';
-              }
-            }}
-            title={isCollapsed ? item.label : ''}
-          >
-            <span style={{ fontSize: '20px' }}>{item.icon}</span>
-            {!isCollapsed && <span>{item.label}</span>}
-          </div>
-        ))}
-      </div>
-
-      {/* User Info */}
-      {!isCollapsed && isLoggedIn && currentUser && (
-        <div style={userSection}>
-          <div style={userCardStyle}>
-            <div style={avatarStyle}>
-              {currentUser?.username?.[0]?.toUpperCase() || 'U'}
+      {/* Navigation Panel */}
+      <div style={containerStyle}>
+        {/* Logo */}
+        {!isCollapsed && (
+          <div style={logoSection}>
+            <div style={logoStyle}>NOVA</div>
+            <div
+              style={{ fontSize: '12px', color: '#a855f7', marginTop: '4px' }}
+            >
+              ENGINE
             </div>
-            <div style={{ flex: 1 }}>
-              <div style={{ fontSize: '14px', fontWeight: 600 }}>
-                {currentUser?.username || 'User'}
+          </div>
+        )}
+
+        {/* Navigation Items */}
+        <div style={navList}>
+          {navItems.map((item) => (
+            <div
+              key={item.id}
+              style={navItemStyle(currentMode === item.id)}
+              onClick={() => {
+                onModeChange(item.id);
+                if (isMobile) setIsCollapsed(true); // Auto-collapse after selection on mobile
+              }}
+              onMouseEnter={(e) => {
+                if (currentMode !== item.id) {
+                  e.currentTarget.style.background = 'rgba(168, 85, 247, 0.1)';
+                  e.currentTarget.style.color = '#fff';
+                }
+              }}
+              onMouseLeave={(e) => {
+                if (currentMode !== item.id) {
+                  e.currentTarget.style.background = 'transparent';
+                  e.currentTarget.style.color = '#a0a0a0';
+                }
+              }}
+              title={isCollapsed ? item.label : ''}
+            >
+              <span style={{ fontSize: '20px' }}>{item.icon}</span>
+              {!isCollapsed && <span>{item.label}</span>}
+            </div>
+          ))}
+        </div>
+
+        {/* User Info */}
+        {!isCollapsed && isLoggedIn && currentUser && (
+          <div style={userSection}>
+            <div style={userCardStyle}>
+              <div style={avatarStyle}>
+                {currentUser?.username?.[0]?.toUpperCase() || 'U'}
               </div>
-              <div style={{ fontSize: '12px', color: '#a855f7' }}>Level 45</div>
+              <div style={{ flex: 1 }}>
+                <div style={{ fontSize: '14px', fontWeight: 600 }}>
+                  {currentUser?.username || 'User'}
+                </div>
+                <div style={{ fontSize: '12px', color: '#a855f7' }}>
+                  Level 45
+                </div>
+              </div>
             </div>
           </div>
-        </div>
-      )}
-    </div>
+        )}
+      </div>
+    </>
   );
 };
 
