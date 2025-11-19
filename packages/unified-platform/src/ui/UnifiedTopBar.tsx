@@ -12,6 +12,8 @@ interface UnifiedTopBarProps {
   isLoggedIn: boolean;
   currentUser: any;
   currentMode: string;
+  isNavOpen: boolean;
+  onToggleNav: () => void;
 }
 
 export const UnifiedTopBar: React.FC<UnifiedTopBarProps> = ({
@@ -19,6 +21,8 @@ export const UnifiedTopBar: React.FC<UnifiedTopBarProps> = ({
   isLoggedIn,
   currentUser,
   currentMode,
+  isNavOpen,
+  onToggleNav,
 }) => {
   const navigate = useNavigate();
   const [showNotifications, setShowNotifications] = useState(false);
@@ -26,10 +30,6 @@ export const UnifiedTopBar: React.FC<UnifiedTopBarProps> = ({
 
   const handleLogout = () => {
     platform.logout();
-  };
-
-  const handleLogoClick = () => {
-    navigate('/hub'); // Navigate to hub (main page) when logo is clicked
   };
 
   const handleHomeClick = () => {
@@ -162,23 +162,21 @@ export const UnifiedTopBar: React.FC<UnifiedTopBarProps> = ({
     <div style={containerStyle}>
       {/* Left Section */}
       <div style={leftSection}>
-        <div style={logoStyle} onClick={handleLogoClick} title="Go to Home">
-          <span>NOVA</span>
-          <span style={{ fontSize: '16px', fontWeight: 400 }}>ENGINE</span>
-        </div>
+        {/* Menu Toggle Button (replaces logo) */}
         <button
           type="button"
-          aria-label="Navigate to homepage"
+          aria-label="Toggle navigation menu"
           style={{
             ...buttonStyle,
             background: 'rgba(168, 85, 247, 0.2)',
-            padding: '8px 16px',
-            fontSize: '13px',
+            padding: '10px 14px',
+            fontSize: '20px',
+            border: '1px solid rgba(168, 85, 247, 0.4)',
           }}
-          onClick={handleHomeClick}
-          title="Home"
+          onClick={onToggleNav}
+          title={isNavOpen ? 'Close menu' : 'Open menu'}
         >
-          🏠 Home
+          {isNavOpen ? '✕' : '☰'}
         </button>
         <div style={modeIndicatorStyle}>
           <span>{getModeIcon(currentMode)}</span>

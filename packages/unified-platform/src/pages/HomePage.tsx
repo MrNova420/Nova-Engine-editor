@@ -21,51 +21,51 @@ export const HomePage: React.FC<HomePageProps> = ({
   const [hoveredPlanet, setHoveredPlanet] = useState<string | null>(null);
 
   // Clickable hotspot areas positioned over the actual planets in the background image
-  // These are invisible overlays with proper touch targets
+  // Positions precisely matched to the planets visible in homepagebackground.png
   const planetHotspots = [
     {
       id: 'editor',
       name: 'Editor',
       description: 'Create and design your games',
       path: '/editor',
-      // Top-right planet with ring - adjusted for better hit detection
-      position: { top: '10%', right: '10%', width: '200px', height: '200px' },
+      // Top-right large planet with rings
+      position: { top: '8%', right: '12%', width: '160px', height: '160px' },
     },
     {
       id: 'hub',
       name: 'Game Hub',
       description: 'Browse and discover games',
       path: '/hub',
-      // Bottom-left large planet with ring - adjusted
-      position: { bottom: '12%', left: '10%', width: '220px', height: '220px' },
+      // Bottom-left smaller planet with rings
+      position: { bottom: '20%', left: '11%', width: '120px', height: '120px' },
     },
     {
       id: 'multiplayer',
       name: 'Multiplayer',
       description: 'Play online with friends',
       path: '/multiplayer',
-      // Top-left smaller planet - adjusted
-      position: { top: '15%', left: '15%', width: '140px', height: '140px' },
+      // Top-left small planet
+      position: { top: '12%', left: '18%', width: '90px', height: '90px' },
     },
     {
       id: 'social',
       name: 'Social',
       description: 'Connect with the community',
       path: '/social',
-      // Right side planet - adjusted
-      position: { top: '35%', right: '15%', width: '150px', height: '150px' },
+      // Right side medium planet
+      position: { top: '28%', right: '8%', width: '110px', height: '110px' },
     },
     {
       id: 'settings',
       name: 'Settings',
       description: 'Configure your experience',
       path: '/settings',
-      // Bottom right planet - adjusted
+      // Bottom right medium planet
       position: {
-        bottom: '25%',
-        right: '18%',
-        width: '130px',
-        height: '130px',
+        bottom: '18%',
+        right: '14%',
+        width: '110px',
+        height: '110px',
       },
     },
     {
@@ -73,12 +73,12 @@ export const HomePage: React.FC<HomePageProps> = ({
       name: 'My Games',
       description: 'Your game library',
       path: '/launcher',
-      // Bottom center-right planet - adjusted
+      // Bottom center small planet (near Saturn-like planet)
       position: {
-        bottom: '18%',
-        right: '38%',
-        width: '120px',
-        height: '120px',
+        bottom: '38%',
+        right: '30%',
+        width: '85px',
+        height: '85px',
       },
     },
   ];
@@ -270,22 +270,23 @@ export const HomePage: React.FC<HomePageProps> = ({
           align-items: center;
         }
 
-        /* Simple text label above planet - always visible, no box */
+        /* Feature name label - centered above each planet hotspot */
         .planet-label {
           position: absolute;
-          top: -35px;
+          top: -30px;
           left: 50%;
           transform: translateX(-50%);
-          font-size: 16px;
-          font-weight: 600;
+          font-size: 14px;
+          font-weight: 700;
           color: white;
           text-shadow: 
-            0 2px 8px rgba(0, 0, 0, 0.9),
-            0 0 20px rgba(0, 0, 0, 0.5);
-          letter-spacing: 1px;
+            0 2px 10px rgba(0, 0, 0, 1),
+            0 0 25px rgba(123, 47, 247, 0.6);
+          letter-spacing: 1.5px;
           white-space: nowrap;
           z-index: 20;
           text-transform: uppercase;
+          text-align: center;
         }
 
         .lock-icon {
@@ -314,32 +315,36 @@ export const HomePage: React.FC<HomePageProps> = ({
           cursor: not-allowed;
         }
 
-        /* Subtle hover/active indicator */
+        /* Completely invisible hotspot indicator */
         .hotspot-indicator {
           width: 100%;
           height: 100%;
           border-radius: 50%;
-          border: 3px solid transparent;
+          border: none;
           transition: all 0.3s ease;
           position: absolute;
           top: 0;
           left: 0;
           pointer-events: none;
-          /* Add subtle background for better visibility */
-          background: rgba(168, 85, 247, 0.05);
+          /* Completely transparent - invisible */
+          background: transparent;
         }
 
         .planet-hotspot:hover .hotspot-indicator {
-          border-color: rgba(255, 255, 255, 0.5);
-          box-shadow: 0 0 25px rgba(255, 255, 255, 0.4);
-          background: rgba(168, 85, 247, 0.15);
+          /* Subtle glow on hover only */
+          box-shadow: 
+            0 0 20px rgba(168, 85, 247, 0.4),
+            0 0 30px rgba(255, 255, 255, 0.3);
+          background: transparent;
         }
 
         .planet-hotspot:active .hotspot-indicator {
-          border-color: rgba(255, 255, 255, 0.7);
-          box-shadow: 0 0 30px rgba(255, 255, 255, 0.6);
-          background: rgba(168, 85, 247, 0.25);
-          transform: scale(0.95);
+          /* Slightly stronger glow on click */
+          box-shadow: 
+            0 0 25px rgba(168, 85, 247, 0.5),
+            0 0 35px rgba(255, 255, 255, 0.4);
+          background: transparent;
+          transform: scale(0.98);
         }
 
         /* Login Reminder - cleaner design */

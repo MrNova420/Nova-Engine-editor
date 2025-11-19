@@ -11,6 +11,8 @@ interface UnifiedNavigationProps {
   onModeChange: (mode: string) => void;
   isLoggedIn?: boolean;
   currentUser?: any;
+  isOpen: boolean;
+  onNavigateHome: () => void;
 }
 
 export const UnifiedNavigation: React.FC<UnifiedNavigationProps> = ({
@@ -18,28 +20,23 @@ export const UnifiedNavigation: React.FC<UnifiedNavigationProps> = ({
   onModeChange,
   isLoggedIn = false,
   currentUser,
+  isOpen,
+  onNavigateHome,
 }) => {
   const [isMobile, setIsMobile] = useState(false);
-  const [isCollapsed, setIsCollapsed] = useState(false);
-  const [hasInitialized, setHasInitialized] = useState(false);
 
-  // Detect mobile and auto-collapse on mobile (only on initial load)
+  // Detect mobile
   useEffect(() => {
     const checkMobile = () => {
       const mobile = window.innerWidth <= 768;
       setIsMobile(mobile);
-      
-      // Only auto-collapse on initial load, not on every resize
-      if (!hasInitialized && mobile) {
-        setIsCollapsed(true);
-        setHasInitialized(true);
-      }
     };
 
     checkMobile();
     window.addEventListener('resize', checkMobile);
     return () => window.removeEventListener('resize', checkMobile);
-  }, [hasInitialized]);
+  }, []);
+
   const navItems = [
     { id: 'hub', icon: '🏠', label: 'Hub' },
     { id: 'editor', icon: '✏️', label: 'Editor' },
@@ -50,21 +47,22 @@ export const UnifiedNavigation: React.FC<UnifiedNavigationProps> = ({
   ];
 
   const containerStyle: React.CSSProperties = {
-    width: isCollapsed ? '70px' : '240px',
+    width: isOpen ? '240px' : '0',
     height: '100vh',
     background:
       'linear-gradient(180deg, rgba(26,0,51,0.95) 0%, rgba(58,12,88,0.95) 100%)',
-    borderRight: '2px solid rgba(123, 47, 247, 0.3)',
+    borderRight: isOpen ? '2px solid rgba(123, 47, 247, 0.3)' : 'none',
     display: 'flex',
     flexDirection: 'column',
-    padding: '20px 0',
+    padding: isOpen ? '20px 0' : '0',
     color: 'white',
     position: 'fixed',
     left: 0,
     top: isMobile ? 0 : 70, // Full height on mobile
     zIndex: isMobile ? 100 : 90, // Higher z-index on mobile
-    transition: 'width 0.3s ease, left 0.3s ease',
-    overflow: isCollapsed ? 'hidden' : 'auto',
+    transition: 'width 0.3s ease, opacity 0.3s ease',
+    overflow: isOpen ? 'auto' : 'hidden',
+    opacity: isOpen ? 1 : 0,
   };
 
   const logoSection: React.CSSProperties = {
@@ -92,9 +90,9 @@ export const UnifiedNavigation: React.FC<UnifiedNavigationProps> = ({
   const navItemStyle = (isActive: boolean): React.CSSProperties => ({
     display: 'flex',
     alignItems: 'center',
-    justifyContent: isCollapsed ? 'center' : 'flex-start',
+    justifyContent: 'flex-start',
     gap: '12px',
-    padding: isCollapsed ? '12px' : '12px 16px',
+    padding: '12px 16px',
     margin: '4px 0',
     background: isActive
       ? 'linear-gradient(135deg, rgba(168, 85, 247, 0.3), rgba(236, 72, 153, 0.3))'
@@ -112,26 +110,22 @@ export const UnifiedNavigation: React.FC<UnifiedNavigationProps> = ({
     overflow: 'hidden',
   });
 
-  // Floating toggle button style - always visible
-  const permanentToggleStyle: React.CSSProperties = {
-    position: 'fixed',
-    left: isCollapsed ? '10px' : '250px',
-    top: isMobile ? '10px' : '80px',
-    background:
-      'linear-gradient(135deg, rgba(168, 85, 247, 0.9), rgba(236, 72, 153, 0.9))',
-    border: '2px solid rgba(168, 85, 247, 0.8)',
-    borderRadius: '50%',
-    color: 'white',
-    width: '44px',
-    height: '44px',
-    cursor: 'pointer',
-    fontSize: '20px',
-    zIndex: 101,
-    transition: 'all 0.3s ease',
-    boxShadow: '0 4px 16px rgba(123, 47, 247, 0.5)',
+  const homeButtonStyle: React.CSSProperties = {
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
+    gap: '8px',
+    padding: '12px 16px',
+    margin: '10px 10px',
+    background:
+      'linear-gradient(135deg, rgba(168, 85, 247, 0.2), rgba(236, 72, 153, 0.2))',
+    border: '1px solid rgba(168, 85, 247, 0.4)',
+    borderRadius: '8px',
+    cursor: 'pointer',
+    fontSize: '14px',
+    fontWeight: 600,
+    color: '#fff',
+    transition: 'all 0.3s',
   };
 
   const userSection: React.CSSProperties = {
@@ -163,29 +157,10 @@ export const UnifiedNavigation: React.FC<UnifiedNavigationProps> = ({
 
   return (
     <>
-      {/* Floating Toggle Button - Always visible for user control */}
-      <button
-        style={permanentToggleStyle}
-        onClick={() => setIsCollapsed(!isCollapsed)}
-        onMouseEnter={(e) => {
-          e.currentTarget.style.transform = 'scale(1.1)';
-          e.currentTarget.style.boxShadow =
-            '0 6px 20px rgba(123, 47, 247, 0.7)';
-        }}
-        onMouseLeave={(e) => {
-          e.currentTarget.style.transform = 'scale(1)';
-          e.currentTarget.style.boxShadow =
-            '0 4px 16px rgba(123, 47, 247, 0.5)';
-        }}
-        title={isCollapsed ? 'Show Navigation' : 'Hide Navigation'}
-      >
-        {isCollapsed ? '☰' : '✕'}
-      </button>
-
       {/* Navigation Panel */}
       <div id="navigation-panel" style={containerStyle}>
         {/* Logo */}
-        {!isCollapsed && (
+        {isOpen && (
           <div style={logoSection}>
             <div style={logoStyle}>NOVA</div>
             <div
@@ -196,38 +171,58 @@ export const UnifiedNavigation: React.FC<UnifiedNavigationProps> = ({
           </div>
         )}
 
+        {/* Home Button */}
+        {isOpen && (
+          <button
+            style={homeButtonStyle}
+            onClick={onNavigateHome}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.background =
+                'linear-gradient(135deg, rgba(168, 85, 247, 0.3), rgba(236, 72, 153, 0.3))';
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.background =
+                'linear-gradient(135deg, rgba(168, 85, 247, 0.2), rgba(236, 72, 153, 0.2))';
+            }}
+          >
+            <span style={{ fontSize: '18px' }}>🏠</span>
+            <span>Home</span>
+          </button>
+        )}
+
         {/* Navigation Items */}
-        <div style={navList}>
-          {navItems.map((item) => (
-            <div
-              key={item.id}
-              style={navItemStyle(currentMode === item.id)}
-              onClick={() => {
-                onModeChange(item.id);
-                if (isMobile) setIsCollapsed(true); // Auto-collapse after selection on mobile
-              }}
-              onMouseEnter={(e) => {
-                if (currentMode !== item.id) {
-                  e.currentTarget.style.background = 'rgba(168, 85, 247, 0.1)';
-                  e.currentTarget.style.color = '#fff';
-                }
-              }}
-              onMouseLeave={(e) => {
-                if (currentMode !== item.id) {
-                  e.currentTarget.style.background = 'transparent';
-                  e.currentTarget.style.color = '#a0a0a0';
-                }
-              }}
-              title={isCollapsed ? item.label : ''}
-            >
-              <span style={{ fontSize: '20px' }}>{item.icon}</span>
-              {!isCollapsed && <span>{item.label}</span>}
-            </div>
-          ))}
-        </div>
+        {isOpen && (
+          <div style={navList}>
+            {navItems.map((item) => (
+              <div
+                key={item.id}
+                style={navItemStyle(currentMode === item.id)}
+                onClick={() => {
+                  onModeChange(item.id);
+                }}
+                onMouseEnter={(e) => {
+                  if (currentMode !== item.id) {
+                    e.currentTarget.style.background =
+                      'rgba(168, 85, 247, 0.1)';
+                    e.currentTarget.style.color = '#fff';
+                  }
+                }}
+                onMouseLeave={(e) => {
+                  if (currentMode !== item.id) {
+                    e.currentTarget.style.background = 'transparent';
+                    e.currentTarget.style.color = '#a0a0a0';
+                  }
+                }}
+              >
+                <span style={{ fontSize: '20px' }}>{item.icon}</span>
+                <span>{item.label}</span>
+              </div>
+            ))}
+          </div>
+        )}
 
         {/* User Info */}
-        {!isCollapsed && isLoggedIn && currentUser && (
+        {isOpen && isLoggedIn && currentUser && (
           <div style={userSection}>
             <div style={userCardStyle}>
               <div style={avatarStyle}>
