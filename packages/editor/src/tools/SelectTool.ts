@@ -135,7 +135,7 @@ export class SelectTool extends BaseTool {
     }
 
     // Render selection outline for selected entities
-    for (const entityId of this.selectedEntities) {
+    for (const _entityId of this.selectedEntities) {
       // In a real implementation:
       // 1. Get entity's bounding box in world space
       // 2. Project to screen space

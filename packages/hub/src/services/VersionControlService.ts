@@ -4,7 +4,7 @@
  */
 
 import { DatabaseService } from '../database/DatabaseService';
-import { v4 as uuidv4 } from 'uuid';
+// import { v4 as uuidv4 } from 'uuid';  // Unused import
 
 export interface ProjectVersion {
   id: string;

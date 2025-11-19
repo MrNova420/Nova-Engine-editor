@@ -187,6 +187,7 @@ export async function importRoutes(server: FastifyInstance) {
       // Clean up temp file
       try {
         await fs.unlink(tempPath);
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
       } catch (_error) {
         // Ignore cleanup errors
       }

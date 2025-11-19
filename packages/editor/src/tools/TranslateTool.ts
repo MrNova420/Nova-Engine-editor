@@ -295,7 +295,7 @@ export class TranslateTool extends BaseTool {
       const isDragging = this.dragAxis === handle.axis;
       const alpha = isHovered || isDragging ? 1.0 : 0.8;
 
-      const handlePos = new Vector3(
+      const _handlePos = new Vector3(
         entityPos.x + handle.position.x * this.gizmoSize,
         entityPos.y + handle.position.y * this.gizmoSize,
         entityPos.z + handle.position.z * this.gizmoSize

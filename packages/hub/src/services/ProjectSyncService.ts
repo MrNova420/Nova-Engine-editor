@@ -4,7 +4,7 @@
  */
 
 import { RedisService } from '../database/RedisService';
-import { ProjectStorageService } from './ProjectStorageService';
+// import { ProjectStorageService } from './ProjectStorageService';  // Unused import
 import { VersionControlService } from './VersionControlService';
 
 export interface SyncEvent {

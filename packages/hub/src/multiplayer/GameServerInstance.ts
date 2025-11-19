@@ -112,7 +112,7 @@ export class GameServerInstance extends EventEmitter {
    */
   private tick(): void {
     this.currentTick++;
-    const timestamp = Date.now();
+    const _timestamp = Date.now();
 
     // Process input buffer
     this.processInputs();

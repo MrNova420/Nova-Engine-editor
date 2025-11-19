@@ -41,6 +41,7 @@ export const useAuthStore = create<AuthState>((set) => ({
           headers: { Authorization: `Bearer ${token}` },
         });
         set({ user: response.data, token, isAuthenticated: true });
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
       } catch (_error) {
         localStorage.removeItem('auth_token');
         set({ user: null, token: null, isAuthenticated: false });

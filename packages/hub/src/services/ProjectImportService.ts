@@ -9,7 +9,7 @@ import { AssetStorageService } from '../storage/AssetStorageService';
 import { VersionControlService } from './VersionControlService';
 import * as fs from 'fs/promises';
 import * as path from 'path';
-import * as crypto from 'crypto';
+// import * as crypto from 'crypto';  // Unused import
 
 export interface ImportSource {
   type:
@@ -437,6 +437,7 @@ export class ProjectImportService {
       try {
         const metadataContent = await fs.readFile(metadataPath, 'utf-8');
         metadata = JSON.parse(metadataContent);
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
       } catch (_error) {
         warnings.push('No project.json found, creating new project metadata');
       }

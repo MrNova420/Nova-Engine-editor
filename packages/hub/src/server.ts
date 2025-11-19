@@ -57,6 +57,7 @@ export async function createServer() {
   server.decorate('authenticate', async function (request: any, reply: any) {
     try {
       await request.jwtVerify();
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
     } catch (_err) {
       reply
         .status(401)

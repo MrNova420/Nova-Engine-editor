@@ -28,6 +28,7 @@ export function authMiddleware(
     const decoded = jwt.verify(token, JWT_SECRET) as { userId: string };
     req.userId = decoded.userId;
     next();
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
   } catch (_error) {
     res.status(401).json({ message: 'Invalid token' });
   }

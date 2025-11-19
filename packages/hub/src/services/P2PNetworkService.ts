@@ -111,7 +111,7 @@ export class P2PNetworkService {
   async establishConnections(
     topology: P2PTopology
   ): Promise<Map<string, string[]>> {
-    const connections = new Map<string, string[]>();
+    const _connections = new Map<string, string[]>();
 
     switch (topology.architecture) {
       case 'full-mesh':
@@ -253,7 +253,7 @@ export class P2PNetworkService {
     const connections = new Map<string, string[]>();
 
     // Layer 1: Host
-    const layer1 = [hostPeerId];
+    const _layer1 = [hostPeerId];
 
     // Layer 2: Primary relays (connect to host)
     const layer2 = relayPeers.slice(0, 5);
@@ -416,7 +416,7 @@ export class P2PNetworkService {
       // Redistribute failed tasks
       const taskArray = Object.values(tasks).flat();
       taskArray.push(...failedTasks);
-      const redistributed = await this.distributeComputation(
+      const _redistributed = await this.distributeComputation(
         topology,
         taskArray
       );

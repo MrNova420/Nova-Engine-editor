@@ -43,6 +43,7 @@ export async function gamesRoutes(server: FastifyInstance) {
       });
 
       return { success: true, games };
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
     } catch (_error) {
       // Return empty array on error (in-memory mode)
       return { success: true, games: [] };
@@ -59,6 +60,7 @@ export async function gamesRoutes(server: FastifyInstance) {
           limit: 1000,
         });
         return { success: true, games };
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
       } catch (_error) {
         return { success: true, games: [] };
       }
@@ -73,6 +75,7 @@ export async function gamesRoutes(server: FastifyInstance) {
         limit: 1000,
       });
       return { success: true, games };
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
     } catch (_error) {
       return { success: true, games: [] };
     }
@@ -88,6 +91,7 @@ export async function gamesRoutes(server: FastifyInstance) {
           limit: 1000,
         });
         return { success: true, games };
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
       } catch (_error) {
         return { success: true, games: [] };
       }

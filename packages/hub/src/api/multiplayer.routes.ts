@@ -323,6 +323,7 @@ export async function multiplayerRoutes(server: FastifyInstance) {
     '/ws/:roomId',
     { websocket: true } as any,
     (async (connection: any, request: FastifyRequest) => {
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
       const { roomId } = request.params as { _roomId: string };
 
       // WebSocket connection for real-time game state sync

@@ -10,6 +10,7 @@ export async function userRoutes(server: FastifyInstance) {
     '/me/stats',
     { onRequest: [server.authenticate] },
     async (request: FastifyRequest, _reply: FastifyReply) => {
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
       const { userId } = request.user as any;
       return {
         level: 1,
@@ -62,6 +63,7 @@ export async function socialRoutes(server: FastifyInstance) {
     '/friends/:friendId',
     { onRequest: [server.authenticate] },
     async (request: FastifyRequest, _reply: FastifyReply) => {
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
       const { friendId } = request.params as any;
       return { success: true, message: 'Friend request sent' };
     }
@@ -72,6 +74,7 @@ export async function socialRoutes(server: FastifyInstance) {
     '/friends/:friendId',
     { onRequest: [server.authenticate] },
     async (request: FastifyRequest, _reply: FastifyReply) => {
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
       const { friendId } = request.params as any;
       return { success: true, message: 'Friend removed' };
     }

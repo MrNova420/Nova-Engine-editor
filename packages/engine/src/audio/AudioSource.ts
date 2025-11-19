@@ -124,6 +124,7 @@ export class AudioSource {
     if (this._sourceNode) {
       try {
         this._sourceNode.stop();
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
       } catch (_e) {
         // Source may have already stopped
       }

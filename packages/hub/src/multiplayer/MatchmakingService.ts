@@ -69,7 +69,7 @@ class MatchmakingService {
 
     // Take first 2-4 players (configurable per game)
     const playersNeeded = 2;
-    const matchedPlayers = gameQueue.splice(0, playersNeeded);
+    const _matchedPlayers = gameQueue.splice(0, playersNeeded);
 
     this.activeMatches.set(match.id, match);
   }

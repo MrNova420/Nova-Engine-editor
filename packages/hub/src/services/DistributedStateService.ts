@@ -502,7 +502,7 @@ export class DistributedStateService {
     olderThanMs: number = 60000
   ): Promise<number> {
     const now = Date.now();
-    const cutoff = now - olderThanMs;
+    const _cutoff = now - olderThanMs;
 
     // Would implement cleanup of old state entries
     return 0;
