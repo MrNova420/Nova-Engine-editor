@@ -79,13 +79,32 @@ For detailed explanations, examples, and FAQ:
 
 ---
 
+## 📚 Additional Resources
+
+### Helpful Guides
+
+- **[FAQ.md](FAQ.md)** - Frequently Asked Questions about licensing
+- **[COMPLIANCE_CHECKLIST.md](COMPLIANCE_CHECKLIST.md)** - Step-by-step compliance guide
+- **[LEGAL.md](../LEGAL.md)** - Comprehensive legal documentation overview
+- **[Human Summary PDF](NovaEngine_HumanSummary.pdf)** - Quick plain-language overview
+
+### Recommended Reading Order
+
+1. **Start Here:** [Human Summary PDF](NovaEngine_HumanSummary.pdf) - 2-minute read
+2. **Common Questions:** [FAQ.md](FAQ.md) - Answers to frequent questions
+3. **Complete Guide:** [LEGAL.md](../LEGAL.md) - Detailed explanations
+4. **Before Release:** [COMPLIANCE_CHECKLIST.md](COMPLIANCE_CHECKLIST.md) - What you need
+5. **Full Terms:** Individual PDF documents - Legal binding terms
+
 ## 📞 Questions?
 
 For questions about these legal documents:
-- Start with [LEGAL.md](../LEGAL.md) for detailed explanations
-- Review [Human Summary](NovaEngine_HumanSummary.pdf) for quick overview
+- **Start with [FAQ.md](FAQ.md)** for common questions
+- Review [LEGAL.md](../LEGAL.md) for detailed explanations
+- Check [Human Summary PDF](NovaEngine_HumanSummary.pdf) for quick overview
+- Use [COMPLIANCE_CHECKLIST.md](COMPLIANCE_CHECKLIST.md) to ensure you're covered
 - Open an issue on [GitHub](https://github.com/MrNova420/Nova-Engine/issues)
-- Contact WeNova Interactive for legal inquiries
+- Contact WeNova Interactive for licensing inquiries
 
 ---
 
