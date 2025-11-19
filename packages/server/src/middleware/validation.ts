@@ -1,13 +1,13 @@
 /**
  * NOVA ENGINE - Proprietary Software
- * 
+ *
  * Copyright (c) 2025 Kayden Shawn Massengill. All Rights Reserved.
  * Operating as: WeNova Interactive
- * 
+ *
  * This software is proprietary and confidential. Unauthorized copying,
  * modification, distribution, or use of this software, via any medium,
  * is strictly prohibited without prior written permission.
- * 
+ *
  * See LICENSE file in the root directory for full license terms.
  */
 
@@ -46,7 +46,7 @@ interface ValidationError {
 export function validateBody(schema: ValidationSchema) {
   return (req: Request, res: Response, next: NextFunction): void => {
     const errors = validateData(req.body, schema);
-    
+
     if (errors.length > 0) {
       res.status(400).json({
         error: 'Validation Error',
@@ -55,7 +55,7 @@ export function validateBody(schema: ValidationSchema) {
       });
       return;
     }
-    
+
     next();
   };
 }
@@ -66,7 +66,7 @@ export function validateBody(schema: ValidationSchema) {
 export function validateQuery(schema: ValidationSchema) {
   return (req: Request, res: Response, next: NextFunction): void => {
     const errors = validateData(req.query, schema);
-    
+
     if (errors.length > 0) {
       res.status(400).json({
         error: 'Validation Error',
@@ -75,7 +75,7 @@ export function validateQuery(schema: ValidationSchema) {
       });
       return;
     }
-    
+
     next();
   };
 }
@@ -86,7 +86,7 @@ export function validateQuery(schema: ValidationSchema) {
 export function validateParams(schema: ValidationSchema) {
   return (req: Request, res: Response, next: NextFunction): void => {
     const errors = validateData(req.params, schema);
-    
+
     if (errors.length > 0) {
       res.status(400).json({
         error: 'Validation Error',
@@ -95,7 +95,7 @@ export function validateParams(schema: ValidationSchema) {
       });
       return;
     }
-    
+
     next();
   };
 }
@@ -112,7 +112,10 @@ function validateData(data: any, schema: ValidationSchema): ValidationError[] {
     const value = data[field];
 
     // Required check
-    if (rule.required && (value === undefined || value === null || value === '')) {
+    if (
+      rule.required &&
+      (value === undefined || value === null || value === '')
+    ) {
       errors.push({
         field,
         message: `${field} is required`,
@@ -171,7 +174,7 @@ function validateData(data: any, schema: ValidationSchema): ValidationError[] {
     }
 
     // Enum validation
-    if (rule.enum && !rule.enum.includes(value)) {
+    if (rule?.enum && !rule.enum.includes(value)) {
       errors.push({
         field,
         message: `${field} must be one of: ${rule.enum.join(', ')}`,
@@ -179,12 +182,15 @@ function validateData(data: any, schema: ValidationSchema): ValidationError[] {
     }
 
     // Custom validation
-    if (rule.custom) {
+    if (rule?.custom) {
       const customResult = rule.custom(value);
       if (customResult !== true) {
         errors.push({
           field,
-          message: typeof customResult === 'string' ? customResult : `${field} is invalid`,
+          message:
+            typeof customResult === 'string'
+              ? customResult
+              : `${field} is invalid`,
         });
       }
     }
@@ -196,44 +202,48 @@ function validateData(data: any, schema: ValidationSchema): ValidationError[] {
 /**
  * Validate value type
  */
-function validateType(field: string, value: any, type: string): ValidationError | null {
+function validateType(
+  field: string,
+  value: any,
+  type: string
+): ValidationError | null {
   switch (type) {
     case 'string':
       if (typeof value !== 'string') {
         return { field, message: `${field} must be a string` };
       }
       break;
-    
+
     case 'number':
       if (typeof value !== 'number' || isNaN(value)) {
         return { field, message: `${field} must be a number` };
       }
       break;
-    
+
     case 'boolean':
       if (typeof value !== 'boolean') {
         return { field, message: `${field} must be a boolean` };
       }
       break;
-    
+
     case 'email':
       if (typeof value !== 'string' || !isValidEmail(value)) {
         return { field, message: `${field} must be a valid email address` };
       }
       break;
-    
+
     case 'url':
       if (typeof value !== 'string' || !isValidUrl(value)) {
         return { field, message: `${field} must be a valid URL` };
       }
       break;
-    
+
     case 'object':
       if (typeof value !== 'object' || value === null || Array.isArray(value)) {
         return { field, message: `${field} must be an object` };
       }
       break;
-    
+
     case 'array':
       if (!Array.isArray(value)) {
         return { field, message: `${field} must be an array` };
@@ -305,7 +315,7 @@ export const authSchemas = {
         const hasLowerCase = /[a-z]/.test(value);
         const hasNumber = /[0-9]/.test(value);
         const hasSpecialChar = /[!@#$%^&*(),.?":{}|<>]/.test(value);
-        
+
         if (!hasUpperCase || !hasLowerCase || !hasNumber || !hasSpecialChar) {
           return 'Password must contain uppercase, lowercase, number, and special character';
         }
