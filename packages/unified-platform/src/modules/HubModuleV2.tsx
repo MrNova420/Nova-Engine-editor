@@ -11,7 +11,7 @@
 
 import React, { useState, useEffect } from 'react';
 import { UnifiedPlatformCore } from '../core/UnifiedPlatformCore';
-import { getAllDemoGames, type DemoGame } from '../demo-games';
+import { type DemoGame } from '../demo-games';
 import { apiClient } from '../services/ApiClient';
 import './styles/HubModuleV2.css';
 

@@ -43,7 +43,7 @@ export const MultiplayerModuleV2: React.FC<MultiplayerModuleV2Props> = () => {
   >('matchmaking');
   const [selectedRegion, setSelectedRegion] = useState('auto');
   const [selectedGameMode, setSelectedGameMode] = useState('deathmatch');
-  const [selectedGameId, setSelectedGameId] = useState<string | null>(null);
+  const [selectedGameId] = useState<string | null>(null);
   const [isSearching, setIsSearching] = useState(false);
   const [partyMembers] = useState<string[]>([]);
   const [lobbies, setLobbies] = useState<Lobby[]>([]);
@@ -79,8 +79,6 @@ export const MultiplayerModuleV2: React.FC<MultiplayerModuleV2Props> = () => {
       throw new Error(
         'Unable to connect to multiplayer server. Please ensure the backend is running.'
       );
-    } finally {
-      setLoading(false);
     }
   };
 
@@ -106,68 +104,6 @@ export const MultiplayerModuleV2: React.FC<MultiplayerModuleV2Props> = () => {
       );
     }
   };
-
-  // Mock data - TODO: Connect to backend API and WebSocket
-  const lobbies: Lobby[] = [
-    {
-      id: '1',
-      name: 'Nova Warriors Arena',
-      host: 'NovaKing',
-      players: 6,
-      maxPlayers: 8,
-      gameMode: 'Team Deathmatch',
-      map: 'Space Station Omega',
-      ping: 45,
-      region: 'NA-East',
-    },
-    {
-      id: '2',
-      name: 'Cosmic Chaos',
-      host: 'StarLord',
-      players: 4,
-      maxPlayers: 6,
-      gameMode: 'Capture the Flag',
-      map: 'Asteroid Belt',
-      ping: 62,
-      region: 'NA-West',
-    },
-    {
-      id: '3',
-      name: 'Epic Battle Royale',
-      host: 'GalaxyHero',
-      players: 12,
-      maxPlayers: 16,
-      gameMode: 'Battle Royale',
-      map: 'Nebula Plains',
-      ping: 38,
-      region: 'NA-East',
-    },
-  ];
-
-  const friends: Friend[] = [
-    {
-      id: '1',
-      username: 'NovaFriend1',
-      status: 'online',
-      avatar:
-        'https://github.com/user-attachments/assets/3c8547af-d2a1-4e29-ad37-0aeaed749ed1',
-    },
-    {
-      id: '2',
-      username: 'CosmicBuddy',
-      status: 'in-game',
-      game: 'Space Adventure',
-      avatar:
-        'https://github.com/user-attachments/assets/3c8547af-d2a1-4e29-ad37-0aeaed749ed1',
-    },
-    {
-      id: '3',
-      username: 'StarPlayer99',
-      status: 'offline',
-      avatar:
-        'https://github.com/user-attachments/assets/3c8547af-d2a1-4e29-ad37-0aeaed749ed1',
-    },
-  ];
 
   const recentMatches: Match[] = [
     {
@@ -210,7 +146,7 @@ export const MultiplayerModuleV2: React.FC<MultiplayerModuleV2Props> = () => {
     console.log('🔍 Starting matchmaking:', selectedRegion, selectedGameMode);
 
     try {
-      const result = await apiClient.quickMatch(selectedGameId, {
+      const result: any = await apiClient.quickMatch(selectedGameId, {
         region: selectedRegion,
         gameMode: selectedGameMode,
       });
@@ -257,7 +193,7 @@ export const MultiplayerModuleV2: React.FC<MultiplayerModuleV2Props> = () => {
   const handleCreateLobby = async () => {
     console.log('🏗️ Creating new lobby');
     try {
-      const newLobby = await apiClient.createLobby({
+      const newLobby: any = await apiClient.createLobby({
         name: 'My Lobby',
         gameMode: selectedGameMode,
         maxPlayers: 8,

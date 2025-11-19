@@ -139,7 +139,10 @@ export const EditorModuleV2: React.FC<EditorModuleV2Props> = () => {
       addLog('info', `Loaded ${assetsList.length} assets from project`);
     } catch (error) {
       console.error('Failed to load assets from backend API:', error);
-      addLog('error', 'Unable to load project assets. Backend connection failed.');
+      addLog(
+        'error',
+        'Unable to load project assets. Backend connection failed.'
+      );
       throw new Error(
         'Unable to load project assets. Please ensure the backend is running.'
       );
@@ -165,22 +168,9 @@ export const EditorModuleV2: React.FC<EditorModuleV2Props> = () => {
       // Initialize engine
       const engine = new Engine({
         canvas: canvasRef.current,
-        handlers: {
-          onInit: () => {
-            addLog('info', '✅ Nova Engine initialized successfully');
-          },
-          onUpdate: (deltaTime: number) => {
-            // Update scene
-            if (sceneRef.current && rendererRef.current) {
-              // Render the scene
-              // rendererRef.current.render(sceneRef.current);
-            }
-          },
-          onRender: () => {
-            // Rendering handled in update
-          },
-        },
       });
+
+      addLog('info', '✅ Nova Engine initialized successfully');
 
       engineRef.current = engine;
       await engine.initialize();

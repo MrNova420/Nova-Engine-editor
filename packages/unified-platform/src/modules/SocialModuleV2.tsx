@@ -38,8 +38,8 @@ export const SocialModuleV2: React.FC<SocialModuleV2Props> = () => {
   const loadUserProfile = async () => {
     try {
       // Fetch user profile from backend API - production ready, no fallbacks
-      const profile = await apiClient.getMe();
-      const stats = await apiClient.getUserStats();
+      const profile: any = await apiClient.getMe();
+      const stats: any = await apiClient.getUserStats();
 
       setCurrentUser({
         id: profile.id,
@@ -62,8 +62,6 @@ export const SocialModuleV2: React.FC<SocialModuleV2Props> = () => {
       throw new Error(
         'Unable to load user profile. Please ensure the backend is running.'
       );
-    } finally {
-      setLoading(false);
     }
   };
 
@@ -108,45 +106,8 @@ export const SocialModuleV2: React.FC<SocialModuleV2Props> = () => {
     }
   };
 
-  const friends = [
-    {
-      id: 1,
-      username: 'GameDev123',
-      status: 'online',
-      avatar: '🎮',
-      playing: 'Space Adventure',
-    },
-    {
-      id: 2,
-      username: 'ArtistPro',
-      status: 'online',
-      avatar: '🎨',
-      playing: 'Creating in Editor',
-    },
-    {
-      id: 3,
-      username: 'CodeWizard',
-      status: 'away',
-      avatar: '⚡',
-      playing: null,
-    },
-    {
-      id: 4,
-      username: 'PixelMaster',
-      status: 'offline',
-      avatar: '🖼️',
-      lastSeen: '2 hours ago',
-    },
-    {
-      id: 5,
-      username: 'SoundDesigner',
-      status: 'online',
-      avatar: '🎵',
-      playing: 'Testing Audio',
-    },
-  ];
-
-  const achievements = [
+  // Note: achievements and friends loaded from backend API via state
+  const placeholderAchievements = [
     {
       id: 1,
       name: 'First Steps',
@@ -322,7 +283,7 @@ export const SocialModuleV2: React.FC<SocialModuleV2Props> = () => {
       <div className="profile-achievements-preview">
         <h3>Recent Achievements</h3>
         <div className="achievements-grid">
-          {achievements
+          {(achievements.length > 0 ? achievements : placeholderAchievements)
             .filter((a) => a.unlocked)
             .slice(0, 3)
             .map((achievement) => (

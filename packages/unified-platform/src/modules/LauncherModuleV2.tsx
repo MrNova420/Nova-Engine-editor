@@ -47,7 +47,6 @@ export const LauncherModuleV2: React.FC<LauncherModuleV2Props> = () => {
   }, []);
 
   const loadUserGames = async () => {
-    setLoading(true);
     try {
       // Fetch user's games from backend API - production ready, no fallbacks
       const games = await apiClient.getGames({ limit: 100 });
@@ -75,8 +74,6 @@ export const LauncherModuleV2: React.FC<LauncherModuleV2Props> = () => {
       throw new Error(
         'Unable to connect to backend server. Please ensure the backend is running.'
       );
-    } finally {
-      setLoading(false);
     }
   };
 
