@@ -1,324 +1,324 @@
 # Nova Engine - Autonomous Development Guide v2.0
 
 > **The Ultimate Roadmap for Building a Universal AAA-Grade Game Development Platform**
+>
+> This document serves as the complete autonomous development blueprint for transforming Nova Engine from its current foundation into a production-ready, industry-grade, universal game development platform comparable to Unity and Unreal Engine.
 
 ---
 
-# ⚠️ CRITICAL: READ THIS FIRST - MANDATORY QUALITY STANDARDS ⚠️
+## 📋 Table of Contents
 
-## 🎯 ABSOLUTE REQUIREMENTS - NO EXCEPTIONS
-
-### QUALITY LEVEL: AAA PRODUCTION GRADE - ALWAYS
-
-**EVERY SINGLE LINE OF CODE MUST BE:**
-1. ✅ **Production-ready** - Ready to ship, no placeholders, no shortcuts
-2. ✅ **Industry-leading** - Equal to or better than Unreal/Unity
-3. ✅ **Fully tested** - Comprehensive test coverage (100% for all code)
-4. ✅ **Completely documented** - TSDoc for all public APIs
-5. ✅ **Performance optimized** - 60 FPS minimum target
-6. ✅ **Security hardened** - OWASP compliant, no vulnerabilities
-7. ✅ **Type-safe** - TypeScript strict mode, zero any types
-8. ✅ **Error handling** - Comprehensive error handling and recovery
-9. ✅ **Diagnostics** - Rich debugging and profiling capabilities
-10. ✅ **Maintainable** - Clean, readable, well-architected code
-
-### CODE DEPTH REQUIREMENTS
-
-**NEVER write simplified or "starter" implementations. ALWAYS implement COMPLETE features:**
-
-❌ **WRONG - Simplified/Half-Assed:**
-```typescript
-class Allocator {
-  allocate(size: number) {
-    return new ArrayBuffer(size); // Too simple!
-  }
-}
-```
-
-✅ **CORRECT - Production Grade:**
-```typescript
-class StackAllocator implements IAllocator {
-  // 500+ lines with:
-  // - Guard pages for overflow detection
-  // - Marker-based scoped allocation
-  // - Leak detection with call stacks
-  // - Double-free detection
-  // - Memory profiling
-  // - Detailed error reporting
-  // - Comprehensive statistics
-  // - Performance optimization
-}
-```
-
-### FEATURE COMPLETENESS
-
-**EACH FEATURE MUST INCLUDE:**
-
-1. ✅ **Core Implementation** (not just interfaces)
-2. ✅ **Comprehensive Tests** (50+ tests minimum per major system)
-3. ✅ **Integration** with other systems
-4. ✅ **Profiling Tools** (performance measurement, debugging)
-5. ✅ **Documentation** (API docs, usage examples, architecture)
-6. ✅ **Error Handling** (graceful failures, clear error messages)
-7. ✅ **Optimization** (benchmarked, profiled, optimized)
-8. ✅ **Edge Cases** (all corner cases handled)
-
-### LINES OF CODE EXPECTATIONS
-
-**Minimum LOC by System Type:**
-- Simple utility: 100-300 LOC minimum
-- Core system: 500-2000 LOC minimum  
-- Major subsystem: 2000-10000 LOC minimum
-- Complete feature: 10000+ LOC
-
-**DO NOT create files with < 100 LOC unless they're pure interfaces/types.**
+1. [Executive Summary](#executive-summary)
+2. [Project Vision & Goals](#project-vision--goals)
+3. [Current State Assessment](#current-state-assessment)
+4. [Critical Rules & Guidelines](#critical-rules--guidelines)
+5. [Phase 0: Organization & Foundation](#phase-0-organization--foundation)
+6. [Phase 1: Core Engine Architecture](#phase-1-core-engine-architecture)
+7. [Phase 2: Advanced Rendering Pipeline](#phase-2-advanced-rendering-pipeline)
+8. [Phase 3: Physics & Simulation](#phase-3-physics--simulation)
+9. [Phase 4: Animation & Character Systems](#phase-4-animation--character-systems)
+10. [Phase 5: Audio & Sound Design](#phase-5-audio--sound-design)
+11. [Phase 6: Gameplay Frameworks](#phase-6-gameplay-frameworks)
+12. [Phase 7: Editor & Tools](#phase-7-editor--tools)
+13. [Phase 8: Asset Pipeline & Management](#phase-8-asset-pipeline--management)
+14. [Phase 9: Cloud Asset Store System](#phase-9-cloud-asset-store-system)
+15. [Phase 10: Networking & Multiplayer](#phase-10-networking--multiplayer)
+16. [Phase 11: Platform Integration](#phase-11-platform-integration)
+17. [Phase 12: AI & Navigation](#phase-12-ai--navigation)
+18. [Phase 13: Optimization & Performance](#phase-13-optimization--performance)
+19. [Phase 14: Security & Licensing](#phase-14-security--licensing)
+20. [Phase 15: Production Release](#phase-15-production-release)
+21. [Progress Tracking System](#progress-tracking-system)
+22. [Success Metrics](#success-metrics) .  22.1 .[Quality of life features] (#QUALITY_OF_LIFE_FEATURES.md)
+even more in depth development and imroovments once done with auotmis development guide2.md is doen then you use the quality of life features .md to add even more 
 
 ---
 
-## 🚫 NEVER DO THESE THINGS
+## Executive Summary
 
-1. **Never write placeholder/simplified code** - Always full production implementation
-2. **Never skip tests** - Every feature needs comprehensive test coverage
-3. **Never ignore edge cases** - Handle ALL corner cases properly
-4. **Never use "TODO" or "FIXME"** - Complete implementation before committing
-5. **Never delete working code** without explicit reason and backup
-6. **Never remove tests** that are passing
-7. **Never commit secrets** (API keys, passwords, tokens)
-8. **Never break existing functionality** without migration plan
-9. **Never skip integration** - Systems must work together
-10. **Never skip profiling** - Performance must be measured and optimized
+**Mission**: Build Nova Engine into the **BEST game development platform in the world** - surpassing Unreal Engine and Unity in quality, features, and capabilities - enabling developers worldwide to create industry-leading AAA-quality games accessible on any device.
 
-## ✅ ALWAYS DO THESE THINGS
+**Key Objectives**:
+- **Better than Unreal & Unity**: Exceed industry leaders in every measurable way
+- Universal platform (Web, PC, Mobile, Console, VR/AR)
+- **1M-5M lines of highest-quality code**: Substantial, production-grade codebase
+- **World-class editor**: As detailed and powerful as Unreal Engine's editor
+- Production-ready tooling and workflows
+- Cloud-based asset storage system
+- Global accessibility with offline functionality
+- Industry-leading performance and stability
+- Enable creation of AAA production-grade games
 
-1. **Always implement complete features** - No half-implementations
-2. **Always write comprehensive tests** (50+ tests per system minimum)
-3. **Always add profiling/debugging tools** for each system
-4. **Always integrate** with existing systems
-5. **Always optimize** after implementing (measure, profile, optimize)
-6. **Always document** with TSDoc, examples, architecture docs
-7. **Always handle errors** gracefully with detailed messages
-8. **Always validate** builds and tests pass
-9. **Always track memory** usage and performance
-10. **Always exceed** industry standards (better than Unreal/Unity)
+**Timeline**: 48-72 months for complete 5M LOC platform
+**Approach**: Incremental, test-driven, production-quality from day one, relentless pursuit of excellence
 
----
-
-## 🔧 DEVELOPMENT STANDARDS (MANDATORY)
-
-### Code Quality Requirements
-
-```
-✅ TypeScript: Strict mode enabled, zero 'any' types
-✅ Test Coverage: 100% for all code (no exceptions)
-✅ Linting: Zero ESLint errors/warnings
-✅ Formatting: Prettier-enforced
-✅ Documentation: TSDoc for all public APIs
-✅ Type Safety: No type assertions unless absolutely necessary
-✅ Error Handling: Try-catch blocks, proper error types
-✅ Performance: Profiled, optimized, benchmarked
-✅ Security: OWASP compliant, input validation
-✅ Architecture: SOLID principles, clean architecture
-```
-
-### Architecture Principles (MANDATORY)
-
-1. **Modularity**: Loose coupling, high cohesion
-2. **Extensibility**: Plugin-based where appropriate  
-3. **Performance**: 60 FPS target, optimize early and always
-4. **Scalability**: Design for growth (1M+ LOC codebase)
-5. **Maintainability**: Clean, readable, well-documented code
-6. **Testability**: Every component must be testable
-7. **Observability**: Rich logging, profiling, debugging
-8. **Resilience**: Graceful degradation, error recovery
-
-### Testing Strategy (MANDATORY)
-
-**EVERY system needs ALL of these:**
-
-1. ✅ **Unit Tests** - Test individual functions/classes (50+ per system)
-2. ✅ **Integration Tests** - Test system interactions (20+ per system)
-3. ✅ **Performance Tests** - Benchmark critical operations
-4. ✅ **Stress Tests** - Test under load/memory pressure
-5. ✅ **Edge Case Tests** - Test boundaries and corner cases
-6. ✅ **Error Tests** - Test failure scenarios
-7. ✅ **Memory Tests** - Test for leaks and proper cleanup
-
-### Documentation Requirements (MANDATORY)
-
-**EVERY file needs:**
-
-1. ✅ **File header** with description and module info
-2. ✅ **TSDoc comments** for all public APIs
-3. ✅ **Usage examples** in comments
-4. ✅ **Architecture notes** for complex systems
-5. ✅ **Performance notes** (Big-O, memory usage)
-6. ✅ **README.md** for each major module
-7. ✅ **Integration guides** showing how to use with other systems
+**Quality Standards**:
+- Every line of code: Production-grade, AAA quality
+- Every feature: Better than or equal to industry leaders
+- Every tool: Professional-grade, intuitive, powerful
+- Every platform: Optimized, stable, performant
+- Every detail: Polished, tested, documented
 
 ---
 
-## 📊 PROGRESS TRACKING RULES (MANDATORY)
-
-### Task Completion Criteria
-
-**A task is ONLY complete when ALL of these are done:**
-
-- [x] Core implementation finished (production-grade)
-- [x] Comprehensive tests written (50+ minimum)
-- [x] Integration with other systems complete
-- [x] Profiling/debugging tools added
-- [x] Performance optimized (benchmarked)
-- [x] Full documentation written
-- [x] Code reviewed and approved
-- [x] All tests passing (100%)
-- [x] No linting errors/warnings
-- [x] PROGRESS.md updated
-
-### Update PROGRESS.md Rules
-
-1. **After EVERY significant change** - not just major milestones
-2. **Mark tasks [x]** only when 100% complete (all criteria above)
-3. **Document blockers** immediately when encountered
-4. **Track metrics accurately** - LOC counts, test counts, performance
-5. **Commit progress** at least after every major task completion
-
----
-
-## 🔒 SECURITY REQUIREMENTS (MANDATORY)
-
-1. ✅ **No secrets in code** - Use environment variables
-2. ✅ **Input validation** - Validate and sanitize ALL inputs
-3. ✅ **Parameterized queries** - Prevent SQL injection
-4. ✅ **Rate limiting** - On all APIs
-5. ✅ **Encryption** - Sensitive data encrypted at rest and in transit
-6. ✅ **OWASP compliance** - Follow all OWASP guidelines
-7. ✅ **Regular security audits** - Automated scanning
-8. ✅ **Proper authentication** - JWT, secure sessions
-9. ✅ **Authorization** - Proper access control
-10. ✅ **Error messages** - Don't leak sensitive information
-
----
-
-# PROJECT VISION & ULTIMATE GOALS
-
-## Mission Statement
-
-Build Nova Engine into the **BEST game development platform in the world** - surpassing Unreal Engine and Unity in quality, features, and capabilities.
+## Project Vision & Goals
 
 ### Ultimate Vision
 
-1. **Universal Platform** - One engine, all platforms (Web, PC, Mobile, Console, VR/AR)
-2. **AAA-Capable** - Support for industry-grade game development
-3. **1M-5M LOC** - Substantial, production-grade codebase
-4. **Better than Unreal/Unity** - Exceed industry leaders in EVERY way
-5. **World-class Editor** - As detailed and powerful as Unreal's editor
-6. **Complete Ecosystem** - Engine + Editor + Tools + Marketplace + Cloud
+Nova Engine will be:
+1. **Universal**: One engine, all platforms (Web, PC, Mobile, Console, VR/AR)
+2. **AAA-Capable**: Support for industry-grade game development
+3. **Accessible**: Downloadable for local use + web-based for global access
+4. **Complete**: Engine + Editor + Tools + Marketplace + Launcher + Hub
+5. **Developer-Friendly**: Fair licensing (free until $250k/year revenue, then 2% royalty)
 
-### Key Objectives
+### Primary Goals
 
 #### Technical Goals
-- ✅ Robust engine core (500k-1M LOC)
-- ✅ Modern rendering pipeline (better than Unreal/Unity)
-- ✅ Professional editor with visual tools
-- ✅ Cloud asset system (CDN-based)
-- ✅ Real-time multiplayer
-- ✅ 60 FPS minimum on target hardware
+- Build robust engine core (50k-150k LOC minimum, scalable to 500k-1M LOC)
+- Implement modern rendering pipeline (PBR, deferred, post-processing)
+- Create professional editor with visual tools
+- Establish cloud asset storage system (CDN-based)
+- Support real-time multiplayer and networking
+- Achieve 60 FPS on target hardware
 
-#### Quality Goals
-- ✅ Production-ready code (AAA grade)
-- ✅ 100% test coverage
-- ✅ Comprehensive documentation
-- ✅ Industry-leading performance
-- ✅ World-class developer experience
-- ✅ Better than Unreal/Unity in ALL measurable ways
+#### Business Goals
+- Enable developers to create commercial games
+- Provide asset marketplace for creators
+- Establish global game publishing platform
+- Support local development with global distribution
+- Maintain closed-source proprietary model
 
----
+### Target Audiences
 
-## 📋 CURRENT STATE
-
-### What Exists (~78k LOC)
-
-- ✅ Monorepo structure (9 packages)
-- ✅ TypeScript + React + Vite
-- ✅ Math library (Vector/Matrix/Quaternion)
-- ✅ Entity-Component-System
-- ✅ WebGL2 renderer with PBR
-- ✅ Physics (Ammo.js/Bullet)
-- ✅ Animation system
-- ✅ Audio system
-- ✅ Basic editor UI
-- ✅ Server/Hub infrastructure
-
-### Critical Gap
-
-**Current**: ~78k LOC  
-**Target**: 5M LOC (AAA-capable platform)  
-**Gap**: ~4.9M LOC needed
-
-**This means**: Every system needs 10-100x expansion to reach AAA quality!
+1. **Indie Developers**: Affordable, accessible tool for game creation
+2. **Mobile Users**: Create and play games on any device
+3. **Professional Studios**: Serious indie to proto-AAA capabilities
+4. **Content Creators**: Asset marketplace contributors
+5. **Players**: Global gaming platform with instant access
 
 ---
 
-# DEVELOPMENT PHASES
+## Current State Assessment
 
-## Phase 0: Organization & Foundation ✅ COMPLETE
-- Fix builds, establish security, organize code
-- Target: Clean foundation
-- Status: DONE
+### What Exists (✅ Completed)
 
-## Phase 1: Core Engine Architecture �� IN PROGRESS
-- Platform abstraction, jobs, memory, streaming, plugins
-- Target: +50k LOC (Total: ~130k)
-- Status: 16% complete (needs full completion)
+**Infrastructure**:
+- ✅ Monorepo structure with 9 packages
+- ✅ TypeScript + React + Vite build system
+- ✅ Jest testing framework
+- ✅ ESLint + Prettier code quality
+- ✅ Git workflow with Husky hooks
 
-## Phase 2: Advanced Rendering Pipeline
-- Ray tracing, virtual geometry, GI, volumetrics
-- Target: +80k LOC (Total: ~210k)
+**Engine Core** (~15k LOC):
+- ✅ Math library (Vector2/3/4, Matrix3/4, Quaternion, Transform)
+- ✅ Entity-Component-System (ECS)
+- ✅ Game loop with time management
+- ✅ Scene graph and serialization
 
-## Phase 3: Physics & Simulation  
-- Advanced physics, cloth, destruction, fluids
-- Target: +60k LOC (Total: ~270k)
+**Graphics** (~20k LOC):
+- ✅ WebGL2 renderer
+- ✅ Shader system and library
+- ✅ Material system
+- ✅ Texture management and caching
+- ✅ Mesh rendering with primitives
+- ✅ Camera system with controllers
+- ✅ Lighting (directional, point, spot)
+- ✅ PBR materials
+- ✅ Post-processing (Bloom, SSAO, FXAA, Tone Mapping)
 
-## Phase 4: Animation & Character
-- IK, blend spaces, facial animation, motion matching
-- Target: +70k LOC (Total: ~340k)
+**Physics** (~8k LOC):
+- ✅ Ammo.js integration (Bullet Physics)
+- ✅ Rigid body dynamics
+- ✅ 8 collider types
+- ✅ 5 constraint types
 
-## Phase 5: Audio & Sound Design
-- Advanced audio, reverb, occlusion, dynamic music
-- Target: +50k LOC (Total: ~390k)
+**Animation** (~5k LOC):
+- ✅ Keyframe animation system
+- ✅ Animation state machines
+- ✅ Blend trees and transitions
+- ✅ Animation mixer
 
-## Phase 6: Gameplay Frameworks
-- Abilities, inventory, quests, dialogue, progression
-- Target: +90k LOC (Total: ~480k)
+**Audio** (~3k LOC):
+- ✅ Web Audio API integration
+- ✅ 3D spatial audio
+- ✅ Audio effects (reverb, delay, filter, compressor)
 
-## Phase 7: Editor & Tools
-- Node editors, timeline, profiler, debugger
-- Target: +120k LOC (Total: ~600k)
+**Input** (~6k LOC):
+- ✅ Keyboard, Mouse, Touch, Gamepad support
+- ✅ Input mapping system
+- ✅ Action/axis abstraction
 
-## Phase 8: Asset Pipeline
-- Import, processing, compression, optimization
-- Target: +80k LOC (Total: ~680k)
+**Assets** (~4k LOC):
+- ✅ Asset manager with caching
+- ✅ GLTF, OBJ loaders
+- ✅ Texture and audio loaders
 
-## Phase 9: Cloud Asset Store
-- CDN, marketplace, versioning, distribution
-- Target: +100k LOC (Total: ~780k)
+**Particles**:
+- ✅ CPU particle system with 5 emitter shapes
 
-## Phase 10: Networking & Multiplayer
-- Netcode, replication, lobbies, matchmaking
-- Target: +100k LOC (Total: ~880k)
+**Editor** (~10k LOC):
+- ✅ React-based UI
+- ✅ Redux state management
+- ✅ Basic panels (Viewport, Hierarchy, Inspector, Assets, Console)
+- ✅ Transform tools
+- ✅ Command system (undo/redo)
 
-## Phases 11-15: Platform Integration, AI, Optimization, Security, Release
-- Target: +120k LOC (Total: ~1M)
+**Server/Hub** (~7k LOC):
+- ✅ Fastify server
+- ✅ PostgreSQL + Redis
+- ✅ Authentication (JWT)
+- ✅ Project management
+- ✅ Build system
+- ✅ Game publishing
+- ✅ Multiplayer servers
 
-## Extended Phases 16-25: Surpass Industry Leaders
-- Advanced features, optimizations, polish
-- Target: +4M LOC (Total: 5M)
+**Total**: ~78k lines of TypeScript/TSX code
+
+### What Needs Work (🔧 Requires Attention)
+
+#### Critical Issues
+1. **Build Errors**: Editor package has TypeScript/dependency issues
+2. **Organization**: Code needs cleanup and consolidation
+3. **Testing**: Limited test coverage outside core engine
+4. **Documentation**: Incomplete API documentation
+5. **Security**: No secrets management, open source currently
+6. **Asset Store**: No cloud storage system implemented
+
+#### Missing Features (High Priority)
+1. **Advanced Rendering**:
+   - Ray tracing support
+   - Virtual geometry/Nanite-like system
+   - Virtual texturing
+   - Global illumination (real-time)
+   - Volumetric effects
+   - Advanced shadows (raytraced, soft)
+
+2. **Engine Systems**:
+   - Job system / multi-threading
+   - Memory management (custom allocators)
+   - Resource streaming for large worlds
+   - LOD system (mesh and texture)
+   - Occlusion culling
+
+3. **Gameplay Frameworks**:
+   - Ability/skill system
+   - Stats and progression
+   - Inventory system
+   - Quest/mission framework
+   - Dialogue system
+   - AI behavior trees
+   - Navigation mesh and pathfinding
+
+4. **Editor Features**:
+   - Visual scripting (node-based)
+   - Material editor (node graph)
+   - Animation tools (timeline, curve editor)
+   - Terrain editor
+   - UI designer
+   - Prefab system
+   - Profiler integration
+
+5. **Cloud Infrastructure**:
+   - Asset CDN storage
+   - Streaming asset delivery
+   - Asset versioning and updates
+   - Collaborative editing
+
+6. **Platform Support**:
+   - Console SDK integration (Xbox, PlayStation, Switch)
+   - Mobile optimization (iOS, Android)
+   - VR/AR support (Quest, Vision Pro)
+   - Desktop native apps (Electron/Tauri)
+
+### Lines of Code Analysis
+
+**Current**: ~78k LOC
+**Target for Serious Indie**: 50k-500k LOC
+**Target for AAA-Capable**: 500k-2M LOC
+**Nova Engine Target**: **1M-5M LOC** (Better than Unreal/Unity)
+
+**Gap**: Need to build ~920k-4.9M LOC of highest-quality production code
+
+**Achievable Approach to 5M LOC**:
+- Phase 0-5: Reach 300k LOC (solid foundation + core engine)
+- Phase 6-10: Reach 800k LOC (advanced features)
+- Phase 11-15: Reach 1.5M LOC (complete platform)
+- **Extended Phases 16-25**: Reach 5M LOC (surpass industry leaders)
+
+**Note**: The 5M LOC target includes:
+- Core engine runtime (500k-800k LOC)
+- Advanced rendering systems (400k-600k LOC)
+- Editor and tools suite (800k-1.2M LOC)
+- Platform-specific implementations (500k-800k LOC)
+- Gameplay frameworks (300k-500k LOC)
+- Asset pipeline and tools (400k-600k LOC)
+- UI/UX systems (200k-400k LOC)
+- Networking and multiplayer (300k-500k LOC)
+- AI and simulation (200k-400k LOC)
+- Documentation and samples (200k-300k LOC)
 
 ---
 
-# DETAILED PHASE BREAKDOWN
+## Critical Rules & Guidelines
 
-[Rest of the guide continues with detailed tasks for each phase...]
+### 🚫 NEVER DO THESE THINGS
+
+1. **Never delete working code** without explicit reason and backup
+2. **Never remove tests** that are passing
+3. **Never commit secrets** (API keys, passwords, tokens)
+4. **Never break existing functionality** without migration plan
+5. **Never skip testing** for new features
+6. **Never ignore security vulnerabilities**
+7. **Never make assumptions** about requirements - verify first
+8. **Never commit unfinished features** to main branch
+9. **Never use placeholders** in production code
+10. **Never modify licensing files** without explicit permission
+
+### ✅ ALWAYS DO THESE THINGS
+
+1. **Always write tests** for new code
+2. **Always document APIs** with TSDoc
+3. **Always update PROGRESS.md** after completing tasks
+4. **Always run linters** before committing
+5. **Always validate builds** pass before pushing
+6. **Always backup before major refactors**
+7. **Always follow TypeScript strict mode**
+8. **Always use version control** properly (branches, commits, PRs)
+9. **Always consider performance** implications
+10. **Always maintain backwards compatibility** where possible
+
+### 🔧 Development Standards
+
+#### Code Quality
+- **TypeScript**: Strict mode enabled
+- **Coverage**: 100% for all code (no exceptions)
+- **Linting**: Zero ESLint errors
+- **Formatting**: Prettier-enforced
+- **Documentation**: TSDoc for all public APIs
+
+#### Architecture Principles
+- **Modularity**: Loose coupling, high cohesion
+- **Extensibility**: Plugin-based where appropriate
+- **Performance**: 60 FPS target, optimize early
+- **Scalability**: Design for growth
+- **Maintainability**: Clean, readable code
+
+#### Testing Strategy
+- **Unit Tests**: All core systems
+- **Integration Tests**: System interactions
+- **E2E Tests**: Critical workflows
+- **Performance Tests**: Benchmarks for key operations
+- **Manual Tests**: UI and user experience
+
+### 📋 Progress Tracking Rules
+
+1. **Update PROGRESS.md** after every significant change
+2. **Mark tasks** with [x] when complete
+3. **Document blockers** immediately when encountered
+4. **Track metrics** (LOC, test coverage, performance)
+5. **Commit progress** at least daily during active development
+6. **Review progress** weekly to adjust plans
 
 ### 🔒 Security Requirements
 
@@ -9994,836 +9994,3 @@ This autonomous development plan now contains:
 ---
 
 PHASE 0 COMPLETE: Full multi-engine research + master integration + autonomous development plans added as requested.
-
----
-
-# 🌟 ENHANCED SPECIFICATIONS: AAA UNIVERSAL ENGINE TARGET
-
-> **These enhanced specifications define Nova Engine's ultimate S-Tier target, building upon the existing autonomous development plan.**
-
----
-
-# Nova Engine – AAA Universal Engine Spec (S-Tier Target)
-
-## 1. Core Vision
-
-Nova Engine is a **3-in-1 AAA-grade platform**:
-
-1. **Engine Core** – high-performance, data-oriented, modular runtime.
-2. **Editor** – full professional tool suite for building any game type.
-3. **Runtime Player + Global Library** – thin player for published games with one-click play from a cross-platform library.
-
-Design goals:
-
-- Match or exceed the practical capabilities of **Unreal, Unity, O3DE, Godot, Stride, Flax, Bevy**.
-- Be **fully universal**:
-  - Any device class: mobile, desktop, console-class hardware (future), web (long-term).
-  - Any genre: FPS, RPG, MMO, sandbox, survival, puzzle, RTS, sim, 2D, 3D, VR/AR (future).
-- Be **production-grade**:
-  - Stable, testable, debuggable.
-  - Suitable for shipping commercial titles.
-- Be **future-proof**:
-  - Modular, versioned, data-driven, pluggable.
-  - Renderer, netcode, scripting can evolve without rewriting everything.
-
----
-
-## 2. Architecture Overview
-
-Nova Engine is split into clear layers:
-
-- **Platform Layer (`nova_platform`)**
-  - Wraps OS: windowing, input, file I/O, clocks, threads, network sockets.
-  - Backends for Windows/Linux/macOS, later Android/iOS/Web.
-
-- **Core Engine Layer (`nova_core`)**
-  - ECS/hybrid entity system.
-  - Job system / task graph.
-  - Scene/world representation.
-  - Time/clock management.
-
-- **Systems Layer**
-  - `nova_render` – renderer and render graph.
-  - `nova_physics` – physics abstraction.
-  - `nova_animation` – skeletal/animation graph.
-  - `nova_audio` – audio pipeline.
-  - `nova_net` – networking & replication.
-  - `nova_assets` – asset DB + import/build pipeline.
-
-- **Tooling & Editor (`nova_editor`)**
-  - Dockable editor shell.
-  - Scene hierarchy, inspector, asset browser.
-  - Material editor, animation graph editor, visual scripting (later).
-  - Profiler, debug visualizers.
-
-- **Runtime Player (`nova_runtime`)**
-  - Thin, stripped runtime to execute shipped games.
-  - Minimal dependencies, fast startup.
-
----
-
-## 3. Performance & Core (Engine Heart)
-
-### 3.1 Entity / Component / System Model
-
-- **ECS-focused design**:
-  - Entities = simple IDs.
-  - Components = tightly packed arrays of data (Structure-of-Arrays where useful).
-  - Systems = functions operating on component groups, scheduled through a job system.
-
-- **Hybrid support**:
-  - High-level "GameObjects" or "Actors" can be implemented over ECS for ergonomics where needed.
-  - Complex behavior = ECS + scripting, not inheritance chains.
-
-### 3.2 Job System / Task Graph
-
-- Built-in job system:
-  - Work is broken into small tasks.
-  - Tasks scheduled across all cores.
-  - Handles dependencies: physics, AI, animation, culling, streaming, audio, rendering prep.
-
-- Target:
-  - Good scaling from 2 to 32+ cores.
-  - Main thread mostly used for orchestration, not heavy work.
-
-### 3.3 Memory Model
-
-- Frame allocators, arenas, pools for hot paths.
-- Debug tooling:
-  - Memory usage per system.
-  - Per-scene memory breakdown.
-  - Leaks/tracking.
-
----
-
-## 4. Rendering – AAA, Future-Facing
-
-### 4.1 Pipeline
-
-- **PBR-only** high-quality pipeline:
-  - Linear HDR lighting.
-  - Standard metallic/roughness workflow.
-  - Energy-conserving BRDF (GGX or similar).
-
-- **Pipeline architecture**:
-  - Deferred OR clustered forward for 3D (decide per platform profile).
-  - 2D pipeline with shared material system (sprites, UI, etc.).
-  - Backed by a **render graph**, not hard-coded passes.
-
-### 4.2 Lighting & GI
-
-- Dynamic and baked lighting system:
-  - Directional, point, spot, area lights.
-  - Cascaded shadow maps with proper filtering & stabilization.
-  - Indirect lighting options:
-    - Baked lightmaps/light probes (for low/mid platforms).
-    - Real-time GI (SVOGI / SDF GI / RTGI) for high-end, with scalable quality levels.
-
-### 4.3 Temporal Stack & Upscaling
-
-- Full **temporal framework**:
-  - Motion vectors for opaque & transparent.
-  - Temporal AA (TAA) / TAAU.
-  - Hooks for upscalers (DLSS/FSR/XeSS style integrations).
-
-### 4.4 Virtualization & Streaming
-
-- LOD at multiple levels:
-  - Mesh LODs.
-  - Material/shader complexity LODs.
-  - Shadow LODs.
-- Virtual texture system OR equivalent streaming system for large worlds.
-- Streaming of meshes, textures, animations, audio:
-  - Priority-based loading.
-  - Non-blocking IO, background threads.
-
-### 4.5 GPU-Driven Rendering
-
-- GPU culling (frustum, occlusion, cluster-based).
-- Indirect drawing where possible.
-- Sorting and batching by material, pass, and state.
-
----
-
-## 5. Asset Pipeline – Industrial Level
-
-### 5.1 Asset Database
-
-- Every asset has:
-  - Unique GUID.
-  - Type info.
-  - Metadata (tags, usage, size, dependencies).
-
-- References by GUID, **not** raw file paths.
-- Renames/moves don't break references.
-
-### 5.2 Import & Build
-
-- Unified pipeline:
-  - Source: FBX, glTF, OBJ, PNG, EXR, WAV/OGG, etc.
-  - Intermediate: engine-friendly formats (pre-tessellated meshes, compressed textures, etc.).
-  - Build steps per platform profile:
-    - Compression.
-    - Mip generation.
-    - Packing into bundles/archives for runtime streaming.
-
-### 5.3 Hot Reload & Iteration
-
-- When an asset changes on disk:
-  - Editor detects it.
-  - Reimports or reloads the asset.
-  - Live updates in open scenes where safe.
-
----
-
-## 6. Editor – Industry-Level Tooling
-
-### 6.1 Core Editor Shell
-
-- Dockable, multi-window UI:
-  - Scene Hierarchy.
-  - Inspector / Details panel.
-  - Asset Browser.
-  - Console.
-  - Profiler.
-  - Graph editors (materials, animations, scripting).
-
-- Undo/redo system for all user actions.
-- Play / Pause / Step modes:
-  - Game runs inside editor viewport.
-  - Editing in Play vs Edit modes handled carefully.
-
-### 6.2 Visual Tools
-
-- Material editor:
-  - Node-based graph.
-  - Preview window.
-- Animation editor:
-  - Timelines, curves, state machines, blend trees.
-- Visual scripting (later phase):
-  - Nodes representing game logic, tied into ECS and events.
-
-### 6.3 Debugging & Profiling
-
-- Frame profiler:
-  - CPU timings per system.
-  - GPU timings per pass.
-- Scene statistics:
-  - Draw calls, triangles, overdraw estimates.
-- ECS debugger:
-  - Inspect entities and components in real time.
-- Logging:
-  - Channels, verbosity levels, filters.
-
----
-
-## 7. Scripting & Gameplay
-
-### 7.1 Primary Scripting
-
-- One or more supported high-level languages (e.g., C#, Lua, or custom DSL).
-- Scripts:
-  - Attach to entities/components.
-  - Interact with ECS & systems through a clean API.
-- Built-in debugger integration:
-  - Breakpoints.
-  - Watches.
-  - Step-through.
-
-### 7.2 Visual Scripting (Later Phase)
-
-- Blueprint-style graph system on top of the lower-level scripting/engine API.
-- Designed for:
-  - Designers.
-  - Quick prototyping.
-- Compiles down to efficient internal representation.
-
----
-
-## 8. Networking & Multiplayer (Future-Strong)
-
-- **Authority model**:
-  - Server-authoritative core design.
-  - Support for peer-hosted sessions as configuration.
-
-- **Replication system**:
-  - Replicated components/properties.
-  - Interest management (relevancy by distance, party, zone).
-  - Bandwidth budget per client.
-
-- **Client simulation tools**:
-  - Client-side prediction.
-  - Rollback/reconciliation where relevant.
-
-- **Session / Lobby integration**:
-  - Abstract session layer for later:
-    - Matchmaking.
-    - Friends/party systems.
-    - Cross-play foundation.
-
----
-
-## 9. Runtime & Platform Universality
-
-- **Platform Abstraction**:
-  - Input, window, OS specifics hidden behind interfaces.
-
-- **Renderer backends** planned:
-  - High-end: DirectX 12, Vulkan, Metal.
-  - Mobile: GLES/Vulkan ES subset.
-  - Long-term: WebGPU/WebAssembly.
-
-- **Runtime Profiles**:
-  - High-end profile: full GI, RT, complex materials.
-  - Mid-tier profile: reduced RT, simpler GI.
-  - Low-end/mobile profile: baked lighting, reduced effects.
-  - Web profile (future): simplified pipeline compatible with WebGPU.
-
----
-
-## 10. Extensibility & Ecosystem
-
-- **Module / Plugin architecture**:
-  - Engine features packaged as modules.
-  - Third parties can plug in:
-    - Custom render passes.
-    - Custom importers.
-    - Custom tools/editor panels.
-    - Gameplay frameworks.
-
-- **Scriptable editor API**:
-  - Editor automation via scripts (batch tasks, custom windows).
-
-- **Asset store & global library ready**:
-  - Standardized package format for assets/plugins.
-  - Versioning and dependency rules for content packs.
-
----
-
-## 11. Production-Grade Practices
-
-- Automated builds:
-  - CI pipeline (unit tests, sample project builds).
-- Regression scenes/projects:
-  - "Golden projects" that test major features.
-- Crash handling:
-  - Collect stack traces and metadata (with user consent).
-- Logging & analytics (opt-in):
-  - Engine events for performance & usage tuning.
-
----
-
-## 12. AI-Assisted Development Rules (for Nova Engine)
-
-- Nova Engine development is AI-assisted (Copilot + other models) but:
-  - **No code** may be copied from Unreal, Unity, or any proprietary engines.
-  - MIT/Apache engines (Godot, O3DE, Stride, Flax, Bevy) can inspire architectures and patterns, but Nova Engine code must be original.
-  - This spec is the **source of truth**; future implementation tasks must align with this document.
-- Long-term goal:
-  - 1M–5M LOC total codebase across engine, editor, runtime, and tools.
-  - Built incrementally in phases, with each subsystem designed to be testable and replaceable.
-
----
-
-## 13. High-Level Phase Plan (Tied To This Spec)
-
-- **Phase 0** – Research & Spec (this document + external engine analysis) ✅ COMPLETE
-- **Phase 1** – `nova_core`: ECS + job system + time + basic scene ✅ 95% COMPLETE
-- **Phase 2** – `nova_render` v0: PBR forward renderer + shadows + frame graph 🔄 STARTED
-- **Phase 3** – `nova_editor` shell: dockable UI, scene graph, inspector, asset browser
-- **Phase 4** – `nova_assets`: GUID asset DB + import/build pipeline
-- **Phase 5** – Scripting integration (initial language + binding layer)
-- **Phase 6** – Renderer v1: GI options, temporal framework, streaming pipeline
-- **Phase 7** – Runtime player + build/export pipeline
-- **Phase 8** – Profiling, debug tools, visual editors (materials, animation)
-- **Phase 9** – Networking core (`nova_net`), replication, basic multiplayer
-- **Phase 10** – Plugin system, early asset store hooks, global game library integration
-
----
-
-## 14. Detailed Quality Breakdown: What "Best Graphics" Actually Means
-
-### 14.1 Top-Tier Rendering Requirements
-
-A top-tier renderer isn't just "pretty shaders". It's a complete stack:
-
-**a) Physically Based Rendering (PBR) Everywhere**
-- Uses real-world lighting models (energy-conserving BRDFs, GGX, etc.)
-- Materials defined with albedo, roughness, metalness, normal, AO maps
-- Consistent lighting across scenes → things don't look "gamey", they look cohesive
-
-**Nova requirement**: PBR-only pipeline by default, no legacy "Blinn/Phong fallback" nonsense.
-
-**b) Modern Lighting & Shadows**
-- Deferred or Forward+ / Clustered rendering
-- High-quality shadow maps with cascades, filtering, bias fixes
-- Global Illumination strategy:
-  - Real-time (SVOGI, SDF GI, RTGI) or
-  - Pre-baked (lightmaps/light probes) with dynamic touches
-- Ambient occlusion, reflections (SSR, cubemaps, RT reflection), volumetrics
-
-**Nova requirement**: Pick a hybrid:
-- Deferred or Clustered Forward for 3D
-- Optional RT features when hardware supports it
-- Good non-RT fallback for low-end devices
-
-**c) Temporal Tech (the "next-gen look")**
-- Modern "sharp but stable" look comes from:
-  - TAA (Temporal Anti-Aliasing) or improved variants
-  - Temporal upscaling (FSR, XeSS, DLSS–style slot later)
-  - Temporal reprojection for motion blur, GI, reflections
-
-**Nova requirement**: A temporal history system as a core part of the renderer: motion vectors, history buffers, etc.
-
-**d) Virtualization: Handling HUGE Worlds**
-- AAA engines handle silly amounts of stuff with:
-  - Level-of-Detail (LOD) for meshes, materials, and shadows
-  - Virtual Texturing (megatextures / streaming tiles)
-  - Streaming of: geometry, textures, audio, animations
-
-**Nova requirement**: Streaming baked into the core – not an afterthought. World divided into chunks/sectors; renderer only sees what it needs.
-
-**e) Data-Oriented & GPU-Friendly**
-- For performance:
-  - Mesh data tightly packed
-  - Materials batched / instanced
-  - GPU-driven pipelines (indirect draws, culling on GPU)
-  - Minimal state changes, sorted by material & pass
-
-**Nova requirement**: Renderer designed around batches + instancing + GPU-driven draw, not "draw 5000 objects one by one".
-
----
-
-### 14.2 Engine Core: Performance and Scalability
-
-This is the part that decides whether your engine screams or chokes.
-
-**a) ECS / Component-Based Design**
-- Best-performing engines today lean toward data-oriented ECS (like Bevy, DOTS, Frostbite-style) or a hybrid.
-- Entities = IDs
-- Components = flat arrays of data
-- Systems = functions that iterate over components
-
-Why it's good:
-- Cache-friendly
-- Easy to parallelize
-- Massive scale (thousands/millions of entities)
-
-**Nova requirement**: ECS or hybrid ECS from day 1. Systems are first-class citizens, not "just scripts".
-
-**b) Job System / Task Scheduler**
-- To actually use modern CPUs:
-  - Job system that can:
-    - Break tasks into microjobs
-    - Schedule across cores
-    - Handle dependencies (render, physics, AI, streaming)
-
-**Nova requirement**: A built-in job system, not "we'll add multithreading later".
-
-**c) Deterministic-ish & Stable**
-- For multiplayer, replay, or simulation, your core needs to be:
-  - Predictable enough
-  - Not full of hidden randomness and frame-order bugs
-
-**Nova requirement**: Engine core designed with determinism in mind where needed.
-
----
-
-### 14.3 Content Pipeline: How Assets Get In and Stay Sane
-
-The best engine is worthless if importing a model is a nightmare.
-
-**a) Importers & Converters**
-- Support for:
-  - FBX, glTF, OBJ → internal mesh format
-  - PNG/JPEG/TGA/EXR → internal texture format
-  - WAV/OGG/FLAC → internal audio format
-  - Animation clips, skeletons, blend shapes, etc.
-
-**Nova requirement**: One consistent pipeline that converts "anything" → optimized internal assets.
-
-**b) Asset Database / GUID System**
-- Good engines treat assets like database entries:
-  - Each asset has a stable GUID
-  - References are by GUID, not paths
-  - Renames/moves don't break references
-  - Dependency graph (what uses what) is trackable
-
-**Nova requirement**: Built-in asset DB with GUIDs and dependency tracking.
-
-**c) Hot Reload**
-- For fast iteration:
-  - Change texture → auto reload in editor
-  - Change script → auto reload for running game where possible
-  - Change material/shader → live update
-
-**Nova requirement**: Hot reload as a design goal.
-
----
-
-### 14.4 Editor & Tools: What Actually Makes Devs Love an Engine
-
-Unreal's and Unity's real superpower isn't just the renderer — it's the tools.
-
-**a) Dockable, Extensible Editor**
-- Panels: Scene Hierarchy, Inspector, Asset Browser, Console, Profiler, Graph Editors
-- Multi-window
-- Custom tools per project
-
-**Nova requirement**: Editor built like a mini "UI engine": dock system, panels, plugin architecture.
-
-**b) Visual Debugging & Profiling**
-- To get "best performance," you need:
-  - Frame profiler (CPU + GPU timing)
-  - Scene stats (draw calls, triangles, memory, etc.)
-  - Logging & filtering
-  - In-game overlays
-
-**Nova requirement**: Profiling & debug UI built in, not "maybe later".
-
-**c) Scripting & Visual Scripting**
-- For universality and usability:
-  - Code scripting (C#, Lua, etc.)
-  - Optional visual scripting (Blueprint-like)
-  - Good debugging: breakpoints, stepping, variable watch
-
-**Nova requirement**: A scripting layer that's first-class, with a plan for later visual scripting for non-programmers.
-
----
-
-### 14.5 Platform & Runtime: "Universal" Means This
-
-You want games to run anywhere:
-- Windows / Linux / Mac
-- Consoles (eventually)
-- Mobile
-- Web (via WebGPU/WebAssembly eventually)
-
-Key needs:
-- Platform abstraction layer (windowing, input, filesystem)
-- Renderer backends (D3D12, Vulkan, Metal, WebGPU-friendly design)
-- Minimal runtime for shipped games: slim, fast, no extra editor baggage
-
-**Nova requirement**: A platform layer and renderer-abstraction layer from the start, so you don't hard-code to one API.
-
----
-
-### 14.6 Networking & Multiplayer (Even If v1 is Simple)
-
-Even if v1 is basic, design for:
-- Clear authority model (server-authoritative preferred)
-- Replication framework (what syncs across network)
-- Lag handling (client prediction, reconciliation)
-- Session management hooks
-
-**Nova requirement**: A netcode framework in the design, even if implemented later — not "we'll bolt on multiplayer someday".
-
----
-
-### 14.7 Extensibility & Ecosystem
-
-The best engines survive because they become platforms:
-- Plugin system
-- Asset store
-- Scriptable tools
-- Custom editor extensions
-- Clear public API/SDK
-
-**Nova requirement**: Nova Engine must be modular:
-- Core stays stable
-- Features can be plugins
-- Third parties can extend editor & runtime
-
----
-
-### 14.8 Future-Proofing
-
-"Future-proof" isn't magic, it's design rules:
-- Data-driven systems (configs, schemas, metadata)
-- Strict separation between: engine core, game code, tools, content
-- Versioning for assets & save files
-- Modular, replaceable subsystems (renderer v2, netcode v2 without rewriting entire engine)
-
-**Nova requirement**: Versioned, modular, data-driven design everywhere.
-
----
-
-## 15. S-Tier Requirements Card: The Complete Checklist
-
-If I flatten all that into a checklist for "best, highest-quality, future-proof, universal engine":
-
-✅ **Rendering**: PBR + temporal + streaming + LOD + GPU-driven, RT-ready, hybrid pipeline
-✅ **Core**: ECS + job system + data-oriented + deterministic-friendly
-✅ **Pipeline**: GUID-based asset DB, import/convert pipeline, hot reload
-✅ **Editor**: Dockable, extensible, great UX, visual debugging & profiling
-✅ **Scripting**: Fast code scripting + planned visual scripting, hot reload, debugging
-✅ **Runtime**: Thin, fast, platform-abstracted, multiple backend support
-✅ **Networking**: Built-in replication framework & authority model
-✅ **Extensibility**: Plugin system, tool/script extension, asset store integration
-✅ **Future-proofing**: Modular, versioned, data-driven, replaceable subsystems
-
----
-
-## 16. Fully Highest Quality, Most Advanced, Fully Universal
-
-We're not talking "good engine"; we're talking S-tier, no excuses.
-
-### 16.1 "Highest Quality" Visuals – What That Really Means
-
-We're not talking "looks nice"; we're talking "can sit next to Unreal 5 and not be embarrassed".
-
-**Non-negotiables:**
-
-**Full PBR Pipeline Only:**
-- Physically correct BRDF (e.g., GGX), energy-conserving
-- Standard material model: base color, metalness, roughness, normal, AO, emissive, clear coat, transmission, etc.
-- HDR linear lighting throughout
-
-**Modern Lighting & Shadows:**
-- Deferred or clustered forward renderer (for lots of lights)
-- Cascaded shadow maps + contact hardening + proper biasing
-- Indirect lighting options:
-  - Real-time GI (SVOGI / SDF GI / RTGI) and
-  - Baked GI (lightmaps, light probes, SH probes)
-- AO, high-quality SSR, planar/reflection probes, optional ray-traced reflections
-
-**Temporal Stack as Core Feature:**
-- TAA / TAAU with motion vectors
-- Temporal reprojection for GI, reflections, shadows
-- Hooks for DLSS/FSR/XeSS-style upscaling in the future
-
-**Virtualization for Huge Content:**
-- Virtual texturing / sparse textures
-- Streaming meshes, textures, animations by priority and distance
-- Background loading + smooth LOD transitions (hysteresis, dithering)
-
-**GPU-Driven Everything (for true "next-gen"):**
-- Indirect draw calls
-- GPU culling / cluster culling
-- Renderer designed around "prepare command buffers, let GPU chew"
-
-If Nova Engine hits all of that, you're in AAA renderer territory, not "indie engine".
-
----
-
-### 16.2 "Most Advanced" Performance & Core Architecture
-
-You don't get "best" by just flipping compiler flags; you need the engine's data model to be brutal.
-
-**Core Requirements:**
-
-**Data-Oriented ECS (or hybrid) as the foundation:**
-- Entities are just IDs
-- Components stored in SoA / tightly packed memory
-- Systems iterate over chunks, not random pointers
-- Layout designed for cache coherence and SIMD friendliness
-
-**Job System / Task Graph Built-In:**
-- Everything that can be parallelized, is parallelized
-- Systems submit jobs to a scheduler (AI, physics, animation, streaming, audio, rendering prep)
-- Engine standardized around "jobs" rather than long single-threaded calls
-
-**Predictable Update Pipeline:**
-- Clear phases: input → simulation → physics → animation → visibility → render → post
-- Determinism knobs for gameplay/multiplayer/replay if needed
-
-**Memory System:**
-- Allocator strategy (frame allocators, pools, arenas) baked in
-- No random heap chaos everywhere
-- Debug views: "where did all my RAM go?"
-
-Basically: Nova Engine core should look more like Frostbite/RE Engine/modern idTech than a Unity 2013 clone.
-
----
-
-### 16.3 "Fully Universal" – Across Platforms and Genres
-
-Universal doesn't just mean "PC + mobile"; it also means "FPS + RPG + MMO + puzzle + simulation".
-
-**Platform Side:**
-
-**Platform Abstraction Layer:**
-- Input, windows, file system, threads, timers, OS services all behind clean interfaces
-- Renderer backends: D3D12 / Vulkan / Metal / (future) WebGPU
-
-**Runtime Profiles (same engine, different tuning):**
-- High-end profile (RT, GI, big worlds)
-- Mid-tier (console/PC on medium)
-- Low-end / mobile (simplified pipeline, baked lighting, low memory)
-- "Web-safe" subset for a browser/WebAssembly path later
-
-**Genre Side:**
-
-Nova Engine should NOT hardcode assumptions like "only 3D shooters".
-
-You want:
-- Scene system that supports:
-  - 2D, 2.5D, 3D, top-down, side-scroller
-  - Big open worlds and small puzzle levels
-  - Streaming levels and single-level scenes
-
-- Flexible gameplay model:
-  - ECS-based for big systems (AI swarms, simulation, RTS)
-  - Component scripts for small experiences (indie, arcade)
-
-If the core is clean ECS + generic scenes, you can build any genre on top.
-
----
-
-### 16.4 Tools, Editor, and UX – The Real Differentiator
-
-The "best engine" for devs is the one that's easiest to build masterpieces in.
-
-**Non-negotiables for an S-tier editor:**
-
-**Dockable, Multi-Window UI:**
-- Scene Hierarchy
-- Inspector
-- Asset Browser
-- Graph editors (materials, animation, scripting)
-- Console & Profiler
-
-**Live Editing:**
-- Play-in-editor, pause, step-frame
-- Change values while running
-- Optionally time-scrub if the architecture supports it
-
-**Visual Tooling:**
-- Material editor (node-based)
-- Animation graph / state machines
-- Visual scripting (Blueprint-style) as a later phase
-
-**Deep Debugging:**
-- Entity/component debugging view
-- Draw call & render pass breakdown
-- Network debug views when multiplayer arrives
-- Asset reference graph ("what uses this mesh?")
-
-**Automation-Friendly:**
-- Command-line builds
-- Scriptable tools (e.g., via Python/Lua/C# scripts for editor automation)
-- Headless mode for CI
-
-You don't need every editor feature on day one, but the design must be prepared for this level of depth.
-
----
-
-### 16.5 Asset Pipeline: Industrial-Level Content Handling
-
-"Best engine" implies it can survive thousands of assets without becoming a disaster.
-
-**Must-Haves:**
-
-**GUID-Based Asset System:**
-- Every asset gets a stable GUID
-- References by GUID, not paths
-- Renames/moves don't break everything
-
-**Import → Process → Build Pipeline:**
-- Source assets (FBX, glTF, PNG, WAV) → internal formats optimized for runtime
-- Configurable pipelines per-asset-type (compression, mip generation, baking)
-
-**Dependency Tracking & Tools:**
-- "What scenes use this texture?"
-- "What assets are unused?"
-- "If I change this skeleton, what breaks?"
-
-**Hot Reload & Live Sync:**
-- Edit textures/models externally → engine picks it up
-- Editor can prompt or auto-apply
-
----
-
-### 16.6 Networking & Multiplayer – For Future-Proof "Universal"
-
-Even if you implement this in later phases, the design has to assume:
-
-- Server-authoritative core (or at least capable of it)
-- Replication framework:
-  - Mark components/properties as replicated
-  - Handle delta updates, priority, frequency
-- Client prediction & reconciliation for smooth controls
-- Session framework for:
-  - Lobbies / matchmaking later
-  - Dedicated servers vs peer-hosted
-
-You don't need to invent all of this today, but if you don't design for it now, it's hell later.
-
----
-
-### 16.7 Extensibility and Ecosystem – Making Nova Engine a Platform
-
-The "most advanced" engine is also an ecosystem, not one monolithic blob.
-
-**Plugin / Module System:**
-- Engine features packaged as modules
-- Third parties can ship custom renderers, gameplay modules, importers, editor tools
-
-**Scripting for Tools:**
-- Devs can write editor extensions in script (C#/Python/Lua etc.)
-
-**Future Asset Store / Marketplace Ready:**
-- Package format for plugins/assets
-- Versioning and dependency rules
-
-Make Nova Engine "hackable" in a controlled, safe way.
-
----
-
-### 16.8 True Future-Proofing: The Uncomfortable Part
-
-There is no frozen "best". Hardware, APIs, tech, and taste keep evolving. To stay top:
-
-**Render Graph Instead of Hard-Coded Passes:**
-- Easier to evolve the pipeline (add RTGI, new effects, new passes)
-
-**Backend Abstraction:**
-- Renderer core is API-agnostic → you can upgrade to Vulkan 2 / WebGPU / etc.
-
-**Versioned Data:**
-- Asset and save formats with version fields; migrations support
-- Engine updates don't nuke old projects
-
-**Testing and Stability as First-Class:**
-- Unit tests for core systems
-- Golden scenes/projects for regression testing
-- Performance benchmarks included
-
-Future-proof doesn't mean "never change"; it means "can change aggressively without breaking everything".
-
----
-
-## 17. What Does "Fully Highest Quality, Most Advanced, Fully Universal Nova Engine" Mean?
-
-Summed in one brutal spec:
-
-> **A data-oriented, ECS-based, job-driven engine with a GPU-driven, PBR + temporal + streaming renderer; a modular, GUID-based asset pipeline; a dockable, extensible editor with deep tooling; a thin, multi-backend runtime; designed from day one for large worlds, multiple genres, cross-platform, multiplayer, plugins, and evolving graphics APIs.**
-
-That's the standard.
-
----
-
-## 18. Integration with Existing Autonomous Development Guide
-
-**These specifications enhance and extend the existing guide. They do not replace it.**
-
-**Key Integration Points:**
-
-1. **Quality Standards (Section ⚠️ CRITICAL)**: Already established AAA-grade requirements
-2. **Phase Plans**: Enhanced with more specific renderer, ECS, and editor requirements
-3. **Architecture**: Builds upon existing platform, job, memory, streaming, plugin systems
-4. **Future Phases**: Adds detail for Phase 2+ (rendering, editor, scripting, networking)
-
-**How To Use These Specs:**
-
-- Refer to original guide for current phase implementation details
-- Use these specs for long-term architectural decisions
-- Apply these requirements when implementing new subsystems
-- Reference these standards when evaluating "is this AAA-grade?"
-
----
-
-**ENHANCED SPECIFICATIONS COMPLETE**
-
-These specifications now guide all future Nova Engine development toward true S-Tier, AAA, universal engine status.
-
