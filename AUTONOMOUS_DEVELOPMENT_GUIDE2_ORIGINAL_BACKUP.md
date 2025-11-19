@@ -1,324 +1,324 @@
 # Nova Engine - Autonomous Development Guide v2.0
 
 > **The Ultimate Roadmap for Building a Universal AAA-Grade Game Development Platform**
+>
+> This document serves as the complete autonomous development blueprint for transforming Nova Engine from its current foundation into a production-ready, industry-grade, universal game development platform comparable to Unity and Unreal Engine.
 
 ---
 
-# ⚠️ CRITICAL: READ THIS FIRST - MANDATORY QUALITY STANDARDS ⚠️
+## 📋 Table of Contents
 
-## 🎯 ABSOLUTE REQUIREMENTS - NO EXCEPTIONS
-
-### QUALITY LEVEL: AAA PRODUCTION GRADE - ALWAYS
-
-**EVERY SINGLE LINE OF CODE MUST BE:**
-1. ✅ **Production-ready** - Ready to ship, no placeholders, no shortcuts
-2. ✅ **Industry-leading** - Equal to or better than Unreal/Unity
-3. ✅ **Fully tested** - Comprehensive test coverage (100% for all code)
-4. ✅ **Completely documented** - TSDoc for all public APIs
-5. ✅ **Performance optimized** - 60 FPS minimum target
-6. ✅ **Security hardened** - OWASP compliant, no vulnerabilities
-7. ✅ **Type-safe** - TypeScript strict mode, zero any types
-8. ✅ **Error handling** - Comprehensive error handling and recovery
-9. ✅ **Diagnostics** - Rich debugging and profiling capabilities
-10. ✅ **Maintainable** - Clean, readable, well-architected code
-
-### CODE DEPTH REQUIREMENTS
-
-**NEVER write simplified or "starter" implementations. ALWAYS implement COMPLETE features:**
-
-❌ **WRONG - Simplified/Half-Assed:**
-```typescript
-class Allocator {
-  allocate(size: number) {
-    return new ArrayBuffer(size); // Too simple!
-  }
-}
-```
-
-✅ **CORRECT - Production Grade:**
-```typescript
-class StackAllocator implements IAllocator {
-  // 500+ lines with:
-  // - Guard pages for overflow detection
-  // - Marker-based scoped allocation
-  // - Leak detection with call stacks
-  // - Double-free detection
-  // - Memory profiling
-  // - Detailed error reporting
-  // - Comprehensive statistics
-  // - Performance optimization
-}
-```
-
-### FEATURE COMPLETENESS
-
-**EACH FEATURE MUST INCLUDE:**
-
-1. ✅ **Core Implementation** (not just interfaces)
-2. ✅ **Comprehensive Tests** (50+ tests minimum per major system)
-3. ✅ **Integration** with other systems
-4. ✅ **Profiling Tools** (performance measurement, debugging)
-5. ✅ **Documentation** (API docs, usage examples, architecture)
-6. ✅ **Error Handling** (graceful failures, clear error messages)
-7. ✅ **Optimization** (benchmarked, profiled, optimized)
-8. ✅ **Edge Cases** (all corner cases handled)
-
-### LINES OF CODE EXPECTATIONS
-
-**Minimum LOC by System Type:**
-- Simple utility: 100-300 LOC minimum
-- Core system: 500-2000 LOC minimum  
-- Major subsystem: 2000-10000 LOC minimum
-- Complete feature: 10000+ LOC
-
-**DO NOT create files with < 100 LOC unless they're pure interfaces/types.**
+1. [Executive Summary](#executive-summary)
+2. [Project Vision & Goals](#project-vision--goals)
+3. [Current State Assessment](#current-state-assessment)
+4. [Critical Rules & Guidelines](#critical-rules--guidelines)
+5. [Phase 0: Organization & Foundation](#phase-0-organization--foundation)
+6. [Phase 1: Core Engine Architecture](#phase-1-core-engine-architecture)
+7. [Phase 2: Advanced Rendering Pipeline](#phase-2-advanced-rendering-pipeline)
+8. [Phase 3: Physics & Simulation](#phase-3-physics--simulation)
+9. [Phase 4: Animation & Character Systems](#phase-4-animation--character-systems)
+10. [Phase 5: Audio & Sound Design](#phase-5-audio--sound-design)
+11. [Phase 6: Gameplay Frameworks](#phase-6-gameplay-frameworks)
+12. [Phase 7: Editor & Tools](#phase-7-editor--tools)
+13. [Phase 8: Asset Pipeline & Management](#phase-8-asset-pipeline--management)
+14. [Phase 9: Cloud Asset Store System](#phase-9-cloud-asset-store-system)
+15. [Phase 10: Networking & Multiplayer](#phase-10-networking--multiplayer)
+16. [Phase 11: Platform Integration](#phase-11-platform-integration)
+17. [Phase 12: AI & Navigation](#phase-12-ai--navigation)
+18. [Phase 13: Optimization & Performance](#phase-13-optimization--performance)
+19. [Phase 14: Security & Licensing](#phase-14-security--licensing)
+20. [Phase 15: Production Release](#phase-15-production-release)
+21. [Progress Tracking System](#progress-tracking-system)
+22. [Success Metrics](#success-metrics) .  22.1 .[Quality of life features] (#QUALITY_OF_LIFE_FEATURES.md)
+even more in depth development and imroovments once done with auotmis development guide2.md is doen then you use the quality of life features .md to add even more 
 
 ---
 
-## 🚫 NEVER DO THESE THINGS
+## Executive Summary
 
-1. **Never write placeholder/simplified code** - Always full production implementation
-2. **Never skip tests** - Every feature needs comprehensive test coverage
-3. **Never ignore edge cases** - Handle ALL corner cases properly
-4. **Never use "TODO" or "FIXME"** - Complete implementation before committing
-5. **Never delete working code** without explicit reason and backup
-6. **Never remove tests** that are passing
-7. **Never commit secrets** (API keys, passwords, tokens)
-8. **Never break existing functionality** without migration plan
-9. **Never skip integration** - Systems must work together
-10. **Never skip profiling** - Performance must be measured and optimized
+**Mission**: Build Nova Engine into the **BEST game development platform in the world** - surpassing Unreal Engine and Unity in quality, features, and capabilities - enabling developers worldwide to create industry-leading AAA-quality games accessible on any device.
 
-## ✅ ALWAYS DO THESE THINGS
+**Key Objectives**:
+- **Better than Unreal & Unity**: Exceed industry leaders in every measurable way
+- Universal platform (Web, PC, Mobile, Console, VR/AR)
+- **1M-5M lines of highest-quality code**: Substantial, production-grade codebase
+- **World-class editor**: As detailed and powerful as Unreal Engine's editor
+- Production-ready tooling and workflows
+- Cloud-based asset storage system
+- Global accessibility with offline functionality
+- Industry-leading performance and stability
+- Enable creation of AAA production-grade games
 
-1. **Always implement complete features** - No half-implementations
-2. **Always write comprehensive tests** (50+ tests per system minimum)
-3. **Always add profiling/debugging tools** for each system
-4. **Always integrate** with existing systems
-5. **Always optimize** after implementing (measure, profile, optimize)
-6. **Always document** with TSDoc, examples, architecture docs
-7. **Always handle errors** gracefully with detailed messages
-8. **Always validate** builds and tests pass
-9. **Always track memory** usage and performance
-10. **Always exceed** industry standards (better than Unreal/Unity)
+**Timeline**: 48-72 months for complete 5M LOC platform
+**Approach**: Incremental, test-driven, production-quality from day one, relentless pursuit of excellence
 
----
-
-## 🔧 DEVELOPMENT STANDARDS (MANDATORY)
-
-### Code Quality Requirements
-
-```
-✅ TypeScript: Strict mode enabled, zero 'any' types
-✅ Test Coverage: 100% for all code (no exceptions)
-✅ Linting: Zero ESLint errors/warnings
-✅ Formatting: Prettier-enforced
-✅ Documentation: TSDoc for all public APIs
-✅ Type Safety: No type assertions unless absolutely necessary
-✅ Error Handling: Try-catch blocks, proper error types
-✅ Performance: Profiled, optimized, benchmarked
-✅ Security: OWASP compliant, input validation
-✅ Architecture: SOLID principles, clean architecture
-```
-
-### Architecture Principles (MANDATORY)
-
-1. **Modularity**: Loose coupling, high cohesion
-2. **Extensibility**: Plugin-based where appropriate  
-3. **Performance**: 60 FPS target, optimize early and always
-4. **Scalability**: Design for growth (1M+ LOC codebase)
-5. **Maintainability**: Clean, readable, well-documented code
-6. **Testability**: Every component must be testable
-7. **Observability**: Rich logging, profiling, debugging
-8. **Resilience**: Graceful degradation, error recovery
-
-### Testing Strategy (MANDATORY)
-
-**EVERY system needs ALL of these:**
-
-1. ✅ **Unit Tests** - Test individual functions/classes (50+ per system)
-2. ✅ **Integration Tests** - Test system interactions (20+ per system)
-3. ✅ **Performance Tests** - Benchmark critical operations
-4. ✅ **Stress Tests** - Test under load/memory pressure
-5. ✅ **Edge Case Tests** - Test boundaries and corner cases
-6. ✅ **Error Tests** - Test failure scenarios
-7. ✅ **Memory Tests** - Test for leaks and proper cleanup
-
-### Documentation Requirements (MANDATORY)
-
-**EVERY file needs:**
-
-1. ✅ **File header** with description and module info
-2. ✅ **TSDoc comments** for all public APIs
-3. ✅ **Usage examples** in comments
-4. ✅ **Architecture notes** for complex systems
-5. ✅ **Performance notes** (Big-O, memory usage)
-6. ✅ **README.md** for each major module
-7. ✅ **Integration guides** showing how to use with other systems
+**Quality Standards**:
+- Every line of code: Production-grade, AAA quality
+- Every feature: Better than or equal to industry leaders
+- Every tool: Professional-grade, intuitive, powerful
+- Every platform: Optimized, stable, performant
+- Every detail: Polished, tested, documented
 
 ---
 
-## 📊 PROGRESS TRACKING RULES (MANDATORY)
-
-### Task Completion Criteria
-
-**A task is ONLY complete when ALL of these are done:**
-
-- [x] Core implementation finished (production-grade)
-- [x] Comprehensive tests written (50+ minimum)
-- [x] Integration with other systems complete
-- [x] Profiling/debugging tools added
-- [x] Performance optimized (benchmarked)
-- [x] Full documentation written
-- [x] Code reviewed and approved
-- [x] All tests passing (100%)
-- [x] No linting errors/warnings
-- [x] PROGRESS.md updated
-
-### Update PROGRESS.md Rules
-
-1. **After EVERY significant change** - not just major milestones
-2. **Mark tasks [x]** only when 100% complete (all criteria above)
-3. **Document blockers** immediately when encountered
-4. **Track metrics accurately** - LOC counts, test counts, performance
-5. **Commit progress** at least after every major task completion
-
----
-
-## 🔒 SECURITY REQUIREMENTS (MANDATORY)
-
-1. ✅ **No secrets in code** - Use environment variables
-2. ✅ **Input validation** - Validate and sanitize ALL inputs
-3. ✅ **Parameterized queries** - Prevent SQL injection
-4. ✅ **Rate limiting** - On all APIs
-5. ✅ **Encryption** - Sensitive data encrypted at rest and in transit
-6. ✅ **OWASP compliance** - Follow all OWASP guidelines
-7. ✅ **Regular security audits** - Automated scanning
-8. ✅ **Proper authentication** - JWT, secure sessions
-9. ✅ **Authorization** - Proper access control
-10. ✅ **Error messages** - Don't leak sensitive information
-
----
-
-# PROJECT VISION & ULTIMATE GOALS
-
-## Mission Statement
-
-Build Nova Engine into the **BEST game development platform in the world** - surpassing Unreal Engine and Unity in quality, features, and capabilities.
+## Project Vision & Goals
 
 ### Ultimate Vision
 
-1. **Universal Platform** - One engine, all platforms (Web, PC, Mobile, Console, VR/AR)
-2. **AAA-Capable** - Support for industry-grade game development
-3. **1M-5M LOC** - Substantial, production-grade codebase
-4. **Better than Unreal/Unity** - Exceed industry leaders in EVERY way
-5. **World-class Editor** - As detailed and powerful as Unreal's editor
-6. **Complete Ecosystem** - Engine + Editor + Tools + Marketplace + Cloud
+Nova Engine will be:
+1. **Universal**: One engine, all platforms (Web, PC, Mobile, Console, VR/AR)
+2. **AAA-Capable**: Support for industry-grade game development
+3. **Accessible**: Downloadable for local use + web-based for global access
+4. **Complete**: Engine + Editor + Tools + Marketplace + Launcher + Hub
+5. **Developer-Friendly**: Fair licensing (free until $250k/year revenue, then 2% royalty)
 
-### Key Objectives
+### Primary Goals
 
 #### Technical Goals
-- ✅ Robust engine core (500k-1M LOC)
-- ✅ Modern rendering pipeline (better than Unreal/Unity)
-- ✅ Professional editor with visual tools
-- ✅ Cloud asset system (CDN-based)
-- ✅ Real-time multiplayer
-- ✅ 60 FPS minimum on target hardware
+- Build robust engine core (50k-150k LOC minimum, scalable to 500k-1M LOC)
+- Implement modern rendering pipeline (PBR, deferred, post-processing)
+- Create professional editor with visual tools
+- Establish cloud asset storage system (CDN-based)
+- Support real-time multiplayer and networking
+- Achieve 60 FPS on target hardware
 
-#### Quality Goals
-- ✅ Production-ready code (AAA grade)
-- ✅ 100% test coverage
-- ✅ Comprehensive documentation
-- ✅ Industry-leading performance
-- ✅ World-class developer experience
-- ✅ Better than Unreal/Unity in ALL measurable ways
+#### Business Goals
+- Enable developers to create commercial games
+- Provide asset marketplace for creators
+- Establish global game publishing platform
+- Support local development with global distribution
+- Maintain closed-source proprietary model
 
----
+### Target Audiences
 
-## 📋 CURRENT STATE
-
-### What Exists (~78k LOC)
-
-- ✅ Monorepo structure (9 packages)
-- ✅ TypeScript + React + Vite
-- ✅ Math library (Vector/Matrix/Quaternion)
-- ✅ Entity-Component-System
-- ✅ WebGL2 renderer with PBR
-- ✅ Physics (Ammo.js/Bullet)
-- ✅ Animation system
-- ✅ Audio system
-- ✅ Basic editor UI
-- ✅ Server/Hub infrastructure
-
-### Critical Gap
-
-**Current**: ~78k LOC  
-**Target**: 5M LOC (AAA-capable platform)  
-**Gap**: ~4.9M LOC needed
-
-**This means**: Every system needs 10-100x expansion to reach AAA quality!
+1. **Indie Developers**: Affordable, accessible tool for game creation
+2. **Mobile Users**: Create and play games on any device
+3. **Professional Studios**: Serious indie to proto-AAA capabilities
+4. **Content Creators**: Asset marketplace contributors
+5. **Players**: Global gaming platform with instant access
 
 ---
 
-# DEVELOPMENT PHASES
+## Current State Assessment
 
-## Phase 0: Organization & Foundation ✅ COMPLETE
-- Fix builds, establish security, organize code
-- Target: Clean foundation
-- Status: DONE
+### What Exists (✅ Completed)
 
-## Phase 1: Core Engine Architecture �� IN PROGRESS
-- Platform abstraction, jobs, memory, streaming, plugins
-- Target: +50k LOC (Total: ~130k)
-- Status: 16% complete (needs full completion)
+**Infrastructure**:
+- ✅ Monorepo structure with 9 packages
+- ✅ TypeScript + React + Vite build system
+- ✅ Jest testing framework
+- ✅ ESLint + Prettier code quality
+- ✅ Git workflow with Husky hooks
 
-## Phase 2: Advanced Rendering Pipeline
-- Ray tracing, virtual geometry, GI, volumetrics
-- Target: +80k LOC (Total: ~210k)
+**Engine Core** (~15k LOC):
+- ✅ Math library (Vector2/3/4, Matrix3/4, Quaternion, Transform)
+- ✅ Entity-Component-System (ECS)
+- ✅ Game loop with time management
+- ✅ Scene graph and serialization
 
-## Phase 3: Physics & Simulation  
-- Advanced physics, cloth, destruction, fluids
-- Target: +60k LOC (Total: ~270k)
+**Graphics** (~20k LOC):
+- ✅ WebGL2 renderer
+- ✅ Shader system and library
+- ✅ Material system
+- ✅ Texture management and caching
+- ✅ Mesh rendering with primitives
+- ✅ Camera system with controllers
+- ✅ Lighting (directional, point, spot)
+- ✅ PBR materials
+- ✅ Post-processing (Bloom, SSAO, FXAA, Tone Mapping)
 
-## Phase 4: Animation & Character
-- IK, blend spaces, facial animation, motion matching
-- Target: +70k LOC (Total: ~340k)
+**Physics** (~8k LOC):
+- ✅ Ammo.js integration (Bullet Physics)
+- ✅ Rigid body dynamics
+- ✅ 8 collider types
+- ✅ 5 constraint types
 
-## Phase 5: Audio & Sound Design
-- Advanced audio, reverb, occlusion, dynamic music
-- Target: +50k LOC (Total: ~390k)
+**Animation** (~5k LOC):
+- ✅ Keyframe animation system
+- ✅ Animation state machines
+- ✅ Blend trees and transitions
+- ✅ Animation mixer
 
-## Phase 6: Gameplay Frameworks
-- Abilities, inventory, quests, dialogue, progression
-- Target: +90k LOC (Total: ~480k)
+**Audio** (~3k LOC):
+- ✅ Web Audio API integration
+- ✅ 3D spatial audio
+- ✅ Audio effects (reverb, delay, filter, compressor)
 
-## Phase 7: Editor & Tools
-- Node editors, timeline, profiler, debugger
-- Target: +120k LOC (Total: ~600k)
+**Input** (~6k LOC):
+- ✅ Keyboard, Mouse, Touch, Gamepad support
+- ✅ Input mapping system
+- ✅ Action/axis abstraction
 
-## Phase 8: Asset Pipeline
-- Import, processing, compression, optimization
-- Target: +80k LOC (Total: ~680k)
+**Assets** (~4k LOC):
+- ✅ Asset manager with caching
+- ✅ GLTF, OBJ loaders
+- ✅ Texture and audio loaders
 
-## Phase 9: Cloud Asset Store
-- CDN, marketplace, versioning, distribution
-- Target: +100k LOC (Total: ~780k)
+**Particles**:
+- ✅ CPU particle system with 5 emitter shapes
 
-## Phase 10: Networking & Multiplayer
-- Netcode, replication, lobbies, matchmaking
-- Target: +100k LOC (Total: ~880k)
+**Editor** (~10k LOC):
+- ✅ React-based UI
+- ✅ Redux state management
+- ✅ Basic panels (Viewport, Hierarchy, Inspector, Assets, Console)
+- ✅ Transform tools
+- ✅ Command system (undo/redo)
 
-## Phases 11-15: Platform Integration, AI, Optimization, Security, Release
-- Target: +120k LOC (Total: ~1M)
+**Server/Hub** (~7k LOC):
+- ✅ Fastify server
+- ✅ PostgreSQL + Redis
+- ✅ Authentication (JWT)
+- ✅ Project management
+- ✅ Build system
+- ✅ Game publishing
+- ✅ Multiplayer servers
 
-## Extended Phases 16-25: Surpass Industry Leaders
-- Advanced features, optimizations, polish
-- Target: +4M LOC (Total: 5M)
+**Total**: ~78k lines of TypeScript/TSX code
+
+### What Needs Work (🔧 Requires Attention)
+
+#### Critical Issues
+1. **Build Errors**: Editor package has TypeScript/dependency issues
+2. **Organization**: Code needs cleanup and consolidation
+3. **Testing**: Limited test coverage outside core engine
+4. **Documentation**: Incomplete API documentation
+5. **Security**: No secrets management, open source currently
+6. **Asset Store**: No cloud storage system implemented
+
+#### Missing Features (High Priority)
+1. **Advanced Rendering**:
+   - Ray tracing support
+   - Virtual geometry/Nanite-like system
+   - Virtual texturing
+   - Global illumination (real-time)
+   - Volumetric effects
+   - Advanced shadows (raytraced, soft)
+
+2. **Engine Systems**:
+   - Job system / multi-threading
+   - Memory management (custom allocators)
+   - Resource streaming for large worlds
+   - LOD system (mesh and texture)
+   - Occlusion culling
+
+3. **Gameplay Frameworks**:
+   - Ability/skill system
+   - Stats and progression
+   - Inventory system
+   - Quest/mission framework
+   - Dialogue system
+   - AI behavior trees
+   - Navigation mesh and pathfinding
+
+4. **Editor Features**:
+   - Visual scripting (node-based)
+   - Material editor (node graph)
+   - Animation tools (timeline, curve editor)
+   - Terrain editor
+   - UI designer
+   - Prefab system
+   - Profiler integration
+
+5. **Cloud Infrastructure**:
+   - Asset CDN storage
+   - Streaming asset delivery
+   - Asset versioning and updates
+   - Collaborative editing
+
+6. **Platform Support**:
+   - Console SDK integration (Xbox, PlayStation, Switch)
+   - Mobile optimization (iOS, Android)
+   - VR/AR support (Quest, Vision Pro)
+   - Desktop native apps (Electron/Tauri)
+
+### Lines of Code Analysis
+
+**Current**: ~78k LOC
+**Target for Serious Indie**: 50k-500k LOC
+**Target for AAA-Capable**: 500k-2M LOC
+**Nova Engine Target**: **1M-5M LOC** (Better than Unreal/Unity)
+
+**Gap**: Need to build ~920k-4.9M LOC of highest-quality production code
+
+**Achievable Approach to 5M LOC**:
+- Phase 0-5: Reach 300k LOC (solid foundation + core engine)
+- Phase 6-10: Reach 800k LOC (advanced features)
+- Phase 11-15: Reach 1.5M LOC (complete platform)
+- **Extended Phases 16-25**: Reach 5M LOC (surpass industry leaders)
+
+**Note**: The 5M LOC target includes:
+- Core engine runtime (500k-800k LOC)
+- Advanced rendering systems (400k-600k LOC)
+- Editor and tools suite (800k-1.2M LOC)
+- Platform-specific implementations (500k-800k LOC)
+- Gameplay frameworks (300k-500k LOC)
+- Asset pipeline and tools (400k-600k LOC)
+- UI/UX systems (200k-400k LOC)
+- Networking and multiplayer (300k-500k LOC)
+- AI and simulation (200k-400k LOC)
+- Documentation and samples (200k-300k LOC)
 
 ---
 
-# DETAILED PHASE BREAKDOWN
+## Critical Rules & Guidelines
 
-[Rest of the guide continues with detailed tasks for each phase...]
+### 🚫 NEVER DO THESE THINGS
+
+1. **Never delete working code** without explicit reason and backup
+2. **Never remove tests** that are passing
+3. **Never commit secrets** (API keys, passwords, tokens)
+4. **Never break existing functionality** without migration plan
+5. **Never skip testing** for new features
+6. **Never ignore security vulnerabilities**
+7. **Never make assumptions** about requirements - verify first
+8. **Never commit unfinished features** to main branch
+9. **Never use placeholders** in production code
+10. **Never modify licensing files** without explicit permission
+
+### ✅ ALWAYS DO THESE THINGS
+
+1. **Always write tests** for new code
+2. **Always document APIs** with TSDoc
+3. **Always update PROGRESS.md** after completing tasks
+4. **Always run linters** before committing
+5. **Always validate builds** pass before pushing
+6. **Always backup before major refactors**
+7. **Always follow TypeScript strict mode**
+8. **Always use version control** properly (branches, commits, PRs)
+9. **Always consider performance** implications
+10. **Always maintain backwards compatibility** where possible
+
+### 🔧 Development Standards
+
+#### Code Quality
+- **TypeScript**: Strict mode enabled
+- **Coverage**: 100% for all code (no exceptions)
+- **Linting**: Zero ESLint errors
+- **Formatting**: Prettier-enforced
+- **Documentation**: TSDoc for all public APIs
+
+#### Architecture Principles
+- **Modularity**: Loose coupling, high cohesion
+- **Extensibility**: Plugin-based where appropriate
+- **Performance**: 60 FPS target, optimize early
+- **Scalability**: Design for growth
+- **Maintainability**: Clean, readable code
+
+#### Testing Strategy
+- **Unit Tests**: All core systems
+- **Integration Tests**: System interactions
+- **E2E Tests**: Critical workflows
+- **Performance Tests**: Benchmarks for key operations
+- **Manual Tests**: UI and user experience
+
+### 📋 Progress Tracking Rules
+
+1. **Update PROGRESS.md** after every significant change
+2. **Mark tasks** with [x] when complete
+3. **Document blockers** immediately when encountered
+4. **Track metrics** (LOC, test coverage, performance)
+5. **Commit progress** at least daily during active development
+6. **Review progress** weekly to adjust plans
 
 ### 🔒 Security Requirements
 
