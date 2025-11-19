@@ -122,9 +122,6 @@ export const HubModuleV2: React.FC<HubModuleV2Props> = ({ platform }) => {
           <button className="hub-v2-nav-btn">Discover</button>
           <button className="hub-v2-nav-btn">Featured</button>
         </div>
-        <div className="hub-v2-user">
-          <button className="hub-v2-sterger-btn">Sterger</button>
-        </div>
       </div>
 
       {/* Main Content */}

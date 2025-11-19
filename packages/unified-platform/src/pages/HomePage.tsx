@@ -28,8 +28,8 @@ export const HomePage: React.FC<HomePageProps> = ({
       name: 'Editor',
       description: 'Create and design your games',
       path: '/editor',
-      // Top-right large planet with rings
-      position: { top: '8%', right: '12%', width: '160px', height: '160px' },
+      // Top-right large planet with rings (Saturn-like)
+      position: { top: '5%', right: '15%', width: '180px', height: '180px' },
     },
     {
       id: 'hub',
@@ -37,35 +37,35 @@ export const HomePage: React.FC<HomePageProps> = ({
       description: 'Browse and discover games',
       path: '/hub',
       // Bottom-left smaller planet with rings
-      position: { bottom: '20%', left: '11%', width: '120px', height: '120px' },
+      position: { bottom: '15%', left: '8%', width: '140px', height: '140px' },
     },
     {
       id: 'multiplayer',
       name: 'Multiplayer',
       description: 'Play online with friends',
       path: '/multiplayer',
-      // Top-left small planet
-      position: { top: '12%', left: '18%', width: '90px', height: '90px' },
+      // Top-left purple planet
+      position: { top: '8%', left: '13%', width: '110px', height: '110px' },
     },
     {
       id: 'social',
       name: 'Social',
       description: 'Connect with the community',
       path: '/social',
-      // Right side medium planet
-      position: { top: '28%', right: '8%', width: '110px', height: '110px' },
+      // Right side purple planet
+      position: { top: '30%', right: '12%', width: '130px', height: '130px' },
     },
     {
       id: 'settings',
       name: 'Settings',
       description: 'Configure your experience',
       path: '/settings',
-      // Bottom right medium planet
+      // Bottom right purple planet
       position: {
-        bottom: '18%',
-        right: '14%',
-        width: '110px',
-        height: '110px',
+        bottom: '12%',
+        right: '8%',
+        width: '120px',
+        height: '120px',
       },
     },
     {
@@ -73,12 +73,12 @@ export const HomePage: React.FC<HomePageProps> = ({
       name: 'My Games',
       description: 'Your game library',
       path: '/launcher',
-      // Bottom center small planet (near Saturn-like planet)
+      // Right of center, below the big Saturn planet
       position: {
-        bottom: '38%',
-        right: '30%',
-        width: '85px',
-        height: '85px',
+        bottom: '32%',
+        right: '23%',
+        width: '100px',
+        height: '100px',
       },
     },
   ];
