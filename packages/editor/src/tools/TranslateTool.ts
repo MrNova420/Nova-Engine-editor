@@ -4,7 +4,40 @@
  */
 
 import { BaseTool } from './Tool';
-import { Vector3 } from '@nova-engine/engine';
+import { Vector3, Camera } from '@nova-engine/engine';
+
+interface Position3D {
+  x: number;
+  y: number;
+  z: number;
+}
+
+interface Transform {
+  position: Position3D;
+  rotation: Position3D;
+  scale: Position3D;
+}
+
+interface SceneEntity {
+  transform?: Transform;
+  [key: string]: unknown;
+}
+
+interface RenderContext {
+  drawLine?: (
+    start: Position3D,
+    end: Position3D,
+    color: number[],
+    width: number
+  ) => void;
+  drawCone?: (
+    position: Position3D,
+    axis: string,
+    color: number[],
+    size: number
+  ) => void;
+  drawQuad?: (position: Position3D, size: number, color: number[]) => void;
+}
 
 interface GizmoHandle {
   type: 'axis' | 'plane';
@@ -26,8 +59,8 @@ export class TranslateTool extends BaseTool {
   private gridSize: number = 1.0;
   private gizmoSize: number = 1.0;
   private hoveredHandle: GizmoHandle | null = null;
-  private selectedEntity: any = null;
-  private camera: any = null;
+  private selectedEntity: SceneEntity | null = null;
+  private camera: Camera | null = null;
 
   private gizmoHandles: GizmoHandle[] = [];
 
@@ -87,7 +120,7 @@ export class TranslateTool extends BaseTool {
     ];
   }
 
-  setSelectedEntity(entity: any): void {
+  setSelectedEntity(entity: SceneEntity | null): void {
     this.selectedEntity = entity;
     if (entity && entity.transform) {
       this.initialPosition = new Vector3(
@@ -98,7 +131,7 @@ export class TranslateTool extends BaseTool {
     }
   }
 
-  setCamera(camera: any): void {
+  setCamera(camera: Camera): void {
     this.camera = camera;
   }
 
@@ -280,7 +313,7 @@ export class TranslateTool extends BaseTool {
     }
   }
 
-  render(context: any): void {
+  render(context: RenderContext): void {
     if (!this.selectedEntity) return;
 
     const entityPos = this.selectedEntity.transform?.position || {
@@ -310,8 +343,8 @@ export class TranslateTool extends BaseTool {
   }
 
   private renderAxisHandle(
-    context: any,
-    origin: any,
+    context: RenderContext,
+    origin: Position3D,
     handle: GizmoHandle,
     alpha: number
   ): void {
@@ -336,8 +369,8 @@ export class TranslateTool extends BaseTool {
   }
 
   private renderPlaneHandle(
-    context: any,
-    origin: any,
+    context: RenderContext,
+    origin: Position3D,
     handle: GizmoHandle,
     alpha: number
   ): void {
@@ -357,9 +390,9 @@ export class TranslateTool extends BaseTool {
   }
 
   private renderLine(
-    context: any,
-    start: any,
-    end: any,
+    context: RenderContext,
+    start: Position3D,
+    end: Position3D,
     color: number[],
     width: number
   ): void {
@@ -369,8 +402,8 @@ export class TranslateTool extends BaseTool {
   }
 
   private renderCone(
-    context: any,
-    position: any,
+    context: RenderContext,
+    position: Position3D,
     axis: string,
     color: number[],
     size: number
@@ -381,8 +414,8 @@ export class TranslateTool extends BaseTool {
   }
 
   private renderQuad(
-    context: any,
-    position: any,
+    context: RenderContext,
+    position: Position3D,
     size: number,
     color: number[]
   ): void {
