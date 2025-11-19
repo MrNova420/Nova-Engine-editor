@@ -4,13 +4,19 @@
  */
 
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
 import type { UnifiedPlatformCore } from '../core/UnifiedPlatformCore';
+
+interface User {
+  username: string;
+  level?: number;
+  avatar?: string;
+  email?: string;
+}
 
 interface UnifiedTopBarProps {
   platform: UnifiedPlatformCore;
   isLoggedIn: boolean;
-  currentUser: any;
+  currentUser: User | null;
   currentMode: string;
   isNavOpen: boolean;
   onToggleNav: () => void;
@@ -24,16 +30,11 @@ export const UnifiedTopBar: React.FC<UnifiedTopBarProps> = ({
   isNavOpen,
   onToggleNav,
 }) => {
-  const navigate = useNavigate();
   const [showNotifications, setShowNotifications] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
 
   const handleLogout = () => {
     platform.logout();
-  };
-
-  const handleHomeClick = () => {
-    navigate('/hub'); // Navigate to hub home
   };
 
   const notifications = [
