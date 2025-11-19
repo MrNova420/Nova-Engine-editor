@@ -284,35 +284,7 @@ class ApiClient {
   async uploadAsset(projectId: string, file: File, metadata?: any) {
     const safeProjectId = this.validatePathParam(projectId, 'project ID');
     
-    // Validate file size (50MB limit)
-    const MAX_FILE_SIZE = 50 * 1024 * 1024;
-    if (file.size > MAX_FILE_SIZE) {
-      throw new Error('File size exceeds 50MB limit');
-    }
-
-    // Validate file type
-    const allowedTypes = [
-      'image/png',
-      'image/jpeg',
-      'image/jpg',
-      'image/gif',
-      'image/webp',
-      'model/gltf+json',
-      'model/gltf-binary',
-      'application/octet-stream', // For .glb files
-      'audio/mpeg',
-      'audio/wav',
-      'audio/ogg',
-      'text/plain',
-      'application/json',
-    ];
-
-    if (!allowedTypes.includes(file.type) && file.type !== '') {
-      throw new Error(
-        `File type ${file.type} not allowed. Allowed types: images, 3D models, audio, text, JSON`
-      );
-    }
-
+    // No file size or type restrictions - users need to upload large game assets
     const formData = new FormData();
     formData.append('file', file);
     if (metadata) {
