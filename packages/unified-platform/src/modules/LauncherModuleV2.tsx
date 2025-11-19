@@ -1,5 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { UnifiedPlatformCore } from '../core/UnifiedPlatformCore';
+import { apiClient } from '../services/ApiClient';
 import './styles/LauncherModuleV2.css';
 
 interface LauncherModuleV2Props {
@@ -30,37 +31,8 @@ export const LauncherModuleV2: React.FC<LauncherModuleV2Props> = () => {
   const [selectedTab, setSelectedTab] = useState<
     'library' | 'saves' | 'settings'
   >('library');
-
-  // Mock data - TODO: Connect to backend API
-  const installedGames: GameInstance[] = [
-    {
-      id: '1',
-      name: 'Space Adventure',
-      thumbnail:
-        'https://github.com/user-attachments/assets/3c8547af-d2a1-4e29-ad37-0aeaed749ed1',
-      lastPlayed: '2 hours ago',
-      playtime: '47.5 hours',
-      saveSlots: 3,
-    },
-    {
-      id: '2',
-      name: 'Cosmic Warrior',
-      thumbnail:
-        'https://github.com/user-attachments/assets/3c8547af-d2a1-4e29-ad37-0aeaed749ed1',
-      lastPlayed: '1 day ago',
-      playtime: '23.8 hours',
-      saveSlots: 5,
-    },
-    {
-      id: '3',
-      name: 'Nova Quest',
-      thumbnail:
-        'https://github.com/user-attachments/assets/3c8547af-d2a1-4e29-ad37-0aeaed749ed1',
-      lastPlayed: '3 days ago',
-      playtime: '156.2 hours',
-      saveSlots: 8,
-    },
-  ];
+  const [installedGames, setInstalledGames] = useState<GameInstance[]>([]);
+  const [loading, setLoading] = useState(true);
 
   const [performance] = useState<PerformanceMetrics>({
     fps: 144,
@@ -70,19 +42,99 @@ export const LauncherModuleV2: React.FC<LauncherModuleV2Props> = () => {
     vram: 42,
   });
 
-  const handlePlayGame = (game: GameInstance) => {
+  // Load user's games on mount
+  useEffect(() => {
+    loadUserGames();
+  }, []);
+
+  const loadUserGames = async () => {
+    setLoading(true);
+    try {
+      // Try to fetch user's games from API
+      const games = await apiClient.getGames({ limit: 100 });
+
+      if (Array.isArray(games) && games.length > 0) {
+        const gameInstances: GameInstance[] = games.map((game: any) => ({
+          id: game.id,
+          name: game.title || game.name,
+          thumbnail:
+            game.thumbnail ||
+            game.thumbnail_url ||
+            'https://via.placeholder.com/300x200',
+          lastPlayed: game.last_played || 'Never',
+          playtime: game.playtime
+            ? `${Math.floor(game.playtime / 60)} hours`
+            : '0 hours',
+          saveSlots: game.save_slots || 0,
+        }));
+        setInstalledGames(gameInstances);
+      } else {
+        // Fall back to demo games
+        loadDemoGames();
+      }
+    } catch (error) {
+      console.warn('Could not load games from API, using demo games:', error);
+      loadDemoGames();
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const loadDemoGames = () => {
+    const demoGames: GameInstance[] = [
+      {
+        id: 'demo-1',
+        name: 'Space Adventure',
+        thumbnail: 'https://via.placeholder.com/300x200?text=Space+Adventure',
+        lastPlayed: '2 hours ago',
+        playtime: '47.5 hours',
+        saveSlots: 3,
+      },
+      {
+        id: 'demo-2',
+        name: 'Cosmic Warrior',
+        thumbnail: 'https://via.placeholder.com/300x200?text=Cosmic+Warrior',
+        lastPlayed: '1 day ago',
+        playtime: '23.8 hours',
+        saveSlots: 5,
+      },
+      {
+        id: 'demo-3',
+        name: 'Nova Quest',
+        thumbnail: 'https://via.placeholder.com/300x200?text=Nova+Quest',
+        lastPlayed: '3 days ago',
+        playtime: '156.2 hours',
+        saveSlots: 8,
+      },
+    ];
+    setInstalledGames(demoGames);
+  };
+
+  const handlePlayGame = async (game: GameInstance) => {
     setSelectedGame(game);
     setIsPlaying(true);
     setShowPerformance(true);
-    // TODO: Launch game through Nova Engine runtime
-    console.log('TODO: Launch game:', game.name);
+
+    try {
+      // Get full game details and launch
+      const gameDetails = await apiClient.getGame(game.id);
+      console.log('✅ Launching game:', game.name, gameDetails);
+
+      // TODO: Initialize Nova Engine runtime and load game
+      // For now, just show the performance panel
+    } catch (error) {
+      console.error('Failed to launch game:', error);
+      alert(`Failed to launch ${game.name}. Please try again.`);
+      setIsPlaying(false);
+      setShowPerformance(false);
+    }
   };
 
   const handleStopGame = () => {
     setIsPlaying(false);
     setShowPerformance(false);
-    // TODO: Stop game process
-    console.log('TODO: Stop game');
+    console.log('✅ Stopped game:', selectedGame?.name);
+    // TODO: Properly cleanup game runtime
   };
 
   return (

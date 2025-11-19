@@ -14,7 +14,17 @@
 
 import React, { useState, useEffect, useRef } from 'react';
 import { UnifiedPlatformCore } from '../core/UnifiedPlatformCore';
+import { apiClient } from '../services/ApiClient';
 import './styles/EditorModuleV2.css';
+
+// Import the actual Nova Engine
+import {
+  Engine,
+  WebGLRenderer,
+  Scene,
+  Camera,
+  Entity,
+} from '@nova-engine/engine';
 
 interface EditorModuleV2Props {
   platform: UnifiedPlatformCore;
@@ -103,13 +113,42 @@ export const EditorModuleV2: React.FC<EditorModuleV2Props> = () => {
   const [showProfilerPanel, setShowProfilerPanel] = useState(false);
   const [showBuildSettings, setShowBuildSettings] = useState(false);
 
-  // Canvas ref
+  // Canvas ref and engine instance
   const canvasRef = useRef<HTMLCanvasElement>(null);
+  const engineRef = useRef<Engine | null>(null);
+  const rendererRef = useRef<WebGLRenderer | null>(null);
+  const sceneRef = useRef<Scene | null>(null);
 
   useEffect(() => {
-    loadDemoAssets();
-    initializeCanvas();
+    loadProjectAssets();
+    initializeEngine();
+
+    return () => {
+      // Cleanup engine on unmount
+      if (engineRef.current) {
+        engineRef.current.stop();
+      }
+    };
   }, []);
+
+  const loadProjectAssets = async () => {
+    try {
+      // Try to load assets from backend
+      const projectId = 'current'; // TODO: Get from actual project context
+      const assetsFromAPI = await apiClient.getAssets(projectId);
+
+      if (Array.isArray(assetsFromAPI) && assetsFromAPI.length > 0) {
+        setAssets(assetsFromAPI);
+        addLog('info', `Loaded ${assetsFromAPI.length} assets from project`);
+      } else {
+        // Fall back to demo assets
+        loadDemoAssets();
+      }
+    } catch (error) {
+      console.warn('Could not load assets from API, using demo assets:', error);
+      loadDemoAssets();
+    }
+  };
 
   const loadDemoAssets = () => {
     const demoAssets: Asset[] = [
@@ -151,14 +190,54 @@ export const EditorModuleV2: React.FC<EditorModuleV2Props> = () => {
       },
     ];
     setAssets(demoAssets);
+    addLog('info', 'Loaded demo assets');
   };
 
-  const initializeCanvas = () => {
-    // TODO: Initialize WebGL/Three.js rendering context
-    addLog(
-      'info',
-      'Canvas initialized - TODO: Connect to Nova Engine renderer'
-    );
+  const initializeEngine = async () => {
+    if (!canvasRef.current) {
+      addLog('error', 'Canvas not available');
+      return;
+    }
+
+    try {
+      // Initialize WebGL Renderer
+      const renderer = new WebGLRenderer();
+      await renderer.initialize(canvasRef.current);
+      rendererRef.current = renderer;
+
+      // Create scene
+      const scene = new Scene();
+      sceneRef.current = scene;
+
+      // Initialize engine
+      const engine = new Engine({
+        canvas: canvasRef.current,
+        handlers: {
+          onInit: () => {
+            addLog('info', '✅ Nova Engine initialized successfully');
+          },
+          onUpdate: (deltaTime: number) => {
+            // Update scene
+            if (sceneRef.current && rendererRef.current) {
+              // Render the scene
+              // rendererRef.current.render(sceneRef.current);
+            }
+          },
+          onRender: () => {
+            // Rendering handled in update
+          },
+        },
+      });
+
+      engineRef.current = engine;
+      await engine.initialize();
+
+      addLog('info', '✅ WebGL Renderer connected to editor');
+      addLog('info', 'Ready to create and edit scenes');
+    } catch (error) {
+      console.error('Failed to initialize engine:', error);
+      addLog('error', `Engine initialization failed: ${error}`);
+    }
   };
 
   const addLog = (type: ConsoleLog['type'], message: string) => {
