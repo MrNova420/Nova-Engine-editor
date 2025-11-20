@@ -89,7 +89,7 @@ This is **not a fork** of Unity, Unreal, or Godot. Every line of code is custom-
 
 | Device Tier | Price Range | Device Examples (Any Brand) | FPS Target | Rendering | Physics |
 |-------------|-------------|----------------------------|------------|-----------|---------|
-| **Ultra-Low** | $50-100 | 2015-2017 devices, 2-3GB RAM, basic GPUs | 20-25 FPS | Simple raster, vertex lighting | 100 bodies @ 30Hz |
+| **Ultra-Low** | $50-100 | 2014-2017 devices, 2-3GB RAM, basic GPUs | 20-25 FPS | Simple raster, vertex lighting | 100 bodies @ 30Hz |
 | **Low-End** | $100-200 | 2017-2021 devices, 3-4GB RAM, mid GPUs | 30-40 FPS | Raster + baked lighting | 500 bodies @ 60Hz |
 | **Mid-Range** | $300-500 | 2019-2023 devices, 4-8GB RAM, modern GPUs | 60 FPS | Hybrid RT + NRC GI | 5K bodies @ 120Hz |
 | **High-End** | $800+ | 2023+ flagships, 8-16GB RAM, latest GPUs with RT | 120-150 FPS | Full UCRT + neural prediction | 20K bodies @ 120Hz w/ diff training |
@@ -97,7 +97,7 @@ This is **not a fork** of Unity, Unreal, or Godot. Every line of code is custom-
 **True Universal Compatibility (World-Best Performance Everywhere)**:
 
 **Android** - Runs on virtually ANY Android device:
-- **OS**: Android 5.0+ (2013+) with best support on 6.0+ (2015+)
+- **OS**: Android 5.0+ (2014+, Lollipop) with best support on 6.0+ (2015+, Marshmallow)
 - **Chipsets**: Qualcomm, MediaTek, Samsung Exynos, Unisoc, Rockchip, HiSilicon, Google Tensor, Spreadtrum - ALL brands
 - **GPUs**: ARM Mali (all series), Adreno (all), PowerVR, IMG, Xclipse, Vivante - ALL architectures
 - **Regions**: Optimized for devices popular worldwide (Asia, Africa, Americas, Europe, etc.)
@@ -113,7 +113,7 @@ This is **not a fork** of Unity, Unreal, or Godot. Every line of code is custom-
 - **Universal**: Works on Chrome, Safari, Firefox, Edge, and more
 
 **The Revolutionary Difference**:
-- **Most Compatible**: Runs on MORE devices than any AAA engine (2013+ support)
+- **Most Compatible**: Runs on MORE devices than any AAA engine (2014+ support, 10 years of devices)
 - **Best Performance**: 2-3× faster than competition on THE SAME hardware
 - **Zero Discrimination**: MediaTek gets same optimization love as Qualcomm
 - **Automatic Scaling**: Detects YOUR device and delivers maximum possible quality
@@ -125,7 +125,7 @@ This is **not a fork** of Unity, Unreal, or Godot. Every line of code is custom-
 - **Optimal**: 8GB+ RAM, 6+ CPU cores, Vulkan 1.3 or Metal 3, RT support, NPU
 
 **All Tiers**:
-- 40-130MB app size (adaptive download based on device capabilities)
+- 40-130MB total app size (adaptive: 40MB base for ultra-low, up to 130MB with all advanced features on high-end)
 - <3s startup time (faster on newer devices)
 - 2-3+ hours battery life (adaptive quality)
 - Full editor and development tools included (UI complexity scales with device)
@@ -192,7 +192,7 @@ This is **not a fork** of Unity, Unreal, or Godot. Every line of code is custom-
 ### The Impossible Achievement: Most Accessible AND Most Advanced
 
 **Universal Compatibility**:
-- Runs on **5+ years more devices** than Unreal (2013+ vs 2018+)
+- Runs on **4+ years more devices** than Unreal (2014+ vs 2018+)
 - Supports **ALL chipset brands** (Qualcomm, MediaTek, Exynos, Unisoc, etc.)
 - Works on **$50 budget phones to $2000 flagships**
 
@@ -204,7 +204,7 @@ This is **not a fork** of Unity, Unreal, or Godot. Every line of code is custom-
 - **High-end**: 120-150 FPS (vs 60 FPS competition)
 
 ### vs Unreal Engine 5.6
-- ✅ **Runs on 5+ years older devices** (2013+ vs 2018+)
+- ✅ **Runs on 4+ years older devices** (2014+ vs 2018+)
 - ✅ **2-3× faster on every hardware tier**
 - ✅ **Universal chipset support** (not just Snapdragon/Apple)
 - ✅ **3× faster ray tracing** (UCRT neural prediction)
