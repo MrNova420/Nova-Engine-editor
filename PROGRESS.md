@@ -1,5 +1,6 @@
-# NexusNova Engine - Development Progress Tracker
+# NovaForge Platform - NovaCore Engine Development Progress
 
+> **Platform**: NovaForge | **Engine**: NovaCore | **Company**: WeNova Interactive  
 > **Last Updated**: 2025-11-20  
 > **Current Phase**: Phase 0 - Planning & Blueprint Complete  
 > **Status**: Ready to Begin Foundation Development
@@ -26,8 +27,8 @@
 ## 📝 Recent Changes
 
 ### 2025-11-20 - Blueprint Finalization
-- ✅ Created complete NexusNova Engine blueprint with all specifications
-- ✅ Integrated all three message parts (ApexNexus v2 complete specs)
+- ✅ Created complete NovaCore Engine blueprint with all specifications
+- ✅ Integrated all three message parts (NovaForge v2 complete specs)
 - ✅ Added world-first NEXUS innovations table
 - ✅ Added complete tech stack with Basic/QoL/Advanced breakdowns
 - ✅ Added deep differentiable physics implementation details
@@ -37,7 +38,7 @@
 - ✅ Created PROGRESS.md tracking system
 
 **Files Created/Modified**:
-- `NEXUSNOVA_ENGINE_ULTIMATE_BLUEPRINT.md` (created with complete specs)
+- `NOVAFORGE_NOVACORE_ENGINE_BLUEPRINT.md` (created with complete specs)
 - `PROGRESS.md` (created - this file)
 
 **Next Steps**:
@@ -65,7 +66,7 @@
 - [x] Set up progress tracking system
 
 ### What We Have:
-- Complete blueprint document (NEXUSNOVA_ENGINE_ULTIMATE_BLUEPRINT.md)
+- Complete blueprint document (NOVAFORGE_NOVACORE_ENGINE_BLUEPRINT.md)
 - Detailed technology stack decisions
 - 36-month development roadmap
 - Performance targets for all device tiers
@@ -153,7 +154,7 @@
 
 | Document | Status | Completeness |
 |----------|--------|--------------|
-| NEXUSNOVA_ENGINE_ULTIMATE_BLUEPRINT.md | ✅ Complete | 100% |
+| NOVAFORGE_NOVACORE_ENGINE_BLUEPRINT.md | ✅ Complete | 100% |
 | PROGRESS.md | ✅ Complete | 100% |
 | API Documentation | ⏸️ Not Started | 0% |
 | Architecture Diagrams | ⏸️ Not Started | 0% |
@@ -190,7 +191,7 @@
 
 ## 📞 Contact & Resources
 
-**Primary Blueprint**: `NEXUSNOVA_ENGINE_ULTIMATE_BLUEPRINT.md`  
+**Primary Blueprint**: `NOVAFORGE_NOVACORE_ENGINE_BLUEPRINT.md`  
 **Repository**: MrNova420/Nova-Engine  
 **Issue Tracker**: GitHub Issues  
 

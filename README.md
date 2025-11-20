@@ -1,7 +1,9 @@
-# NexusNova Engine
+# NovaForge Platform - NovaCore Engine
 
 > **The World's First Neural-Symbolic Game Engine**  
 > *Hybrid AI-Powered, Mobile-First, XR-Native Game Development Platform*
+> 
+> **Platform**: NovaForge | **Engine**: NovaCore | **Company**: WeNova Interactive
 
 [![License](https://img.shields.io/badge/License-Proprietary-red.svg)](LICENSE)
 [![Platform](https://img.shields.io/badge/Platform-Android%20%7C%20iOS%20%7C%20Web-blue.svg)](#platform-targets)
@@ -11,7 +13,7 @@
 
 ## 🚀 Vision
 
-**NexusNova Engine** is a revolutionary, ground-up custom game engine that merges cutting-edge **neural AI systems** with **traditional symbolic programming** to create the most advanced mobile-first game development platform ever conceived. Built for the future of gaming, it delivers AAA-quality graphics and physics on devices as low as $150 smartphones.
+**NovaForge** is the revolutionary game development platform powered by **NovaCore Engine** - a ground-up custom engine that merges cutting-edge **neural AI systems** with **traditional symbolic programming** to create the most advanced mobile-first game development platform ever conceived. Built for the future of gaming, it delivers AAA-quality graphics and physics on devices as low as $50 smartphones.
 
 This is **not a fork** of Unity, Unreal, or Godot. Every line of code is custom-built from scratch, leveraging 2025's breakthrough technologies:
 - **Differentiable Physics** that learns and adapts
@@ -187,7 +189,7 @@ This is **not a fork** of Unity, Unreal, or Godot. Every line of code is custom-
 
 ---
 
-## 🏆 Why NexusNova is World-Best
+## 🏆 Why NovaForge is World-Best
 
 ### The Impossible Achievement: Most Accessible AND Most Advanced
 
@@ -228,7 +230,7 @@ This is **not a fork** of Unity, Unreal, or Godot. Every line of code is custom-
 - ✅ **Professional-grade on budget hardware**
 - ✅ **Better optimization for all chipsets**
 
-### The NexusNova Promise
+### The NovaForge Promise
 > *"The engine that works on the most devices is also the fastest on every device. The most accessible is also the most advanced. Universal access meets uncompromising excellence."*
 
 ---
@@ -237,7 +239,7 @@ This is **not a fork** of Unity, Unreal, or Godot. Every line of code is custom-
 
 | Document | Description |
 |----------|-------------|
-| [**NEXUSNOVA_ENGINE_ULTIMATE_BLUEPRINT.md**](NEXUSNOVA_ENGINE_ULTIMATE_BLUEPRINT.md) | Complete technical specification (1.4M LOC plan, 36-month roadmap) |
+| [**NOVAFORGE_NOVACORE_ENGINE_BLUEPRINT.md**](NOVAFORGE_NOVACORE_ENGINE_BLUEPRINT.md) | Complete technical specification (1.4M LOC plan, 36-month roadmap) |
 | [**PROGRESS.md**](PROGRESS.md) | Real-time development tracking, phase completion, metrics |
 | [**LICENSE**](LICENSE) | Proprietary license (WeNova Interactive) |
 
@@ -324,7 +326,7 @@ Game engines haven't fundamentally changed in 20 years. They're still:
 - **Fixed algorithms** (no learning or adaptation)
 - **Separate rendering paradigms** (raster vs RT)
 
-**NexusNova changes everything**:
+**NovaForge changes everything**:
 - **Universally accessible** (2013+ devices, ALL chipsets equally optimized)
 - **World-best performance** (2-3× faster than competition on SAME hardware)
 - **Mobile-native** (not desktop ports)
@@ -357,7 +359,7 @@ This engine is built on cutting-edge 2025 research:
 - **AMD PS6 Universal Compression** (Next-gen texture tech)
 - **Gaussian Splatting XR** (2024 foveated rendering research)
 
-*Full citations in the [Blueprint →](NEXUSNOVA_ENGINE_ULTIMATE_BLUEPRINT.md)*
+*Full citations in the [Blueprint →](NOVAFORGE_NOVACORE_ENGINE_BLUEPRINT.md)*
 
 ---
 
@@ -377,6 +379,6 @@ The technology is now (barely) possible. The blueprint is complete.
 
 **Built with ❤️ by WeNova Interactive**
 
-[⭐ Star this repo](https://github.com/MrNova420/Nova-Engine) | [📖 Read the Blueprint](NEXUSNOVA_ENGINE_ULTIMATE_BLUEPRINT.md) | [📊 Track Progress](PROGRESS.md)
+[⭐ Star this repo](https://github.com/MrNova420/Nova-Engine) | [📖 Read the Blueprint](NOVAFORGE_NOVACORE_ENGINE_BLUEPRINT.md) | [📊 Track Progress](PROGRESS.md)
 
 </div>

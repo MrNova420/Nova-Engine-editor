@@ -1,6 +1,6 @@
-# NexusNova Engine: Ultimate Hybrid World-Best Custom Game Engine - Complete Blueprint
+# NovaCore Engine: Ultimate Hybrid World-Best Custom Game Engine - Complete Blueprint
 
-> **November 2025 - ApexNexus v2: Expanded with 2025 Research**
+> **November 2025 - NovaForge v2: Expanded with 2025 Research**
 
 Merged blueprint now **2× more detailed**: Proven C++23 mobile AAA (Genshin/Zenless fidelity on $150 phones) + revolutionary NEXUS (neural-symbolic, continual RT, differentiable physics, zero-asset diffusion). 
 
@@ -239,7 +239,7 @@ Citations from 2025 GDC/SIGGRAPH/industry developers prove feasibility.
 **Create `/PROGRESS.md` in repository root with this exact structure:**
 
 ```markdown
-# NexusNova Engine Development Progress
+# NovaCore Engine Development Progress
 
 **Last Updated**: [ISO 8601 DateTime]
 **Total Development Time**: [X weeks/months]
@@ -377,7 +377,7 @@ MemoryUsage: 180MB (target: <200MB) ✅
 
 ## 📚 Reference Links
 
-- Blueprint: `/NEXUSNOVA_ENGINE_ULTIMATE_BLUEPRINT.md`
+- Blueprint: `/NOVAFORGE_ENGINE_ULTIMATE_BLUEPRINT.md`
 - Architecture Docs: `/docs/architecture/`
 - Test Results: `/test_results/`
 - Benchmarks: `/benchmarks/results/`
@@ -1251,7 +1251,7 @@ Engine learns game-specific physics:
 - **ALL Form Factors**: Phones, tablets, foldables, budget devices, flagships, chromebooks, web browsers
 - **Global Market Coverage**: Optimized for devices popular in ALL regions (Asia, Africa, Americas, Europe, etc.)
 - **Wide Device Support**: Android 5.0+ (Nov 2014) and iOS 11+ (Sept 2017, runs on devices from Sept 2013 like iPhone 5s)
-- **No Exclusions**: If it has a GPU and can run Android 5.0+/iOS 11+, it runs NexusNova
+- **No Exclusions**: If it has a GPU and can run Android 5.0+/iOS 11+, it runs NovaForge
 
 **Quality Scaling System** (World-Best at Every Tier):
 1. **Ultra-Low (2013-2017)**: Best-in-class for hardware tier - exceeds expectations, optimized beyond competition, solid 20-25 FPS
@@ -1266,7 +1266,7 @@ Engine learns game-specific physics:
 - Continual learning improves performance over time (gets better after launch)
 - Every tier gets the same engineering excellence, just scaled appropriately
 
-**The NexusNova Promise**:
+**The NovaForge Promise**:
 - **World-Best, Period**: At EVERY performance tier, we outperform Unreal/Unity/Godot on equivalent hardware
 - **Minimum Bar**: Even the oldest supported device gets best-possible experience for that hardware
 - **Zero Compromise**: Quality scaled intelligently with world-class engineering, never "dumbed down"
@@ -1285,7 +1285,7 @@ Engine learns game-specific physics:
 **Key Principles**:
 1. *Every person, regardless of economic status or device, deserves world-class game development tools and AAA experiences.*
 2. *Universal accessibility and best-in-world quality are NOT mutually exclusive - we prove it.*
-3. *The engine that runs on the most devices should also be the most advanced. That's NexusNova.*
+3. *The engine that runs on the most devices should also be the most advanced. That's NovaForge.*
 
 ### API Support Strategy
 
@@ -1325,7 +1325,7 @@ Engine learns game-specific physics:
 
 ### vs Unreal Engine 5.6 Mobile
 
-| Metric | Unreal 5.6 | NexusNova | Advantage |
+| Metric | Unreal 5.6 | NovaForge | Advantage |
 |--------|------------|-----------|-----------|
 | **Device Support** | 2018+ (limited older) | 2014+ (universal) | 4+ more years |
 | **FPS** (ultra-low) | N/A (doesn't run) | 20-25 (target) | Exclusive support (runs vs doesn't run) |
@@ -1348,7 +1348,7 @@ Engine learns game-specific physics:
 
 ### vs Unity 2025
 
-| Metric | Unity | NexusNova | Advantage |
+| Metric | Unity | NovaForge | Advantage |
 |--------|-------|-----------|-----------|
 | **Device Support** | 2016+ (spotty older) | 2014+ (comprehensive) | 2+ more years, better coverage |
 | **Performance** (low-end) | 20-25 FPS | 30-40 FPS | 50% faster |
@@ -1371,7 +1371,7 @@ Engine learns game-specific physics:
 
 ### vs Godot 4.x
 
-| Metric | Godot | NexusNova | Advantage |
+| Metric | Godot | NovaForge | Advantage |
 |--------|-------|-----------|-----------|
 | **Device Support** | 2015+ (limited) | 2014+ (universal) | Better coverage |
 | **Mobile Perf** (low) | 15-20 FPS | 30-40 FPS | 2× |
@@ -1418,14 +1418,14 @@ Engine learns game-specific physics:
 - **Result**: Best mobile engine, matches Unreal/Unity
 - **Risk**: Low
 
-**Option 2**: NexusNova (This Blueprint)
+**Option 2**: NovaForge (This Blueprint)
 - **Timeline**: 36 months
 - **LOC**: 1.4M
 - **Budget**: $50-100M
 - **Result**: Redefines what a game engine is; industry-changing
 - **Risk**: Medium (research-backed, but novel)
 
-### Why NexusNova Has Never Been Built
+### Why NovaForge Has Never Been Built
 
 1. **Three Bleeding-Edge Fields Combined**: Differentiable physics + neural implicit fields + on-device diffusion
 2. **No Company Crazy Enough**: $80M bet on unproven tech
@@ -1441,7 +1441,7 @@ Engine learns game-specific physics:
 
 ## Next Actions
 
-**If YES to NexusNova**:
+**If YES to NovaForge**:
 1. Assemble team (15-25 senior devs + ML researchers)
 2. Secure funding ($50-100M over 3 years)
 3. Begin Phase 0: Foundation (Months 1-4)
@@ -1471,7 +1471,7 @@ This blueprint leverages cutting-edge 2025 breakthroughs:
 
 ## Final Note
 
-This is **not a fork, not a wrapper, not a clone**. NexusNova is a completely brand-new engine that has never existed before—something the industry will study for the next decade.
+This is **not a fork, not a wrapper, not a clone**. NovaForge is a completely brand-new engine that has never existed before—something the industry will study for the next decade.
 
 The tech is now (barely) possible in 2025-2026.
 
