@@ -126,7 +126,8 @@ This is **not a fork** of Unity, Unreal, or Godot. Every line of code is custom-
 
 ## 🗺️ Development Roadmap
 
-**Total Timeline**: 36 months | **Total Budget**: $50-100M | **Team Size**: 15-25 senior devs + ML researchers
+**Total Timeline**: 36 months | **Total Budget**: $0 | **Team Size**: 1-2 
+
 
 | Phase | Duration | LOC | Focus |
 |-------|----------|-----|-------|
