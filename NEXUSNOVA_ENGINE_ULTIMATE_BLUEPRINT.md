@@ -1078,7 +1078,8 @@ Engine learns game-specific physics:
 
 | Tier | Android Examples | iOS Examples | Chipset Capabilities | Release Years |
 |------|------------------|--------------|---------------------|---------------|
-| **Ultra-Low** | Galaxy S5, Nexus 5, Moto G (2014), Galaxy J7 | iPhone 6, iPhone 6s, SE (2016) | 2-4 cores, Mali-T6xx/T8xx/Adreno 3xx/5xx, 2-3GB RAM | 2014-2017 |
+| **Ultra-Low** | Galaxy S5, Nexus 5, Moto G (2014), Galaxy J7 | iPhone 5s, iPhone 6, SE (2016) | 2-4 cores, Mali-T6xx/T8xx/Adreno 3xx/5xx, 2-3GB RAM | 2013-2017 |
+| **Low-End** | Galaxy A12, Redmi 9, Realme C21, Tecno Spark | iPhone 6s, iPhone 7/8, SE (2020) | 4-6 cores, Mali-G5x/Adreno 6xx/PowerVR, 3-4GB RAM | 2015-2021 |
 | **Low-End** | Galaxy A12, Redmi 9, Realme C21, Tecno Spark | iPhone 7/8, iPhone SE (2020) | 4-6 cores, Mali-G5x/Adreno 6xx/PowerVR, 3-4GB RAM | 2017-2021 |
 | **Mid-Range** | Pixel 6a, Galaxy A54, Poco X5, Oppo Reno | iPhone 11/12/13 | 6-8 cores, Mali-G7x/Adreno 7xx, 4-8GB RAM, partial RT | 2019-2023 |
 | **High-End** | Galaxy S23+, Pixel 8 Pro, OnePlus 12, Xiaomi 14 | iPhone 14/15/16 Pro | 8+ cores, latest GPUs, 8-16GB RAM, RT cores, NPU | 2023-2025 |
@@ -1236,7 +1237,7 @@ Engine learns game-specific physics:
 | Target | Priority | Rationale | Min Requirements | Timeline |
 |--------|----------|-----------|------------------|----------|
 | **Android APK (Vulkan/GLES)** | Primary (Day 1) | 4B+ devices; Android 5.0+ (2014) ideal, 6.0+ best; Vulkan for high-end, OpenGL ES fallback | Android 5.0 (API 21) minimum, 6.0 (API 23) recommended, 2GB RAM, OpenGL ES 2.0 | Months 1-36 |
-| **iOS IPA (Metal)** | Primary (Day 1) | Premium users; iOS 11+ support (iPhone 6s+); Vision Pro XR for high-end | iOS 11+, Metal-capable (2015+), 2GB RAM | Months 1-36 |
+| **iOS IPA (Metal)** | Primary (Day 1) | Premium users; iOS 11+ support (iPhone 5s/6+); Vision Pro XR for high-end | iOS 11+ (Sept 2017), Metal-capable (iPhone 5s+ from 2013), 1-2GB RAM | Months 1-36 |
 | **Web (WASM/WebGPU 2.0)** | Secondary | Instant play; WebGL 2.0 fallback; WebGPU for modern browsers; WebNN for neural | WebGL 2.0 or WebGPU, 2GB RAM | Month 28+ |
 
 ### Device Compatibility Philosophy
@@ -1250,11 +1251,11 @@ Engine learns game-specific physics:
 - **ALL GPUs Supported**: ARM Mali (all series), Adreno (all), PowerVR, IMG, Xclipse, Apple GPU, Vivante, VideoCore, and more
 - **ALL Form Factors**: Phones, tablets, foldables, budget devices, flagships, chromebooks, web browsers
 - **Global Market Coverage**: Optimized for devices popular in ALL regions (Asia, Africa, Americas, Europe, etc.)
-- **Ancient to Modern**: 2014+ devices supported (10 years of hardware compatibility, Android 5.0+/iOS 11+)
+- **Wide Device Support**: Android 5.0+ (2014) and iOS 11+ (2017, supports 2013+ devices with iPhone 5s)
 - **No Exclusions**: If it has a GPU and can run Android 5.0+/iOS 11+, it runs NexusNova
 
 **Quality Scaling System** (World-Best at Every Tier):
-1. **Ultra-Low (2014-2017)**: Best-in-class for hardware tier - exceeds expectations, optimized beyond competition, solid 20-25 FPS
+1. **Ultra-Low (2013-2017)**: Best-in-class for hardware tier - exceeds expectations, optimized beyond competition, solid 20-25 FPS
 2. **Low-End (2017-2021)**: Industry-leading mobile quality - matches what others do on mid-range, stable 30-40 FPS  
 3. **Mid-Range (2019-2023)**: Best console-quality graphics on mobile - surpasses competition, locked 60 FPS
 4. **High-End (2023+)**: World's most advanced mobile engine - no competitor comes close, 120-150 FPS
@@ -1328,7 +1329,7 @@ Engine learns game-specific physics:
 | Metric | Unreal 5.6 | NexusNova | Advantage |
 |--------|------------|-----------|-----------|
 | **Device Support** | 2018+ (limited older) | 2014+ (universal) | 4+ more years |
-| **FPS** (ultra-low) | N/A (doesn't run) | 20-25 | Infinite (we work, they don't) |
+| **FPS** (ultra-low) | N/A (doesn't run) | 20-25 | Exclusive support (runs vs doesn't run) |
 | **FPS** (low-end) | 15-20 (struggles) | 30-40 | 2× |
 | **FPS** (mid-range) | 30 | 60 | 2× |
 | **FPS** (high-end) | 60 | 120-150 | 2-2.5× |

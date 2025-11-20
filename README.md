@@ -97,7 +97,7 @@ This is **not a fork** of Unity, Unreal, or Godot. Every line of code is custom-
 **True Universal Compatibility (World-Best Performance Everywhere)**:
 
 **Android** - Runs on virtually ANY Android device:
-- **OS**: Android 5.0+ (2014+, Lollipop) with best support on 6.0+ (2015+, Marshmallow)
+- **OS**: Android 5.0+ (Lollipop, Nov 2014 release) with best support on 6.0+ (Marshmallow, 2015)
 - **Chipsets**: Qualcomm, MediaTek, Samsung Exynos, Unisoc, Rockchip, HiSilicon, Google Tensor, Spreadtrum - ALL brands
 - **GPUs**: ARM Mali (all series), Adreno (all), PowerVR, IMG, Xclipse, Vivante - ALL architectures
 - **Regions**: Optimized for devices popular worldwide (Asia, Africa, Americas, Europe, etc.)
@@ -113,7 +113,7 @@ This is **not a fork** of Unity, Unreal, or Godot. Every line of code is custom-
 - **Universal**: Works on Chrome, Safari, Firefox, Edge, and more
 
 **The Revolutionary Difference**:
-- **Most Compatible**: Runs on MORE devices than any AAA engine (2014+ support, 10 years of devices)
+- **Most Compatible**: Runs on MORE devices than any AAA engine (Android 2014+, iOS 2013+ devices - up to 11 years)
 - **Best Performance**: 2-3× faster than competition on THE SAME hardware
 - **Zero Discrimination**: MediaTek gets same optimization love as Qualcomm
 - **Automatic Scaling**: Detects YOUR device and delivers maximum possible quality
@@ -192,7 +192,7 @@ This is **not a fork** of Unity, Unreal, or Godot. Every line of code is custom-
 ### The Impossible Achievement: Most Accessible AND Most Advanced
 
 **Universal Compatibility**:
-- Runs on **4+ years more devices** than Unreal (2014+ vs 2018+)
+- Runs on **4 years more devices** than Unreal (2014+ vs 2018+)
 - Supports **ALL chipset brands** (Qualcomm, MediaTek, Exynos, Unisoc, etc.)
 - Works on **$50 budget phones to $2000 flagships**
 
@@ -204,7 +204,7 @@ This is **not a fork** of Unity, Unreal, or Godot. Every line of code is custom-
 - **High-end**: 120-150 FPS (vs 60 FPS competition)
 
 ### vs Unreal Engine 5.6
-- ✅ **Runs on 4+ years older devices** (2014+ vs 2018+)
+- ✅ **Runs on 4 years older devices** (Android 2014+/iOS 2013+ vs 2018+)
 - ✅ **2-3× faster on every hardware tier**
 - ✅ **Universal chipset support** (not just Snapdragon/Apple)
 - ✅ **3× faster ray tracing** (UCRT neural prediction)
