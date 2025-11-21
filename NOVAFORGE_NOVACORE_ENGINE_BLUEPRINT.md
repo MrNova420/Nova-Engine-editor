@@ -1,4 +1,4 @@
-# NovaCore Engine: Ultimate Hybrid World-Best Custom Game Engine, and a very small amount of the very first software/app that it will be first built  - "Complete Blueprint"
+# NovaCore Engine: Ultimate Hybrid World-Best Custom Game Engine - "Complete Blueprint"
 
 > **November 2025 - NovaForge v2: Expanded with 2025 Research**
 
