@@ -2743,29 +2743,64 @@ Engine learns game-specific physics parameters automatically during gameplay:
 - Improves over time without developer intervention
 - Examples: Physics parameters, rendering LOD, AI behavior tweaks
 
-**Developer Control**:
-- ✅ **Enable/Disable**: Toggle automatic training per-game in engine settings
-- ✅ **Review Changes**: Dashboard shows what engine learned, approve/reject changes
-- ✅ **Freeze Settings**: Lock parameters to prevent further automatic adjustments
-- ✅ **Reset to Defaults**: Undo all automatic training, return to baseline
-- ✅ **Quality Thresholds**: Set minimum quality scores for automatic changes (0-100 scale)
+**Developer Control** (Enabled by Default with Manual Approval):
+- ✅ **Automatic Training: ENABLED** (learns during gameplay, saves to review queue)
+- ✅ **Manual Approval: REQUIRED** (nothing deployed without your explicit approval)
+- ✅ **Auto-Deploy: DISABLED** (zero automatic application of learned changes)
+- ✅ **Review Dashboard**: Shows all learned changes, approve/reject individually
+- ✅ **Freeze Settings**: Lock parameters to prevent further learning once satisfied
+- ✅ **Reset to Defaults**: Undo all approved changes, return to baseline
+- ✅ **Quality Thresholds**: Auto-reject changes with quality score < 95/100
 
-**Quality Safeguards** (Prevents Bad Learning):
-- **Validation**: Every learned parameter tested against quality metrics before deployment
-- **Rollback**: If quality degrades, engine auto-reverts to previous parameters
-- **Telemetry**: Track player feedback (did they rage-quit? stuck on level?) → don't learn from bad experiences
-- **Outlier Rejection**: Ignore extreme data points (cheaters, glitches, edge cases)
-- **Human Review**: Flagged changes await developer approval before permanent adoption
+**Quality Safeguards** (Automatic Protection):
+- **Validation**: Every learned parameter tested against quality metrics before entering review queue
+- **Auto-Reject**: Quality score < 95/100? Automatically discarded, never shown to you
+- **Rollback Ready**: If you approve a change and it causes issues, instant one-click rollback
+- **Telemetry**: Tracks player feedback (rage-quits, stuck on level) → excludes bad sessions from learning
+- **Outlier Rejection**: Ignores extreme data points (cheaters, glitches, edge cases) automatically
+- **Human Review Required**: ALL changes await your explicit approval before deployment
+- **Zero Auto-Deploy**: `auto_apply: false` is hardcoded - nothing goes live without your approval click
+
+**Configuration** (Default Settings):
+```json
+{
+  "automatic_learning": {
+    "enabled": true,
+    "systems": {
+      "physics_tuning": true,
+      "rendering_optimization": true,
+      "ai_behavior": true,
+      "input_prediction": true
+    },
+    "quality_safeguards": {
+      "min_quality_score": 95,
+      "validation_required": true,
+      "manual_approval_required": true,
+      "rollback_on_degrade": true,
+      "human_review_queue": true,
+      "auto_deploy": false
+    }
+  },
+  "physiopt_learning": {
+    "enabled": true,
+    "manual_trigger": true,
+    "auto_apply": false
+  }
+}
+```
+
+**Key Point**: `enabled: true` means "train automatically and learn from gameplay, but save to review queue". `auto_deploy: false` and `manual_approval_required: true` ensure **nothing is applied without your explicit approval**. You get continuous learning without losing control.
 
 **When to Use**:
-- ✅ Rapid iteration (let engine optimize while you develop other features)
-- ✅ Post-launch optimization (engine continues improving after release)
-- ✅ Per-device tuning (engine learns optimal settings for each device tier)
+- ✅ Development phase (rapid iteration, engine optimizes while you develop)
+- ✅ Post-launch optimization (engine continues improving, you approve each update)
+- ✅ Per-device tuning (engine learns optimal settings per device tier)
+- ✅ A/B testing (compare baseline vs learned parameters with real players)
 
-**When to Disable**:
-- ❌ Competitive multiplayer (fairness requires identical parameters for all players)
-- ❌ Speedrunning games (consistent physics required for record validity)
-- ❌ Final production build (lock settings once game is balanced)
+**When to Disable Learning** (still requires your approval if enabled):
+- ❌ Competitive multiplayer mid-season (determinism required, no mid-season changes)
+- ❌ Speedrunning games (physics must be exact for leaderboard validity)
+- ❌ Final locked builds (when you want zero changes post-certification)
 
 ---
 

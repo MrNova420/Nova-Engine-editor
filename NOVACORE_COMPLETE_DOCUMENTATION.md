@@ -3584,7 +3584,7 @@ NovaCore's configuration system provides complete control over every aspect of e
   "engine": "jolt_5.x",
   "differentiable": true,
   "physiopt_learning": {
-    "enabled": false,
+    "enabled": true,
     "manual_trigger": true,
     "auto_apply": false
   },
@@ -3692,39 +3692,99 @@ Reject if: <90% quality, retrain with more/better data
 ```json
 {
   "automatic_learning": {
-    "enabled": false,
+    "enabled": true,
     "systems": {
-      "physics_tuning": false,
-      "rendering_optimization": false,
-      "ai_behavior": false,
-      "input_prediction": false
+      "physics_tuning": true,
+      "rendering_optimization": true,
+      "ai_behavior": true,
+      "input_prediction": true
     },
     "quality_safeguards": {
       "min_quality_score": 95,
       "validation_required": true,
+      "manual_approval_required": true,
       "rollback_on_degrade": true,
-      "human_review_queue": true
+      "human_review_queue": true,
+      "auto_deploy": false
     }
   }
 }
 ```
 
-**Review Dashboard**:
-- See all learned changes
-- Approve/reject each change individually
-- Instant rollback if quality degrades
-- Freeze learning once satisfied
+**IMPORTANT**: While `enabled: true` allows systems to automatically train and learn during gameplay, **nothing is applied without your manual approval**. All learned improvements go to a review queue where you must explicitly approve each change. `auto_deploy: false` ensures zero automatic deployment. This gives you the best of both worlds: continuous learning with complete quality control.
 
-**When to Use**:
-- Rapid iteration during development
-- Post-launch optimization (A/B test learned params)
-- Continuous improvement over game lifetime
-- Input sensitivity tuning (controller dead zones, mouse acceleration)
+**How Automatic Learning Works** (with Manual Approval):
 
-**When to Disable**:
-- Competitive multiplayer (determinism required)
-- Speedrunning games (physics must be exact)
-- Final production builds (no surprises)
+1. **Systems Auto-Train During Gameplay**:
+   - Physics: Learns optimal spring constants, damping, friction for your game feel
+   - Rendering: Learns optimal LOD distances, shadow map resolution, culling parameters
+   - AI: Learns optimal navigation costs, behavior weights, reaction times
+   - Input: Learns optimal dead zones, acceleration curves, sensitivity
+
+2. **All Changes Go to Review Queue** (Zero Auto-Deploy):
+   - Dashboard shows: "Physics learned +15% jump responsiveness (50 gameplay sessions)"
+   - You review: Side-by-side comparison (current vs learned)
+   - You decide: Approve → apply, Reject → discard, Test → A/B test in dev build
+
+3. **Quality Safeguards** (Automatic):
+   - Quality score < 95? → Auto-reject, never shown to you
+   - Performance degraded? → Auto-rollback
+   - User complaints increased? → Alert you, suggest rollback
+   - All changes logged with full audit trail
+
+4. **Manual Approval Required** (YOU Control Everything):
+   - Nothing deployed without your explicit "Approve" click
+   - Test in dev/alpha/beta before production
+   - Instant rollback button if issues arise
+   - Freeze learning once you're satisfied
+
+**Review Dashboard UI**:
+```
+┌─ Automatic Learning Review Queue ─────────────────┐
+│                                                    │
+│ [1] Physics Tuning (50 sessions, 2 hours data)    │
+│     Current: Jump height 2.0m                      │
+│     Learned: Jump height 2.3m (+15% responsiveness)│
+│     Quality Score: 97/100                          │
+│     [Test in Dev] [Approve] [Reject]               │
+│                                                    │
+│ [2] Rendering Optimization (100 sessions)          │
+│     Learned: LOD distance 50m → 65m (+8% FPS)      │
+│     Quality Score: 98/100                          │
+│     [Test in Dev] [Approve] [Reject]               │
+│                                                    │
+│ [3] AI Behavior (200 player encounters)            │
+│     Learned: Enemy reaction time 0.5s → 0.4s       │
+│     Quality Score: 96/100                          │
+│     [Test in Dev] [Approve] [Reject]               │
+│                                                    │
+│ [Freeze All Learning] [Rollback All] [Settings]   │
+└────────────────────────────────────────────────────┘
+```
+
+**Typical Workflow**:
+- Week 1-2: Let systems auto-train during development playtesting
+- Week 3: Review queue has 10-20 learned optimizations
+- You approve 8 that improve feel/performance, reject 2 that don't
+- Week 4: Test approved changes in internal dev builds
+- Week 5: Rollout to alpha testers, monitor metrics
+- Week 6: If good, deploy to production. If issues, instant rollback.
+- Post-launch: Continuous learning from live players (with your approval for each update)
+
+**When to Use Automatic Learning**:
+- ✅ Development phase (rapid iteration, find optimal parameters)
+- ✅ Post-launch optimization (A/B test learned params with real players)
+- ✅ Continuous improvement (game gets better over its lifetime)
+- ✅ Input tuning (controller dead zones, mouse acceleration per-game)
+- ✅ Performance optimization (learn optimal quality settings per device tier)
+
+**When to Disable Automatic Learning**:
+- ❌ Competitive multiplayer (determinism required, no mid-season changes)
+- ❌ Speedrunning games (physics must be exact, no surprises)
+- ❌ Final production builds where you want zero changes
+- ❌ Games with leaderboards/world records (fairness concerns)
+
+**Key Point**: `enabled: true` means "train automatically but require my approval to deploy". `auto_deploy: false` ensures nothing goes live without your explicit approval. You get continuous learning without losing control.
 
 ---
 
