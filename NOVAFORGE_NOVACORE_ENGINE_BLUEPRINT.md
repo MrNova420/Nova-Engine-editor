@@ -611,6 +611,256 @@ MemoryUsage: 180MB (target: <200MB) ✅
 
 ---
 
+## 🎨 Dual-Approach Asset Architecture - Production-Grade Flexibility
+
+**NovaCore delivers TWO COMPLETE, PRODUCTION-GRADE ASSET WORKFLOWS** - both engineered to AAA industry standards. This is not a "primary with fallback" - both are first-class citizens in the engine architecture.
+
+### Core Philosophy: No Compromises
+
+**Design Principle**: Developers should never sacrifice quality, workflow preference, or production requirements. NovaCore is the first engine to deliver:
+- **Zero-Asset Diffusion**: Bleeding-edge AI generation (research-backed, 2025 tech)
+- **Traditional Pipeline**: Battle-tested AAA workflows (industry-proven, production-ready)
+- **Hybrid Integration**: Seamless mixing without quality degradation or workflow friction
+
+Both workflows target the **same quality bar**: production-grade, shippable, AAA-level visual fidelity and performance.
+
+---
+
+### Zero-Asset Diffusion Workflow (Primary Innovation)
+
+**Industry Context**: First production game engine with on-device generative AI as a primary content creation path.
+
+#### Technical Architecture
+
+**On-Device Generation Stack**:
+```
+Prompt Input → Style Conditioning → Diffusion Model (Flux.1-schnell) → 3D Reconstruction
+              ↓
+         LoRA Adapters (50MB per style)
+              ↓
+         NPU Acceleration (Snapdragon X Elite / Apple Neural Engine)
+              ↓
+         Runtime Mesh + Texture Generation (4-8 seconds)
+              ↓
+         Engine-Native Format Conversion
+```
+
+**Supported Asset Types**:
+- **3D Models**: Diffusion → mesh reconstruction via signed distance fields
+- **Textures**: PBR material generation (albedo, normal, roughness, metallic, AO)
+- **Animations**: Neural motion synthesis from text descriptions
+- **Audio**: Procedural sound generation (optional, tier-dependent)
+- **VFX**: Particle system generation from style descriptors
+
+**Quality Standards**:
+- **Visual Fidelity**: Production-ready for stylized, procedural, and semi-realistic content
+- **Performance**: <8 seconds generation on mid-range devices (2023+)
+- **Consistency**: LoRA fine-tuning ensures style coherence across all generated assets
+- **Editability**: Generated assets convertible to traditional formats for manual refinement
+
+**Production Use Cases**:
+- ✅ Rapid prototyping (iterate on concepts in minutes, not days)
+- ✅ Procedural content (infinite variations for roguelikes, open-world filler)
+- ✅ Small file sizes (5MB seed files for entire visual styles)
+- ✅ Post-launch content updates (new styles without downloads)
+- ✅ Indie/solo development (no asset budget required)
+
+**Technical Specifications**:
+- **Seed File Format**: `.nseed` (Nova Seed) - JSON-based prompt library + LoRA references
+- **Generation Pipeline**: Flux.1-schnell (1-2B parameters) + custom 3D reconstruction
+- **Memory Footprint**: 200-500MB active (during generation), 50MB resident (LoRA adapters)
+- **Quality Tiers**: Adjusts generation complexity based on device capability
+- **Determinism**: Same seed + same device tier = identical output (for multiplayer consistency)
+
+---
+
+### Traditional Asset Workflow (Full AAA Support)
+
+**Industry Context**: Complete implementation of industry-standard asset pipeline - matches or exceeds Unreal/Unity capabilities.
+
+#### Supported Formats & Tools
+
+**3D Models**:
+- **Import Formats**: FBX, GLTF 2.0, OBJ, USD, Alembic, Collada (DAE)
+- **Source Tools**: Blender, Maya, 3ds Max, Houdini, ZBrush, Cinema 4D
+- **Features**:
+  - Skeletal animation import (bones, weights, morph targets)
+  - LOD chain generation (automated or manual)
+  - Collision mesh generation (convex hulls, per-poly, custom)
+  - Vertex color and UV channel preservation (up to 8 UV sets)
+  - Custom attributes and metadata preservation
+
+**Textures**:
+- **Import Formats**: PNG, JPG, TGA, EXR, DDS, KTX, ASTC, Basis Universal
+- **Source Tools**: Substance Designer/Painter, Photoshop, GIMP, Quixel Mixer
+- **Features**:
+  - PBR material channels (albedo, normal, roughness, metallic, AO, height, emissive)
+  - HDR texture support (EXR, HDR formats)
+  - Automatic mipmap generation with custom filters
+  - Platform-specific compression (ASTC for mobile, BC for desktop, etc.)
+  - Virtual texturing support (8K+ textures on mobile)
+
+**Audio**:
+- **Import Formats**: WAV, OGG, FLAC, MP3, AIFF
+- **Source Tools**: Wwise, FMOD, Audacity, Reaper, Pro Tools
+- **Features**:
+  - Spatial audio metadata preservation
+  - Compression profiles per platform
+  - Streaming vs. loaded distinction
+  - Looping point preservation
+
+**Animations**:
+- **Import Formats**: FBX skeletal, GLTF animations, Alembic caches
+- **Source Tools**: Maya, MotionBuilder, Blender, Houdini
+- **Features**:
+  - Root motion extraction
+  - Animation compression (temporal and spatial)
+  - Retargeting between skeletons
+  - Additive animation support
+  - Animation events/notifies
+
+**Materials**:
+- **Import Formats**: Substance .sbsar, USD materials, GLTF materials
+- **Source Tools**: Substance Designer/Painter, Quixel Mixer, Mari
+- **Features**:
+  - Node-based material editor ("Substrate 2.0")
+  - PBR + advanced shading models (cloth, skin, foliage)
+  - Material instancing and parameters
+  - Material LOD system
+
+#### Asset Processing Pipeline (Production-Grade)
+
+**Import Phase** (Editor/Tools):
+```
+Source File → Format Validation → Data Extraction → Optimization Pass
+                                                          ↓
+                                   Engine Asset Database (.nasset format)
+                                                          ↓
+                                   GUID Assignment + Metadata Storage
+```
+
+**Cooking Phase** (Build/Deploy):
+```
+.nasset → Platform Detection → Target-Specific Optimization
+                                        ↓
+                          Compression + Format Conversion
+                                        ↓
+                          Platform-Specific Bundle (.npak)
+                                        ↓
+                          Shipping Build Ready
+```
+
+**Runtime Phase** (Game):
+```
+.npak Archive → VFS Mounting → Streaming Manager → GPU Upload
+                                                        ↓
+                                   Entity Attachment (via ECS)
+```
+
+**Quality Standards**:
+- **Import Fidelity**: Lossless preservation of source data
+- **Optimization**: Automatic LOD generation, texture compression, mesh reduction
+- **Validation**: Asset health checks (missing UVs, degenerate triangles, oversized textures)
+- **Performance**: <1 second import for typical assets, <100ms runtime load
+- **Version Control**: Full integration with Git LFS, Perforce, Plastic SCM
+
+**Production Use Cases**:
+- ✅ Maximum visual control (precise art direction)
+- ✅ Photorealistic rendering (AAA fidelity)
+- ✅ Team collaboration (standard DCC tool workflows)
+- ✅ Existing asset libraries (leverage purchased/licensed content)
+- ✅ Competitive multiplayer (deterministic, non-generative visuals)
+
+---
+
+### Hybrid Workflow Integration (Best of Both Worlds)
+
+**Production Strategy**: The recommended approach for AAA development.
+
+#### Workflow Patterns
+
+**Pattern 1: Prototype → Polish**:
+1. Use Zero-Asset Diffusion for rapid level blocking and prototyping
+2. Iterate on gameplay with AI-generated placeholder assets
+3. Identify hero assets (characters, key props, signature environments)
+4. Replace hero assets with hand-crafted traditional assets
+5. Keep procedural assets for background/filler content
+6. Ship with hybrid content: 20% traditional (heroes), 80% AI (environment)
+
+**Pattern 2: Style Transfer**:
+1. Create traditional asset library (characters, props, buildings)
+2. Train LoRA adapter on traditional asset visual style
+3. Generate infinite variations matching traditional aesthetic
+4. Mix traditional and AI-generated seamlessly in scenes
+5. Result: Consistent visual language with scalable content production
+
+**Pattern 3: Dynamic Content**:
+1. Ship with traditional assets for core experience
+2. Use Zero-Asset Diffusion for post-launch seasonal content
+3. No download required - new prompts/LoRA adapters streamed
+4. Players get fresh content without storage impact
+5. Live-service games benefit from minimal update sizes
+
+#### Technical Integration
+
+**Asset Mixing at Runtime**:
+- Both asset types use unified internal format (`.nres` - Nova Resource)
+- ECS treats all assets identically (no workflow-specific code paths)
+- Memory management agnostic to asset source
+- Rendering pipeline handles both with equal optimization
+- LOD system works across both asset types
+
+**Conversion Tools**:
+- **AI → Traditional**: Generated assets exportable to FBX/OBJ for manual refinement
+- **Traditional → AI Style**: Trained LoRA adapters can mimic traditional asset styles
+- **Round-trip Editing**: Start AI, export, refine traditionally, re-import
+
+**Performance Parity**:
+- Both workflows target same runtime cost
+- Traditional assets: standard GPU texture/mesh budgets
+- AI assets: generated once, then cached (no runtime generation cost after first load)
+- Hybrid scenes: unified memory and performance budgets
+
+---
+
+### Development Workflow Recommendations
+
+**Small Teams / Solo Developers**:
+- **Primary**: Zero-Asset Diffusion (speed, cost-effective)
+- **Secondary**: Traditional for hero assets only
+- **Result**: AAA visuals without asset budget
+
+**Mid-Size Studios**:
+- **Primary**: Hybrid (rapid iteration + quality control)
+- **Use AI**: Environments, props, variations
+- **Use Traditional**: Characters, key narrative moments
+- **Result**: Competitive AAA output with smaller team
+
+**Large Studios**:
+- **Primary**: Traditional (maximum control)
+- **Use AI**: Rapid prototyping, pre-production, DLC content
+- **Use Hybrid**: Live-service content updates
+- **Result**: AAA fidelity + agile content production
+
+---
+
+### Quality Assurance & Standards
+
+**Both Workflows Meet**:
+- ✅ 60 FPS on mid-range devices (2019-2023 hardware)
+- ✅ <200MB memory footprint per scene
+- ✅ Production-grade visual fidelity (suitable for commercial release)
+- ✅ Cross-platform consistency (same quality on Android/iOS/Web)
+- ✅ Industry-standard debugging tools (asset inspectors, profilers)
+
+**Testing & Validation**:
+- Automated asset health checks (both workflows)
+- Performance regression testing (frame time, memory, load times)
+- Visual quality metrics (SSIM comparisons, texture resolution validation)
+- Cross-device compatibility testing (50+ device profiles)
+
+---
+
 ## Neural-Symbolic ECW Architecture (Expanded Implementation)
 
 **NSECW** (Neural-Symbolic Entity-Component-Worker): World-first hybrid combining symbolic C++ systems with live-trainable neural micro-nets.
@@ -4598,7 +4848,7 @@ GUI Features:
 | **Neural-Symbolic ECW** | Hybrid data + embedded MLPs in components; workers self-tune via gradient descent | First engine with on-device learning; adapts to each game automatically |
 | **Universal Continual RT** | Every pixel as reusable ray; 90% predicted via diffusion | Replaces 40-year raster/RT dichotomy; 3× performance vs Unreal 5.6 |
 | **Differentiable Physics** | Full backprop through XPBD; learns material properties | First production engine with trainable physics; +20% stability |
-| **Zero-Asset Diffusion** | 5MB seeds → full games via on-device generation | Eliminates GB asset packages; instant content creation |
+| **Dual Asset Workflows** | Zero-Asset Diffusion (5MB seeds, AI generation) + Traditional Assets (FBX, GLTF, PBR) - both fully supported | Industry-first: Choose AI generation, traditional pipeline, or hybrid approach |
 | **Holographic XR Editor** | Primary spatial editing (Vision Pro/Quest); walk around scenes at 1:1 scale | First XR-native game engine; redefines editing paradigm |
 | **Neural Implicit Geometry** | Objects as MLPs (200KB); infinite LOD via function evaluation | 100× compression; perfect streaming; never done at scale |
 | **Self-Optimizing Pipelines** | Engine retrains rendering/physics per-scene; +50% FPS post-launch | First continually learning engine; improves after shipping |
@@ -4620,10 +4870,19 @@ GUI Features:
 - Autodiff through physics needs specialized solvers (Taichi/Mojo)
 - On-device training on mobile NPUs unprecedented
 
-**Zero-Asset Workflow**:
-- 1-2B models only viable on-device in 2025 (Snapdragon X Elite NPUs)
-- Requires editable output (not just image generation)
-- Industry stuck on manual asset pipelines
+**Dual Asset Workflows**:
+- **Zero-Asset Diffusion (Primary Innovation)**:
+  - 1-2B models only viable on-device in 2025 (Snapdragon X Elite NPUs)
+  - Requires editable output (not just image generation)
+  - 5MB seed files for entire games
+- **Traditional Assets (Full Support)**:
+  - Complete industry-standard pipeline: FBX, GLTF, OBJ, PBR textures
+  - All familiar tools: Blender, Maya, Substance, ZBrush
+  - AAA production-grade quality
+- **Revolutionary Hybrid Approach**:
+  - Mix AI-generated and traditional assets seamlessly
+  - No other engine offers both workflows with equal quality
+  - Developer choice: fast iteration OR precise control OR both
 
 **Holographic XR Editor**:
 - Vision Pro launched 2024, Quest 3 in 2023
@@ -5227,23 +5486,41 @@ Your engine won't get eaten alive by hackers or instability.
 
 Empire-level toolchain.
 
-**Deliverables**:
+**Deliverables** (Dual Workflow Support):
+
+**Zero-Asset Diffusion Tools**:
 - AI asset creator: meshes, textures, animations generated with controllable style presets
-- Import everything: FBX, GLTF, USD, Blender project files
-- Auto-retopology + auto-LOD generation
-- Material scanner: take a photo → instantly creates PBR maps
-- Procedural humanoid & creature generator (AAA quality)
+- Prompt library and style management system
+- LoRA adapter training for custom visual styles
+- On-device generation optimization tools
+- Material scanner: take a photo → instantly creates PBR maps OR AI-generated alternatives
+
+**Traditional Asset Tools**:
+- Import everything: FBX, GLTF, USD, OBJ, Blender project files, Substance materials
+- Auto-retopology + auto-LOD generation for imported meshes
+- Texture compression and optimization pipeline
+- Animation retargeting and blending tools
+- Full PBR material editor with node-based workflows
+
+**Hybrid Workflow Tools**:
+- Seamless asset mixing: AI-generated + traditional in same scene
+- Asset replacement system: prototype with AI, swap to polished traditional
+- Conversion tools: traditional → AI style references, AI → editable traditional formats
 - Plugin SDK with per-platform build pipelines (Android, iOS, Windows, Linux, WebGPU, consoles)
 - "Zero-click porting": select target → engine handles all shader/material/asset conversion automatically
 
 **LOC**: 250,000
 
 **Milestones**:
-- Material scanner creating production-ready materials
+- AI generation creating production-ready assets in <8 seconds
+- Traditional asset import supporting all major formats
+- Hybrid workflows enabling seamless mixing
+- Material scanner creating production-ready materials (both AI and PBR)
 - Zero-click porting working across all platforms
 - Plugin ecosystem with 50+ community plugins
+- Developers can choose workflow freely without quality compromise
 
-It becomes an engine studio, not just an engine.
+It becomes an engine studio with unmatched workflow flexibility, not just an engine.
 
 ### Phase 16: Neural Gameplay Systems (Months 64-66)
 
@@ -5635,7 +5912,10 @@ Everything becomes one coherent organism.
 **Deliverables**:
 - Core ECS Architecture – "NovaECS": Strict SoA layout, chunk-based archetype storage
 - Scripting Runtime & Bindings – "NovaScript Layer": Lua/WASM with auto-generated bindings
-- Asset Pipeline & Import System: FBX, GLTF, OBJ → unified formats
+- Dual Asset Pipeline & Import System:
+  - **Zero-Asset Path**: Prompt → AI generation → runtime formats
+  - **Traditional Path**: FBX, GLTF, OBJ → unified formats
+  - **Hybrid Path**: Seamless mixing of both approaches
 - Shader System & Material Pipeline: Cross-platform shader compiler
 - Resource Streaming Architecture: Chunk streaming, priority management
 - Job System & Threading Model: Lock-free work-stealing scheduler
